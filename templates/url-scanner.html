@@ -73,31 +73,64 @@
       60% { transform: translateY(-5px); }
     }
 
-    .nav-bar {
+    .logo-header {
       position: fixed;
-      top: 20px;
+      top: 15px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(30, 41, 59, 0.9);
-      border-radius: 25px;
-      padding: 10px 20px;
-      backdrop-filter: blur(15px);
+      background: rgba(30, 41, 59, 0.95);
+      border-radius: 20px;
+      padding: 10px 25px;
+      backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.1);
       z-index: 1000;
       animation: slideInUp 0.5s ease-out;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     }
 
-    .nav-bar a {
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-image {
+      width: 35px;
+      height: 40px;
+      filter: brightness(1.2) contrast(1.1);
+      opacity: 0.9;
+    }
+
+    .logo-text {
+      color: #00ffc8;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.5px;
+      text-shadow: 0 0 10px rgba(0, 255, 200, 0.3);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 10px;
+      margin-left: 20px;
+      padding-left: 20px;
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-links a {
       color: #a0d8ef;
       text-decoration: none;
-      margin: 0 15px;
       padding: 8px 15px;
       border-radius: 15px;
       transition: all 0.3s ease;
       font-weight: 500;
+      font-size: 0.9rem;
     }
 
-    .nav-bar a:hover, .nav-bar a.active {
+    .nav-links a:hover, .nav-links a.active {
       background: rgba(0, 255, 200, 0.2);
       color: #00ffc8;
       text-shadow: 0 0 10px #00ffc8;
@@ -109,7 +142,7 @@
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
       max-width: 700px;
       width: 100%;
-      margin: 100px auto 40px auto;
+      margin: 120px auto 40px auto;
       padding: 30px 40px;
       backdrop-filter: blur(15px);
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -462,20 +495,44 @@
         grid-template-columns: 1fr;
       }
       
-      .nav-bar {
+      .logo-header {
         left: 10px;
         right: 10px;
         transform: none;
         padding: 8px 15px;
+        flex-direction: column;
+        gap: 8px;
       }
       
-      .nav-bar a {
-        margin: 0 8px;
+      .logo-container {
+        gap: 8px;
+      }
+      
+      .logo-image {
+        width: 28px;
+        height: 32px;
+      }
+      
+      .logo-text {
         font-size: 0.9rem;
       }
       
+      .nav-links {
+        margin-left: 0;
+        padding-left: 0;
+        border-left: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 8px;
+      }
+      
+      .nav-links a {
+        margin: 0 5px;
+        font-size: 0.8rem;
+        padding: 6px 10px;
+      }
+      
       .container {
-        margin: 80px auto 20px auto;
+        margin: 140px auto 20px auto;
         padding: 25px;
       }
       
@@ -486,11 +543,17 @@
   </style>
 </head>
 <body>
-  <!-- Navigation -->
-  <nav class="nav-bar">
-    <a href="/url-scanner" class="active">🌐 URL Scanner</a>
-    <a href="/email-scanner">📧 Email Scanner</a>
-  </nav>
+  <!-- Logo Header with Navigation -->
+  <header class="logo-header">
+    <div class="logo-container">
+      <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0yMDAgNTBMMTUwIDgwVjE4MEwyMDAgMjMwTDI1MCAxODBWODBMMjAwIDUwWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOEE4QThBIiBzdHJva2Utd2lkdGg9IjQiLz4KPHA+PGVsbGlwc2UgY3g9IjIwMCIgY3k9IjEyMCIgcng9IjMwIiByeT0iMjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzhBOEE4QSIgc3Ryb2tlLXdpZHRoPSIzIi8+CjxwYXRoIGQ9Ik0yMDAgMTAwVjE0ME0xODUgMTIwSDE5NU0yMDUgMTIwSDIxNSIgc3Ryb2tlPSIjOEE4QThBIiBzdHJva2Utd2lkdGg9IjIiLz4KPHA+dGV4dCB4PSIyMDAiIHk9IjI3MCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0iIzhBOEE4QSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+VklSVVMgU0NBTk5FUjwvdGV4dD4KPC9zdmc+" alt="Virus Scanner Logo" class="logo-image" />
+      <span class="logo-text">VIRUS SCANNER</span>
+    </div>
+    <nav class="nav-links">
+      <a href="/url-scanner" class="active">🌐 URL Scanner</a>
+      <a href="/email-scanner">📧 Email Scanner</a>
+    </nav>
+  </header>
 
   <!-- Floating background icons -->
   <div class="floating-icon">🌐</div>
@@ -588,7 +651,7 @@
       document.documentElement.lang = lang;
       document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
 
-      const navLinks = document.querySelectorAll('.nav-bar a');
+      const navLinks = document.querySelectorAll('.nav-links a');
       
       if (lang === 'ar') {
         document.getElementById('title').textContent = '🌐 ماسح أمان المواقع';
