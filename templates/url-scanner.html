@@ -126,7 +126,7 @@
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
       max-width: 700px;
       width: 100%;
-      margin: 120px auto 40px auto;
+      margin: 100px auto 40px auto;
       padding: 30px 40px;
       backdrop-filter: blur(15px);
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -516,7 +516,7 @@
 <body>
   <!-- Navigation -->
   <nav class="nav-bar">
-    <img src="templates/Virus.png" alt="Virus Scanner Logo" class="logo-image" />
+    <img src="/static/Virus.png" alt="Virus Scanner Logo" class="logo-image" />
     <div class="nav-links">
       <a href="/url-scanner" class="active">🌐 URL Scanner</a>
       <a href="/email-scanner">📧 Email Scanner</a>
@@ -592,13 +592,11 @@
     let currentLang = 'en';
     let scanMode = 'quick';
 
-    // Set example URL
     function setExample(url) {
       document.getElementById('url-input').value = url;
       document.getElementById('url-input').focus();
     }
 
-    // Protocol indicator - removed, but keeping auto-https functionality
     const urlInput = document.getElementById('url-input');
 
     function typeWriter(element, text, speed = 50) {
@@ -629,11 +627,9 @@
         document.getElementById('toggle-lang').textContent = 'EN';
         urlInput.placeholder = 'example.com';
         
-        // Update navigation
         navLinks[0].textContent = '🌐 ماسح المواقع';
         navLinks[1].textContent = '📧 ماسح البريد';
         
-        // Update info section
         document.querySelector('.url-info h3').textContent = '🛡️ ما نفحصه';
         document.querySelectorAll('.info-item .title')[0].textContent = 'كشف البرامج الضارة';
         document.querySelectorAll('.info-item .desc')[0].textContent = 'فحص الفيروسات وأحصنة طروادة والكود الخبيث';
@@ -644,7 +640,6 @@
         document.querySelectorAll('.info-item .title')[3].textContent = 'تقييم المخاطر';
         document.querySelectorAll('.info-item .desc')[3].textContent = 'تقييم أمني شامل وتوصيات';
         
-        // Update examples
         document.querySelector('.url-examples h3').textContent = 'أمثلة سريعة:';
         
       } else {
@@ -655,11 +650,9 @@
         document.getElementById('toggle-lang').textContent = 'AR';
         urlInput.placeholder = 'example.com';
         
-        // Update navigation
         navLinks[0].textContent = '🌐 URL Scanner';
         navLinks[1].textContent = '📧 Email Scanner';
         
-        // Update info section
         document.querySelector('.url-info h3').textContent = '🛡️ What We Check';
         document.querySelectorAll('.info-item .title')[0].textContent = 'Malware Detection';
         document.querySelectorAll('.info-item .desc')[0].textContent = 'Scan for viruses, trojans, and malicious code';
@@ -670,7 +663,6 @@
         document.querySelectorAll('.info-item .title')[3].textContent = 'Risk Assessment';
         document.querySelectorAll('.info-item .desc')[3].textContent = 'Comprehensive security evaluation and recommendations';
         
-        // Update examples
         document.querySelector('.url-examples h3').textContent = 'Quick Examples:';
       }
     }
@@ -700,13 +692,11 @@
         return;
       }
 
-      // Auto-add https://
       if (!value.match(/^https?:\/\//)) {
         value = 'https://' + value;
         urlInput.value = value;
       }
       
-      // Validate URL
       if (!value.match(/^https?:\/\/.+\..+/)) {
         errorDiv.textContent = currentLang === 'ar' ? 'يرجى إدخال رابط صحيح' : 'Please enter a valid URL';
         submitBtn.disabled = false;
@@ -714,7 +704,6 @@
         return;
       }
 
-      // Show scanning animation
       scanProgress.style.display = 'block';
       const scanSteps = currentLang === 'ar' ? [
         'تهيئة الماسح الضوئي...',
@@ -833,11 +822,9 @@
       submitBtn.classList.remove('scanning-button');
     }
 
-    // Event listeners
     document.getElementById('scan-form').addEventListener('submit', fetchScan);
     document.getElementById('scan-btn').addEventListener('click', fetchScan);
 
-    // Initialize
     setLanguage('en');
   </script>
 </body>
