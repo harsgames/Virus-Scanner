@@ -381,7 +381,7 @@
     </select>
     <form id="scan-form" onsubmit="return false;">
       <label id="input-label" for="input-value">Enter URL to scan:</label>
-      <input type="text" id="input-value" name="input-value" placeholder="https://example.com" required />
+      <input type="text" id="input-value" name="input-value" placeholder="google.com" required />
       <button type="submit" id="scan-btn">Scan</button>
       <div class="scan-progress" id="scan-progress">
         <div class="scan-progress-bar"></div>
@@ -591,7 +591,7 @@
         title.textContent = 'ماسح الفيروسات';
         scanTypeLabel.textContent = 'اختر نوع الفحص:';
         inputLabel.textContent = scanTypeSelect.value === 'url' ? 'أدخل الرابط للفحص:' : 'أدخل بريد Gmail للفحص:';
-        inputValue.placeholder = scanTypeSelect.value === 'url' ? 'https://example.com' : 'example@gmail.com';
+        inputValue.placeholder = scanTypeSelect.value === 'url' ? 'google.com' : 'example@gmail.com';
         scanTypeSelect.options[0].text = 'فحص رابط';
         scanTypeSelect.options[1].text = 'فحص بريد Gmail';
         submitBtn.textContent = 'فحص';
@@ -600,7 +600,7 @@
         title.textContent = 'Virus Scanner';
         scanTypeLabel.textContent = 'Choose scan type:';
         inputLabel.textContent = scanTypeSelect.value === 'url' ? 'Enter URL to scan:' : 'Enter Gmail address:';
-        inputValue.placeholder = scanTypeSelect.value === 'url' ? 'https://example.com' : 'example@gmail.com';
+        inputValue.placeholder = scanTypeSelect.value === 'url' ? 'google.com' : 'example@gmail.com';
         scanTypeSelect.options[0].text = 'Scan URL';
         scanTypeSelect.options[1].text = 'Check Gmail';
         submitBtn.textContent = 'Scan';
@@ -641,11 +641,21 @@
       }
 
       // Validate input format
-      if (scanType === 'url' && !value.match(/^https?:\/\/.+/)) {
-        errorDiv.textContent = currentLang === 'ar' ? 'يرجى إدخال رابط صحيح يبدأ بـ http:// أو https://' : 'Please enter a valid URL starting with http:// or https://';
-        submitBtn.disabled = false;
-        submitBtn.classList.remove('scanning-button');
-        return;
+      if (scanType === 'url') {
+        // Auto-add https:// if no protocol is specified
+        if (!value.match(/^https?:\/\//)) {
+          inputValue.value = 'https://' + value;
+          // Update the value variable with the corrected URL
+          value = inputValue.value;
+        }
+        
+        // Basic URL validation
+        if (!value.match(/^https?:\/\/.+\..+/)) {
+          errorDiv.textContent = currentLang === 'ar' ? 'يرجى إدخال رابط صحيح (مثال: google.com)' : 'Please enter a valid URL (example: google.com)';
+          submitBtn.disabled = false;
+          submitBtn.classList.remove('scanning-button');
+          return;
+        }
       }
 
       if (scanType === 'email' && !value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
@@ -655,7 +665,7 @@
         return;
       }
 
-      // Show scanning animation
+      // Show scanning animation with steps
       scanProgress.style.display = 'block';
       const loadingText = currentLang === 'ar' ? 'جاري الفحص...' : 'Scanning...';
       resultDiv.innerHTML = `
@@ -668,6 +678,38 @@
           <p>${loadingText}</p>
         </div>
       `;
+
+      // Show scanning steps with delays
+      const scanSteps = currentLang === 'ar' ? [
+        'تهيئة الماسح الضوئي...',
+        'الاتصال بقواعد البيانات...',
+        'فحص التهديدات...',
+        'تحليل البيانات...',
+        'التحقق من النتائج...',
+        'إنهاء الفحص...'
+      ] : [
+        'Initializing scanner...',
+        'Connecting to databases...',
+        'Checking for threats...',
+        'Analyzing data...',
+        'Verifying results...',
+        'Finalizing scan...'
+      ];
+
+      // Show each step with delay
+      for (let i = 0; i < scanSteps.length; i++) {
+        await new Promise(resolve => setTimeout(resolve, 800));
+        resultDiv.innerHTML = `
+          <div style="text-align: center;">
+            <div class="loading-dots">
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+            <p>${scanSteps[i]}</p>
+          </div>
+        `;
+      }
 
       try {
         // Make API call to backend
