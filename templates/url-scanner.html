@@ -295,6 +295,8 @@
     }
 
     label {
+
+    label {
       display: block;
       margin-bottom: 8px;
       font-weight: 600;
@@ -320,46 +322,6 @@
       box-shadow: inset 0 2px 5px rgba(0,0,0,0.7);
       transition: all 0.3s ease;
       animation: slideInUp 0.7s ease-out;
-    }
-
-    .scan-options {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-      margin-bottom: 20px;
-    }
-
-    .scan-option {
-      background: rgba(15, 25, 35, 0.7);
-      border: 2px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 15px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .scan-option:hover, .scan-option.selected {
-      border-color: #00ffc8;
-      background: rgba(0, 255, 200, 0.1);
-      transform: translateY(-2px);
-    }
-
-    .scan-option .icon {
-      font-size: 2rem;
-      margin-bottom: 8px;
-      display: block;
-    }
-
-    .scan-option .title {
-      color: #00ffc8;
-      font-weight: 600;
-      margin-bottom: 5px;
-    }
-
-    .scan-option .desc {
-      color: #a0d8ef;
-      font-size: 0.9rem;
     }
 
     button {
@@ -779,7 +741,7 @@
       ];
 
       for (let i = 0; i < scanSteps.length; i++) {
-        await new Promise(resolve => setTimeout(resolve, 800));
+        await new Promise(resolve => setTimeout(resolve, 600)); // Slightly faster
         resultDiv.innerHTML = `
           <div style="text-align: center;">
             <div class="loading-dots">
@@ -794,7 +756,7 @@
 
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout for URL scans
+        const timeoutId = setTimeout(() => controller.abort(), 120000); // Increased to 120 seconds for VirusTotal
 
         const response = await fetch('/api/scan', {
           method: 'POST',
@@ -846,7 +808,7 @@
         }
 
         resultDiv.className = resultClass;
-        typeWriter(resultDiv, result, 30);
+        typeWriter(resultDiv, result, 20); // Faster typewriter
 
       } catch (error) {
         scanProgress.style.display = 'none';
@@ -859,7 +821,11 @@
         } else if (error.message.includes('Failed to fetch')) {
           errorMessage = currentLang === 'ar' ? 
             'خطأ في الاتصال - تأكد من تشغيل الخادم' : 
-            'Connection error - make sure server is running';
+            'Connection error - please check your internet connection';
+        } else if (error.message.includes('timeout')) {
+          errorMessage = currentLang === 'ar' ? 
+            'انتهت مهلة الفحص - قد يكون الموقع بطيء في الاستجابة' : 
+            'Scan timeout - the site may be slow to respond. Please try again.';
         } else {
           errorMessage = currentLang === 'ar' ? 
             `خطأ في الفحص: ${error.message}` : 
