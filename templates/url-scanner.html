@@ -603,6 +603,8 @@
       document.documentElement.lang = lang;
       document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
 
+      const navLinks = document.querySelectorAll('.nav-bar a');
+      
       if (lang === 'ar') {
         document.getElementById('title').textContent = '🌐 ماسح أمان المواقع';
         document.getElementById('subtitle').textContent = 'كشف البرامج الضارة المتقدم بواسطة VirusTotal';
@@ -610,6 +612,20 @@
         document.getElementById('scan-btn').textContent = '🚀 بدء فحص الأمان';
         document.getElementById('toggle-lang').textContent = 'EN';
         urlInput.placeholder = 'example.com';
+        
+        // Update navigation
+        navLinks[0].textContent = '🌐 ماسح المواقع';
+        navLinks[1].textContent = '📧 ماسح البريد';
+        
+        // Update examples
+        document.querySelector('.url-examples h3').textContent = 'أمثلة سريعة:';
+        
+        // Update scan options
+        document.querySelectorAll('.scan-option')[0].querySelector('.title').textContent = 'فحص سريع';
+        document.querySelectorAll('.scan-option')[0].querySelector('.desc').textContent = 'كشف سريع للبرامج الضارة';
+        document.querySelectorAll('.scan-option')[1].querySelector('.title').textContent = 'تحليل عميق';
+        document.querySelectorAll('.scan-option')[1].querySelector('.desc').textContent = 'تدقيق أمني شامل';
+        
       } else {
         document.getElementById('title').textContent = '🌐 URL Security Scanner';
         document.getElementById('subtitle').textContent = 'Advanced malware detection powered by VirusTotal';
@@ -617,6 +633,19 @@
         document.getElementById('scan-btn').textContent = '🚀 Launch Security Scan';
         document.getElementById('toggle-lang').textContent = 'AR';
         urlInput.placeholder = 'example.com';
+        
+        // Update navigation
+        navLinks[0].textContent = '🌐 URL Scanner';
+        navLinks[1].textContent = '📧 Email Scanner';
+        
+        // Update examples
+        document.querySelector('.url-examples h3').textContent = 'Quick Examples:';
+        
+        // Update scan options
+        document.querySelectorAll('.scan-option')[0].querySelector('.title').textContent = 'Quick Scan';
+        document.querySelectorAll('.scan-option')[0].querySelector('.desc').textContent = 'Fast malware detection';
+        document.querySelectorAll('.scan-option')[1].querySelector('.title').textContent = 'Deep Analysis';
+        document.querySelectorAll('.scan-option')[1].querySelector('.desc').textContent = 'Comprehensive security audit';
       }
     }
 
