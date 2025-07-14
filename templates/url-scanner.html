@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>URL Security Scanner</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+    * { box-sizing: border-box; }
+
+    body {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #e0e6e9;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+      animation: fadeIn 1s ease-out;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 50%, rgba(0, 255, 200, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 20%, rgba(0, 168, 255, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 40% 80%, rgba(0, 255, 200, 0.05) 0%, transparent 50%);
+      animation: particleFloat 15s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes particleFloat {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      33% { transform: translateY(-20px) rotate(120deg); }
+      66% { transform: translateY(10px) rotate(240deg); }
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideInUp {
+      0% { transform: translateY(50px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 200, 0.3); }
+      50% { box-shadow: 0 0 30px rgba(0, 255, 200, 0.6); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes typewriter {
+      0% { width: 0; }
+      100% { width: 100%; }
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+
+    .nav-bar {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(30, 41, 59, 0.9);
+      border-radius: 25px;
+      padding: 10px 20px;
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 1000;
+      animation: slideInUp 0.5s ease-out;
+    }
+
+    .nav-bar a {
+      color: #a0d8ef;
+      text-decoration: none;
+      margin: 0 15px;
+      padding: 8px 15px;
+      border-radius: 15px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .nav-bar a:hover, .nav-bar a.active {
+      background: rgba(0, 255, 200, 0.2);
+      color: #00ffc8;
+      text-shadow: 0 0 10px #00ffc8;
+    }
+
+    .container {
+      background: rgba(30, 41, 59, 0.9);
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+      max-width: 700px;
+      width: 100%;
+      padding: 30px 40px;
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      max-height: 90vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      animation: slideInUp 0.8s ease-out;
+      position: relative;
+      margin-top: 80px;
+    }
+
+    .floating-icon {
+      position: absolute;
+      font-size: 1.5rem;
+      color: rgba(0, 255, 200, 0.3);
+      animation: float 6s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+
+    .floating-icon:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+    .floating-icon:nth-child(2) { top: 20%; right: 15%; animation-delay: 2s; }
+    .floating-icon:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 4s; }
+    .floating-icon:nth-child(4) { bottom: 20%; right: 10%; animation-delay: 1s; }
+
+    h1 {
+      text-align: center;
+      font-weight: 700;
+      font-size: 2.8rem;
+      margin-bottom: 10px;
+      color: #00ffc8;
+      text-shadow: 0 0 15px #00ffc8;
+      animation: glow 2s ease-in-out infinite;
+      position: relative;
+    }
+
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #00ffc8, transparent);
+      animation: typewriter 2s ease-out forwards;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #a0d8ef;
+      margin-bottom: 30px;
+      font-size: 1.1rem;
+      opacity: 0.8;
+    }
+
+    .url-examples {
+      background: rgba(15, 25, 35, 0.7);
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-left: 4px solid #00ffc8;
+    }
+
+    .url-examples h3 {
+      color: #00ffc8;
+      margin: 0 0 10px 0;
+      font-size: 1rem;
+    }
+
+    .url-examples .example {
+      display: inline-block;
+      background: rgba(0, 255, 200, 0.1);
+      color: #00ffc8;
+      padding: 5px 10px;
+      border-radius: 8px;
+      margin: 3px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .url-examples .example:hover {
+      background: rgba(0, 255, 200, 0.2);
+      transform: translateY(-2px);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #a0d8ef;
+      text-shadow: 0 0 4px rgba(160, 216, 239, 0.6);
+      animation: slideInUp 0.6s ease-out;
+    }
+
+    .input-container {
+      position: relative;
+      margin-bottom: 15px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 15px 20px;
+      font-size: 1.1rem;
+      border-radius: 15px;
+      border: none;
+      background: #1f2937;
+      color: #e0e6e9;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.7);
+      transition: all 0.3s ease;
+      animation: slideInUp 0.7s ease-out;
+    }
+
+    input:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(0, 255, 200, 0.5), inset 0 2px 5px rgba(0,0,0,0.7);
+      transform: translateY(-2px);
+    }
+
+    input:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(0, 255, 200, 0.2), inset 0 2px 5px rgba(0,0,0,0.7);
+    }
+
+    .protocol-indicator {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #00ffc8;
+      font-weight: 600;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .protocol-indicator.show {
+      opacity: 1;
+    }
+
+    .scan-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .scan-option {
+      background: rgba(15, 25, 35, 0.7);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .scan-option:hover, .scan-option.selected {
+      border-color: #00ffc8;
+      background: rgba(0, 255, 200, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .scan-option .icon {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .scan-option .title {
+      color: #00ffc8;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .scan-option .desc {
+      color: #a0d8ef;
+      font-size: 0.9rem;
+    }
+
+    button {
+      width: 100%;
+      padding: 18px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      border-radius: 20px;
+      border: none;
+      background: linear-gradient(90deg, #00ffc8, #00a8ff);
+      color: #0f2027;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+      animation: slideInUp 0.8s ease-out;
+      position: relative;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    button:hover::before {
+      left: 100%;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 255, 200, 0.8);
+      animation: pulse 1s ease-in-out infinite;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      animation: none;
+    }
+
+    .scanning-button {
+      animation: bounce 1s ease-in-out infinite;
+    }
+
+    .scan-progress {
+      width: 100%;
+      height: 6px;
+      background: rgba(0, 255, 200, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 15px;
+      display: none;
+    }
+
+    .scan-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #00ffc8, #00a8ff);
+      width: 0%;
+      animation: progressBar 3s ease-in-out infinite;
+    }
+
+    @keyframes progressBar {
+      0% { width: 0%; }
+      50% { width: 70%; }
+      100% { width: 100%; }
+    }
+
+    #result {
+      margin-top: 30px;
+      background: #112233;
+      border-radius: 15px;
+      padding: 25px;
+      font-family: 'Consolas', monospace;
+      font-size: 1rem;
+      white-space: pre-wrap;
+      color: #b5f4e0;
+      box-shadow: inset 0 0 15px rgba(0, 255, 200, 0.3);
+      line-height: 1.6;
+      flex-grow: 1;
+      overflow-y: auto;
+      animation: slideInUp 0.9s ease-out;
+      position: relative;
+      border: 1px solid rgba(0, 255, 200, 0.2);
+      min-height: 150px;
+    }
+
+    .result-success {
+      color: #00ff88;
+      border-color: #00ff88;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .result-danger {
+      color: #ff4444;
+      border-color: #ff4444;
+      animation: pulse 1s ease-in-out infinite;
+    }
+
+    .result-warning {
+      color: #ffaa00;
+      border-color: #ffaa00;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .error {
+      margin-top: 20px;
+      color: #ff6b6b;
+      font-weight: 700;
+      text-align: center;
+      animation: bounce 0.5s ease-out;
+    }
+
+    .lang-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(45deg, #00ffc8, #00a8ff);
+      color: #0f2027;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-weight: bold;
+      font-size: 0.9rem;
+      cursor: pointer;
+      z-index: 999;
+      box-shadow: 0 4px 15px rgba(0, 255, 200, 0.4);
+      transition: all 0.3s ease;
+      animation: glow 3s ease-in-out infinite;
+    }
+
+    .lang-btn:hover {
+      transform: scale(1.1) rotate(360deg);
+      box-shadow: 0 6px 20px rgba(0, 255, 200, 0.6);
+    }
+
+    .loading-dots {
+      display: inline-block;
+      position: relative;
+      width: 80px;
+      height: 20px;
+    }
+
+    .loading-dots div {
+      position: absolute;
+      top: 8px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #00ffc8;
+      animation: loading 1.2s linear infinite;
+    }
+
+    .loading-dots div:nth-child(1) { left: 8px; animation-delay: 0s; }
+    .loading-dots div:nth-child(2) { left: 32px; animation-delay: -0.4s; }
+    .loading-dots div:nth-child(3) { left: 56px; animation-delay: -0.8s; }
+
+    @keyframes loading {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+
+    @media (max-width: 768px) {
+      .scan-options {
+        grid-template-columns: 1fr;
+      }
+      
+      .nav-bar {
+        left: 10px;
+        right: 10px;
+        transform: none;
+        padding: 8px 15px;
+      }
+      
+      .nav-bar a {
+        margin: 0 8px;
+        font-size: 0.9rem;
+      }
+      
+      .container {
+        margin-top: 100px;
+        padding: 25px;
+      }
+      
+      h1 {
+        font-size: 2.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav-bar">
+    <a href="#" class="active">🌐 URL Scanner</a>
+    <a href="email-scanner.html">📧 Email Scanner</a>
+    <a href="index.html">🏠 Main Scanner</a>
+  </nav>
+
+  <!-- Floating background icons -->
+  <div class="floating-icon">🌐</div>
+  <div class="floating-icon">🔒</div>
+  <div class="floating-icon">🛡️</div>
+  <div class="floating-icon">🔍</div>
+
+  <div class="container">
+    <h1 id="title">🌐 URL Security Scanner</h1>
+    <p class="subtitle" id="subtitle">Advanced malware detection powered by VirusTotal</p>
+    
+    <div class="url-examples">
+      <h3>Quick Examples:</h3>
+      <span class="example" onclick="setExample('google.com')">google.com</span>
+      <span class="example" onclick="setExample('github.com')">github.com</span>
+      <span class="example" onclick="setExample('stackoverflow.com')">stackoverflow.com</span>
+      <span class="example" onclick="setExample('facebook.com')">facebook.com</span>
+    </div>
+
+    <div class="scan-options">
+      <div class="scan-option selected" data-mode="quick">
+        <span class="icon">⚡</span>
+        <div class="title">Quick Scan</div>
+        <div class="desc">Fast malware detection</div>
+      </div>
+      <div class="scan-option" data-mode="deep">
+        <span class="icon">🔬</span>
+        <div class="title">Deep Analysis</div>
+        <div class="desc">Comprehensive security audit</div>
+      </div>
+    </div>
+    
+    <form id="scan-form" onsubmit="return false;">
+      <label id="input-label" for="url-input">🎯 Enter URL to analyze:</label>
+      <div class="input-container">
+        <div class="protocol-indicator" id="protocol-indicator">https://</div>
+        <input type="text" id="url-input" name="url-input" placeholder="example.com" required />
+      </div>
+      
+      <button type="submit" id="scan-btn">
+        🚀 Launch Security Scan
+      </button>
+      
+      <div class="scan-progress" id="scan-progress">
+        <div class="scan-progress-bar"></div>
+      </div>
+    </form>
+    
+    <div id="result"></div>
+    <div class="error" id="error-msg"></div>
+  </div>
+
+  <button class="lang-btn" id="toggle-lang">AR</button>
+
+  <script>
+    let currentLang = 'en';
+    let scanMode = 'quick';
+
+    // Handle scan mode selection
+    document.querySelectorAll('.scan-option').forEach(option => {
+      option.addEventListener('click', () => {
+        document.querySelectorAll('.scan-option').forEach(o => o.classList.remove('selected'));
+        option.classList.add('selected');
+        scanMode = option.dataset.mode;
+      });
+    });
+
+    // Set example URL
+    function setExample(url) {
+      document.getElementById('url-input').value = url;
+      document.getElementById('url-input').focus();
+    }
+
+    // Protocol indicator
+    const urlInput = document.getElementById('url-input');
+    const protocolIndicator = document.getElementById('protocol-indicator');
+
+    urlInput.addEventListener('input', () => {
+      const value = urlInput.value;
+      if (value && !value.match(/^https?:\/\//)) {
+        protocolIndicator.classList.add('show');
+        urlInput.style.paddingLeft = '85px';
+      } else {
+        protocolIndicator.classList.remove('show');
+        urlInput.style.paddingLeft = '20px';
+      }
+    });
+
+    function typeWriter(element, text, speed = 50) {
+      element.innerHTML = '';
+      let i = 0;
+      const timer = setInterval(() => {
+        if (i < text.length) {
+          element.innerHTML += text.charAt(i);
+          i++;
+        } else {
+          clearInterval(timer);
+        }
+      }, speed);
+    }
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+      if (lang === 'ar') {
+        document.getElementById('title').textContent = '🌐 ماسح أمان المواقع';
+        document.getElementById('subtitle').textContent = 'كشف البرامج الضارة المتقدم بواسطة VirusTotal';
+        document.getElementById('input-label').textContent = '🎯 أدخل الرابط للتحليل:';
+        document.getElementById('scan-btn').textContent = '🚀 بدء فحص الأمان';
+        document.getElementById('toggle-lang').textContent = 'EN';
+        urlInput.placeholder = 'example.com';
+      } else {
+        document.getElementById('title').textContent = '🌐 URL Security Scanner';
+        document.getElementById('subtitle').textContent = 'Advanced malware detection powered by VirusTotal';
+        document.getElementById('input-label').textContent = '🎯 Enter URL to analyze:';
+        document.getElementById('scan-btn').textContent = '🚀 Launch Security Scan';
+        document.getElementById('toggle-lang').textContent = 'AR';
+        urlInput.placeholder = 'example.com';
+      }
+    }
+
+    document.getElementById('toggle-lang').addEventListener('click', () => {
+      setLanguage(currentLang === 'ar' ? 'en' : 'ar');
+    });
+
+    async function fetchScan() {
+      const errorDiv = document.getElementById('error-msg');
+      const resultDiv = document.getElementById('result');
+      const submitBtn = document.getElementById('scan-btn');
+      const scanProgress = document.getElementById('scan-progress');
+
+      errorDiv.textContent = '';
+      resultDiv.textContent = '';
+      resultDiv.className = '';
+      submitBtn.disabled = true;
+      submitBtn.classList.add('scanning-button');
+      
+      let value = urlInput.value.trim();
+
+      if (!value) {
+        errorDiv.textContent = currentLang === 'ar' ? 'يرجى إدخال رابط.' : 'Please enter a URL.';
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('scanning-button');
+        return;
+      }
+
+      // Auto-add https://
+      if (!value.match(/^https?:\/\//)) {
+        value = 'https://' + value;
+        urlInput.value = value;
+      }
+      
+      // Validate URL
+      if (!value.match(/^https?:\/\/.+\..+/)) {
+        errorDiv.textContent = currentLang === 'ar' ? 'يرجى إدخال رابط صحيح' : 'Please enter a valid URL';
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('scanning-button');
+        return;
+      }
+
+      // Show scanning animation
+      scanProgress.style.display = 'block';
+      const scanSteps = currentLang === 'ar' ? [
+        'تهيئة الماسح الضوئي...',
+        'الاتصال بـ VirusTotal...',
+        'تحليل البرامج الضارة...',
+        'فحص التهديدات...',
+        'تجميع النتائج...',
+        'إنهاء التحليل...'
+      ] : [
+        'Initializing scanner...',
+        'Connecting to VirusTotal...',
+        'Analyzing for malware...',
+        'Scanning for threats...',
+        'Compiling results...',
+        'Finalizing analysis...'
+      ];
+
+      for (let i = 0; i < scanSteps.length; i++) {
+        await new Promise(resolve => setTimeout(resolve, 800));
+        resultDiv.innerHTML = `
+          <div style="text-align: center;">
+            <div class="loading-dots">
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+            <p>${scanSteps[i]}</p>
+          </div>
+        `;
+      }
+
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout for URL scans
+
+        const response = await fetch('/api/scan', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            type: 'url',
+            value: value,
+            mode: scanMode
+          }),
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || `HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        scanProgress.style.display = 'none';
+
+        const verdict = data.verdict;
+        const stats = data.stats;
+        const engines = data.engines;
+        const totalEngines = Object.keys(engines).length;
+        const maliciousCount = stats.malicious || 0;
+        const suspiciousCount = stats.suspicious || 0;
+        const harmlessCount = stats.harmless || 0;
+
+        let result, resultClass;
+
+        if (verdict === 'malicious') {
+          result = currentLang === 'ar' ? 
+            `🚨 موقع خطير مكتشف!\n\n📊 نتائج التحليل:\n• تم اكتشاف تهديدات من ${maliciousCount}/${totalEngines} محرك\n• برامج ضارة مؤكدة\n• مستوى الخطر: عالي جداً\n\n⚠️ التوصية: تجنب هذا الموقع تماماً\n🛡️ حماية: تم حظر الوصول` :
+            `🚨 Malicious Site Detected!\n\n📊 Analysis Results:\n• Threats detected by ${maliciousCount}/${totalEngines} engines\n• Confirmed malware presence\n• Risk Level: Very High\n\n⚠️ Recommendation: Avoid this site completely\n🛡️ Protection: Access blocked`;
+          resultClass = 'result-danger';
+        } else if (verdict === 'suspicious') {
+          result = currentLang === 'ar' ?
+            `⚠️ موقع مشبوه!\n\n📊 نتائج التحليل:\n• نشاط مشبوه من ${suspiciousCount}/${totalEngines} محرك\n• يحتاج مراجعة إضافية\n• مستوى الخطر: متوسط\n\n💡 التوصية: استخدم بحذر شديد\n🔍 نصيحة: تحقق من المصدر` :
+            `⚠️ Suspicious Site!\n\n📊 Analysis Results:\n• Suspicious activity flagged by ${suspiciousCount}/${totalEngines} engines\n• Requires additional review\n• Risk Level: Medium\n\n💡 Recommendation: Use with extreme caution\n🔍 Advice: Verify the source`;
+          resultClass = 'result-warning';
+        } else {
+          result = currentLang === 'ar' ? 
+            `✅ موقع آمن!\n\n📊 نتائج التحليل:\n• تم فحصه بواسطة ${totalEngines} محرك أمان\n• ${harmlessCount} محرك صنفه كآمن\n• لا توجد تهديدات مكتشفة\n• مستوى الخطر: منخفض\n\n🎉 التوصية: آمن للاستخدام\n🛡️ الحالة: محمي` :
+            `✅ Safe Site!\n\n📊 Analysis Results:\n• Scanned by ${totalEngines} security engines\n• ${harmlessCount} engines marked as clean\n• No threats detected\n• Risk Level: Low\n\n🎉 Recommendation: Safe to use\n🛡️ Status: Protected`;
+          resultClass = 'result-success';
+        }
+
+        resultDiv.className = resultClass;
+        typeWriter(resultDiv, result, 30);
+
+      } catch (error) {
+        scanProgress.style.display = 'none';
+        
+        let errorMessage;
+        if (error.name === 'AbortError') {
+          errorMessage = currentLang === 'ar' ? 
+            'انتهت مهلة الفحص - يرجى المحاولة مرة أخرى' : 
+            'Scan timeout - please try again';
+        } else if (error.message.includes('Failed to fetch')) {
+          errorMessage = currentLang === 'ar' ? 
+            'خطأ في الاتصال - تأكد من تشغيل الخادم' : 
+            'Connection error - make sure server is running';
+        } else {
+          errorMessage = currentLang === 'ar' ? 
+            `خطأ في الفحص: ${error.message}` : 
+            `Scan error: ${error.message}`;
+        }
+        
+        console.error('Scan error:', error);
+        errorDiv.textContent = errorMessage;
+        resultDiv.textContent = '';
+      }
+
+      submitBtn.disabled = false;
+      submitBtn.classList.remove('scanning-button');
+    }
+
+    // Event listeners
+    document.getElementById('scan-form').addEventListener('submit', fetchScan);
+    document.getElementById('scan-btn').addEventListener('click', fetchScan);
+
+    // Initialize
+    setLanguage('en');
+  </script>
+</body>
+</html>
