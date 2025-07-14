@@ -1,4 +1,42 @@
-input:focus {
+.scan-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .scan-option {
+      background: rgba(15, 25, 35, 0.7);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .scan-option:hover, .scan-option.selected {
+      border-color: #38ef7d;
+      background: rgba(56, 239, 125, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .scan-option .icon {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .scan-option .title {
+      color: #38ef7d;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .scan-option .desc {
+      color: #a0d8ef;
+      font-size: 0.9rem;
+    }    input:focus {
       outline: none;
       box-shadow: 0 0 0 2px rgba(56, 239, 125, 0.5), inset 0 2px 5px rgba(0,0,0,0.7);
       transform: translateY(-2px);
@@ -496,7 +534,7 @@ input:focus {
         padding: 10px;
       }
       
-      .scan-options, .info-grid {
+      .info-grid {
         grid-template-columns: 1fr;
       }
       
@@ -572,19 +610,6 @@ input:focus {
       <span class="example" onclick="setExample('example@yahoo.com')">example@yahoo.com</span>
       <span class="example" onclick="setExample('user@hotmail.com')">user@hotmail.com</span>
     </div>
-
-    <div class="scan-options">
-      <div class="scan-option selected" data-mode="basic">
-        <span class="icon">⚡</span>
-        <div class="title">Basic Check</div>
-        <div class="desc">Major breach databases</div>
-      </div>
-      <div class="scan-option" data-mode="comprehensive">
-        <span class="icon">🔬</span>
-        <div class="title">Deep Scan</div>
-        <div class="desc">Full breach history analysis</div>
-      </div>
-    </div>
     
     <form id="scan-form" onsubmit="return false;">
       <label id="input-label" for="email-input">🎯 Enter email address to check:</label>
@@ -610,8 +635,6 @@ input:focus {
   <script>
     let currentLang = 'en';
     let scanMode = 'basic';
-
-    function translateDataClass(dataClass) {
       if (currentLang === 'ar') {
         const map = {
           "account balances": "أرصدة الحساب",
@@ -770,15 +793,6 @@ input:focus {
       return dataClass;
     }
 
-    // Handle scan mode selection
-    document.querySelectorAll('.scan-option').forEach(option => {
-      option.addEventListener('click', () => {
-        document.querySelectorAll('.scan-option').forEach(o => o.classList.remove('selected'));
-        option.classList.add('selected');
-        scanMode = option.dataset.mode;
-      });
-    });
-
     // Set example email
     function setExample(email) {
       document.getElementById('email-input').value = email;
@@ -834,12 +848,6 @@ input:focus {
         // Update examples
         document.querySelector('.email-examples h3').textContent = 'أمثلة للاختبار:';
         
-        // Update scan options
-        document.querySelectorAll('.scan-option')[0].querySelector('.title').textContent = 'فحص أساسي';
-        document.querySelectorAll('.scan-option')[0].querySelector('.desc').textContent = 'قواعد بيانات التسريبات الرئيسية';
-        document.querySelectorAll('.scan-option')[1].querySelector('.title').textContent = 'فحص عميق';
-        document.querySelectorAll('.scan-option')[1].querySelector('.desc').textContent = 'تحليل كامل لتاريخ التسريبات';
-        
       } else {
         document.getElementById('title').textContent = '📧 Email Security Scanner';
         document.getElementById('subtitle').textContent = 'Check if your email has been compromised in data breaches';
@@ -866,11 +874,6 @@ input:focus {
         // Update examples
         document.querySelector('.email-examples h3').textContent = 'Test Examples:';
         
-        // Update scan options
-        document.querySelectorAll('.scan-option')[0].querySelector('.title').textContent = 'Basic Check';
-        document.querySelectorAll('.scan-option')[0].querySelector('.desc').textContent = 'Major breach databases';
-        document.querySelectorAll('.scan-option')[1].querySelector('.title').textContent = 'Deep Scan';
-        document.querySelectorAll('.scan-option')[1].querySelector('.desc').textContent = 'Full breach history analysis';
       }
     }
 
@@ -926,7 +929,7 @@ input:focus {
       ];
 
       for (let i = 0; i < scanSteps.length; i++) {
-        await new Promise(resolve => setTimeout(resolve, 700));
+        await new Promise(resolve => setTimeout(resolve, 400)); // Faster - reduced from 700ms to 400ms
         resultDiv.innerHTML = `
           <div style="text-align: center;">
             <div class="loading-dots">
@@ -1006,7 +1009,7 @@ input:focus {
         }
 
         resultDiv.className = resultClass;
-        typeWriter(resultDiv, result, 25);
+        typeWriter(resultDiv, result, 15); // Faster typewriter - reduced from 25ms to 15ms
 
       } catch (error) {
         scanProgress.style.display = 'none';
