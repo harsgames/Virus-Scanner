@@ -712,6 +712,10 @@
       }
 
       try {
+        // Add timeout to prevent hanging
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+
         // Make API call to backend
         const response = await fetch('/api/scan', {
           method: 'POST',
@@ -721,13 +725,16 @@
           body: JSON.stringify({
             type: scanType,
             value: value
-          })
+          }),
+          signal: controller.signal
         });
+
+        clearTimeout(timeoutId);
 
         const data = await response.json();
 
         if (!response.ok) {
-          throw new Error(data.error || 'Scan failed');
+          throw new Error(data.error || `HTTP ${response.status}: ${response.statusText}`);
         }
 
         // Hide progress bar
@@ -801,9 +808,23 @@
 
       } catch (error) {
         scanProgress.style.display = 'none';
-        const errorMessage = currentLang === 'ar' ? 
-          `خطأ في الفحص: ${error.message}` : 
-          `Scan error: ${error.message}`;
+        
+        let errorMessage;
+        if (error.name === 'AbortError') {
+          errorMessage = currentLang === 'ar' ? 
+            'انتهت مهلة الفحص - يرجى المحاولة مرة أخرى' : 
+            'Scan timeout - please try again';
+        } else if (error.message.includes('Failed to fetch')) {
+          errorMessage = currentLang === 'ar' ? 
+            'خطأ في الاتصال - تأكد من تشغيل الخادم على localhost:5000' : 
+            'Connection error - make sure server is running on localhost:5000';
+        } else {
+          errorMessage = currentLang === 'ar' ? 
+            `خطأ في الفحص: ${error.message}` : 
+            `Scan error: ${error.message}`;
+        }
+        
+        console.error('Scan error:', error);
         errorDiv.textContent = errorMessage;
         resultDiv.textContent = '';
       }
