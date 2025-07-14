@@ -73,61 +73,43 @@
       60% { transform: translateY(-5px); }
     }
 
-    .logo-header {
+    .nav-bar {
       position: fixed;
-      top: 15px;
+      top: 20px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(30, 41, 59, 0.95);
-      border-radius: 20px;
-      padding: 10px 25px;
-      backdrop-filter: blur(20px);
+      background: rgba(30, 41, 59, 0.9);
+      border-radius: 25px;
+      padding: 10px 20px;
+      backdrop-filter: blur(15px);
       border: 1px solid rgba(255, 255, 255, 0.1);
       z-index: 1000;
       animation: slideInUp 0.5s ease-out;
       display: flex;
       align-items: center;
       gap: 15px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    }
-
-    .logo-container {
-      display: flex;
-      align-items: center;
-      gap: 12px;
     }
 
     .logo-image {
-      width: 35px;
-      height: 40px;
-      filter: brightness(1.2) contrast(1.1);
-      opacity: 0.9;
-    }
-
-    .logo-text {
-      color: #00ffc8;
-      font-weight: 700;
-      font-size: 1.1rem;
-      letter-spacing: 0.5px;
-      text-shadow: 0 0 10px rgba(0, 255, 200, 0.3);
+      width: 30px;
+      height: 35px;
+      filter: brightness(1.1);
+      opacity: 0.8;
     }
 
     .nav-links {
       display: flex;
       gap: 10px;
-      margin-left: 20px;
-      padding-left: 20px;
-      border-left: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .nav-links a {
       color: #a0d8ef;
       text-decoration: none;
+      margin: 0 15px;
       padding: 8px 15px;
       border-radius: 15px;
       transition: all 0.3s ease;
       font-weight: 500;
-      font-size: 0.9rem;
     }
 
     .nav-links a:hover, .nav-links a.active {
@@ -495,7 +477,7 @@
         grid-template-columns: 1fr;
       }
       
-      .logo-header {
+      .nav-bar {
         left: 10px;
         right: 10px;
         transform: none;
@@ -504,35 +486,22 @@
         gap: 8px;
       }
       
-      .logo-container {
-        gap: 8px;
-      }
-      
       .logo-image {
-        width: 28px;
-        height: 32px;
-      }
-      
-      .logo-text {
-        font-size: 0.9rem;
+        width: 25px;
+        height: 30px;
       }
       
       .nav-links {
-        margin-left: 0;
-        padding-left: 0;
-        border-left: none;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        padding-top: 8px;
+        gap: 5px;
       }
       
       .nav-links a {
-        margin: 0 5px;
-        font-size: 0.8rem;
-        padding: 6px 10px;
+        margin: 0 8px;
+        font-size: 0.9rem;
       }
       
       .container {
-        margin: 140px auto 20px auto;
+        margin: 100px auto 20px auto;
         padding: 25px;
       }
       
@@ -543,15 +512,14 @@
   </style>
 </head>
 <body>
-  <!-- Logo Header with Navigation -->
-  <header class="logo-header">
-    <div class="logo-container">
-      <img src="Virus.png" class="logo-image" />
-    <nav class="nav-links">
+  <!-- Navigation -->
+  <nav class="nav-bar">
+    <img src="templates/Virus.png" alt="Virus Scanner Logo" class="logo-image" />
+    <div class="nav-links">
       <a href="/url-scanner" class="active">🌐 URL Scanner</a>
       <a href="/email-scanner">📧 Email Scanner</a>
-    </nav>
-  </header>
+    </div>
+  </nav>
 
   <!-- Floating background icons -->
   <div class="floating-icon">🌐</div>
