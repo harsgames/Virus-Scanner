@@ -75,8 +75,8 @@ def hibp_check_email(email):
 # Routes for different scanner pages
 @app.route("/")
 def index():
-    """Main scanner page"""
-    return render_template("frontend.html")
+    """Default to URL scanner page"""
+    return render_template("url-scanner.html")
 
 @app.route("/url-scanner")
 def url_scanner():
@@ -288,8 +288,8 @@ def health_check():
         "status": "healthy",
         "version": "2.0",
         "endpoints": {
-            "main_scanner": "/",
-            "url_scanner": "/url-scanner", 
+            "url_scanner": "/",
+            "url_scanner_alt": "/url-scanner", 
             "email_scanner": "/email-scanner",
             "api_scan": "/api/scan"
         }
@@ -315,8 +315,7 @@ if __name__ == "__main__":
     print("🚀 Starting Enhanced Virus Scanner Backend...")
     print(f"📡 Server will run on port {port}")
     print("🌐 Available endpoints:")
-    print(f"   • Main Scanner: http://localhost:{port}/")
-    print(f"   • URL Scanner: http://localhost:{port}/url-scanner")
+    print(f"   • URL Scanner (Home): http://localhost:{port}/")
     print(f"   • Email Scanner: http://localhost:{port}/email-scanner")
     print(f"   • API Health: http://localhost:{port}/api/health")
     
