@@ -1,14 +1,13 @@
 from flask import Flask, render_template, request, jsonify
 import requests
 import time
-import re
 
 app = Flask(__name__)
 
 VT_API_KEY = "ef9e902fff78178e965b1a558da319a26f845967c7f24a252ce8cb5e27c1091b"
 VT_BASE_URL = "https://www.virustotal.com/api/v3"
 
-HIBP_API_KEY = "f698b0efaeca4167a5e98e7786870eb8"  # Replace with your paid key!
+HIBP_API_KEY = "f698b0efaeca4167a5e98e7786870eb8"  # Paid key required
 HIBP_BASE_URL = "https://haveibeenpwned.com/api/v3"
 
 def vt_submit_url(url):
@@ -45,31 +44,12 @@ def hibp_check_email(email):
     if res.status_code == 404:
         return []
     if res.status_code == 401:
-        raise Exception("Unauthorized: Invalid or missing HIBP API key.")
+        raise Exception("Invalid or missing HIBP API key.")
     if res.status_code == 429:
-        raise Exception("Too many requests: Rate limited by HIBP API.")
+        raise Exception("Rate limited by HIBP API.")
     res.raise_for_status()
 
-    breaches = res.json()
-    results = []
-    for breach in breaches:
-        results.append({
-            "Name": breach.get("Name"),
-            "Title": breach.get("Title"),
-            "Domain": breach.get("Domain"),
-            "BreachDate": breach.get("BreachDate"),
-            "AddedDate": breach.get("AddedDate"),
-            "ModifiedDate": breach.get("ModifiedDate"),
-            "PwnCount": breach.get("PwnCount"),
-            "DataClasses": breach.get("DataClasses", []),
-            "IsVerified": breach.get("IsVerified"),
-            "IsFabricated": breach.get("IsFabricated"),
-            "IsSensitive": breach.get("IsSensitive"),
-            "IsRetired": breach.get("IsRetired"),
-            "IsSpamList": breach.get("IsSpamList"),
-            "LogoPath": breach.get("LogoPath")
-        })
-    return results
+    return res.json()
 
 @app.route("/")
 def index():
@@ -81,39 +61,32 @@ def api_scan():
     scan_type = data.get("type")
     value = data.get("value")
 
-    if scan_type == "url":
-        try:
+    try:
+        if scan_type == "url":
             analysis_id = vt_submit_url(value)
             for _ in range(12):
                 report = vt_get_report(analysis_id)
-                status = report["data"]["attributes"]["status"]
-                if status == "completed":
+                if report["data"]["attributes"]["status"] == "completed":
                     break
                 time.sleep(5)
             else:
-                return jsonify({"error": "timeout"}), 504
+                return jsonify({"error": "VirusTotal scan timeout."}), 504
 
             stats = report["data"]["attributes"]["stats"]
-            engines = report["data"]["attributes"].get("results", {})
             return jsonify({
                 "verdict": vt_verdict(stats),
-                "stats": stats,
-                "engines": engines
+                "stats": stats
             })
 
-        except Exception as e:
-            return jsonify({"error": str(e)}), 400
-
-    elif scan_type == "email":
-        try:
+        elif scan_type == "email":
             breaches = hibp_check_email(value)
-            return jsonify({"breaches": len(breaches), "details": breaches})
+            return jsonify(breaches)
 
-        except Exception as e:
-            return jsonify({"error": str(e)}), 400
+        else:
+            return jsonify({"error": "Invalid scan type."}), 400
 
-    else:
-        return jsonify({"error": "bad type"}), 400
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
+    app.run(debug=True)
