@@ -66,8 +66,6 @@
       100% { transform: scale(1); }
     }
 
-
-
     @keyframes typewriter {
       0% { width: 0; }
       100% { width: 100%; }
@@ -77,6 +75,36 @@
       0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
       40% { transform: translateY(-10px); }
       60% { transform: translateY(-5px); }
+    }
+
+    .nav-bar {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(30, 41, 59, 0.9);
+      border-radius: 25px;
+      padding: 10px 20px;
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 1000;
+      animation: slideInUp 0.5s ease-out;
+    }
+
+    .nav-bar a {
+      color: #a0d8ef;
+      text-decoration: none;
+      margin: 0 15px;
+      padding: 8px 15px;
+      border-radius: 15px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .nav-bar a:hover, .nav-bar a.active {
+      background: rgba(0, 255, 200, 0.2);
+      color: #00ffc8;
+      text-shadow: 0 0 10px #00ffc8;
     }
 
     .container {
@@ -94,9 +122,8 @@
       flex-direction: column;
       animation: slideInUp 0.8s ease-out;
       position: relative;
+      margin-top: 80px;
     }
-
-
 
     h1 {
       text-align: center;
@@ -227,8 +254,6 @@
       position: relative;
       border: 1px solid rgba(0, 255, 200, 0.2);
     }
-
-
 
     .result-fade-in {
       animation: fadeIn 1s ease-out;
@@ -366,6 +391,13 @@
   </style>
 </head>
 <body>
+  <!-- Navigation -->
+  <nav class="nav-bar">
+    <a href="/">🏠 Main Scanner</a>
+    <a href="/url-scanner">🌐 URL Scanner</a>
+    <a href="/email-scanner">📧 Email Scanner</a>
+  </nav>
+
   <!-- Floating background icons -->
   <div class="floating-icon">🔒</div>
   <div class="floating-icon">🛡️</div>
@@ -612,7 +644,7 @@
       inputLabel.textContent = currentLang === 'ar'
         ? (scanTypeSelect.value === 'url' ? 'أدخل الرابط للفحص:' : 'أدخل بريد Gmail للفحص:')
         : (scanTypeSelect.value === 'url' ? 'Enter URL to scan:' : 'Enter Gmail address:');
-      inputValue.placeholder = scanTypeSelect.value === 'url' ? 'https://example.com' : 'example@gmail.com';
+      inputValue.placeholder = scanTypeSelect.value === 'url' ? 'google.com' : 'example@gmail.com';
       resultDiv.textContent = '';
       errorDiv.textContent = '';
     });
@@ -631,7 +663,7 @@
       submitBtn.classList.add('scanning-button');
       
       const scanType = scanTypeSelect.value;
-      const value = inputValue.value.trim();
+      let value = inputValue.value.trim();
 
       if (!value) {
         errorDiv.textContent = currentLang === 'ar' ? 'يرجى إدخال قيمة.' : 'Please enter a value.';
