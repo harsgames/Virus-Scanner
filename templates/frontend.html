@@ -149,34 +149,181 @@
     <div id="result"></div>
     <div class="error" id="error-msg"></div>
   </div>
+
   <button class="lang-btn" id="toggle-lang">AR</button>
+
   <script>
+    let currentLang = 'en';
+
+    function translateDataClass(dataClass) {
+      if (currentLang === 'ar') {
+        const map = {
+          "account balances": "أرصدة الحساب",
+          "address book contacts": "جهات اتصال دفتر العناوين",
+          "age groups": "مجموعات الأعمار",
+          "ages": "الأعمار",
+          "appointments": "المواعيد",
+          "apps installed on devices": "التطبيقات المثبتة على الأجهزة",
+          "astrological signs": "الأبراج الفلكية",
+          "audio recordings": "التسجيلات الصوتية",
+          "auth tokens": "رموز التفويض",
+          "avatars": "الصورة الرمزية",
+          "bank account numbers": "أرقام الحسابات البنكية",
+          "beauty ratings": "تقييمات الجمال",
+          "biometric data": "البيانات البيومترية",
+          "bios": "معلومات النظام",
+          "browser user agent details": "تفاصيل وكيل المستخدم للمتصفح",
+          "browsing histories": "سجل التصفح",
+          "buying preferences": "تفضيلات الشراء",
+          "car ownership statuses": "حالات ملكية السيارة",
+          "career levels": "مستويات الوظيفة",
+          "cellular network names": "أسماء شبكات الهاتف المحمول",
+          "charitable donations": "التبرعات الخيرية",
+          "chat logs": "سجلات المحادثات",
+          "citizenship statuses": "حالات الجنسية",
+          "clothing sizes": "مقاسات الملابس",
+          "comments": "التعليقات",
+          "company names": "أسماء الشركات",
+          "credit card cvv": "رمز CVV لبطاقات الائتمان",
+          "credit cards": "بطاقات الائتمان",
+          "credit status information": "معلومات حالة الائتمان",
+          "cryptocurrency wallet addresses": "عناوين محافظ العملات الرقمية",
+          "customer feedback": "تعليقات العملاء",
+          "customer interactions": "تفاعلات العملاء",
+          "dates of birth": "تواريخ الميلاد",
+          "deceased date": "تاريخ الوفاة",
+          "deceased statuses": "حالات الوفاة",
+          "delivery instructions": "تعليمات التسليم",
+          "device information": "معلومات الجهاز",
+          "device serial numbers": "أرقام تسلسلية للأجهزة",
+          "device usage tracking data": "بيانات تتبع استخدام الجهاز",
+          "drinking habits": "عادات الشرب",
+          "driver's licenses": "رخص القيادة",
+          "drug habits": "عادات تناول المخدرات",
+          "earnings": "الأرباح",
+          "eating habits": "عادات الأكل",
+          "education levels": "مستويات التعليم",
+          "email addresses": "عناوين البريد الإلكتروني",
+          "email messages": "رسائل البريد الإلكتروني",
+          "employers": "جهات العمل",
+          "employment statuses": "حالات التوظيف",
+          "encrypted keys": "المفاتيح المشفرة",
+          "ethnicities": "الأعراق",
+          "family members' names": "أسماء أفراد العائلة",
+          "family plans": "خطط الأسرة",
+          "family structure": "هيكل الأسرة",
+          "financial investments": "الاستثمارات المالية",
+          "financial transactions": "المعاملات المالية",
+          "fitness levels": "مستويات اللياقة البدنية",
+          "flights taken": "الرحلات التي تم القيام بها",
+          "genders": "النوع الاجتماعي",
+          "geographic locations": "المواقع الجغرافية",
+          "government issued ids": "الهويات الصادرة عن الحكومة",
+          "health insurance information": "معلومات التأمين الصحي",
+          "historical passwords": "كلمات المرور القديمة",
+          "hiv statuses": "حالات الإصابة بفيروس نقص المناعة",
+          "home ownership statuses": "حالات ملكية المنزل",
+          "homepage urls": "روابط الصفحات الرئيسية",
+          "imei numbers": "أرقام IMEI",
+          "imsi numbers": "أرقام IMSI",
+          "income levels": "مستويات الدخل",
+          "instant messenger identities": "هويات المراسلة الفورية",
+          "ip addresses": "عناوين IP",
+          "job applications": "طلبات التوظيف",
+          "job titles": "المسميات الوظيفية",
+          "licence plates": "لوحات الترخيص",
+          "living costs": "تكاليف المعيشة",
+          "loan information": "معلومات القروض",
+          "login histories": "سجلات الدخول",
+          "loyalty program details": "تفاصيل برامج الولاء",
+          "mac addresses": "عناوين MAC",
+          "marital statuses": "الحالة الاجتماعية",
+          "military service": "الخدمة العسكرية",
+          "mnemonic phrases": "عبارات التذكير",
+          "mothers maiden names": "اسم عائلة الأم قبل الزواج",
+          "names": "الأسماء",
+          "nationalities": "الجنسيات",
+          "net worths": "صافي الثروات",
+          "nicknames": "الأسماء المستعارة",
+          "occupations": "المهن",
+          "parenting plans": "خطط الأبوة",
+          "partial credit card data": "بيانات جزئية لبطاقات الائتمان",
+          "partial dates of birth": "تواريخ ميلاد جزئية",
+          "partial phone numbers": "أرقام هواتف جزئية",
+          "passport numbers": "أرقام جوازات السفر",
+          "password hints": "تلميحات كلمات المرور",
+          "password strengths": "قوة كلمات المرور",
+          "passwords": "كلمات المرور",
+          "payment histories": "سجلات الدفع",
+          "payment methods": "طرق الدفع",
+          "personal descriptions": "الأوصاف الشخصية",
+          "personal health data": "البيانات الصحية الشخصية",
+          "personal interests": "الاهتمامات الشخصية",
+          "phone numbers": "أرقام الهواتف",
+          "photos": "الصور",
+          "physical addresses": "العناوين الفعلية",
+          "physical attributes": "السمات الجسدية",
+          "pins": "أرقام التعريف الشخصية",
+          "places of birth": "أماكن الميلاد",
+          "political donations": "التبرعات السياسية",
+          "political views": "الآراء السياسية",
+          "private messages": "الرسائل الخاصة",
+          "professional skills": "المهارات المهنية",
+          "profile photos": "صور الملف الشخصي",
+          "purchases": "المشتريات",
+          "purchasing habits": "عادات الشراء",
+          "races": "الأعراق",
+          "recovery email addresses": "عناوين البريد الإلكتروني للاسترداد",
+          "relationship statuses": "الحالة العاطفية",
+          "religions": "الأديان",
+          "reward program balances": "أرصدة برامج المكافآت",
+          "salutations": "التحيات",
+          "school grades (class levels)": "درجات المدرسة (مستويات الصفوف)",
+          "security questions and answers": "أسئلة الأمان وأجوبتها",
+          "sexual fetishes": "الميول الجنسية",
+          "sexual orientations": "الاتجاهات الجنسية",
+          "shipment tracking numbers": "أرقام تتبع الشحنات",
+          "smoking habits": "عادات التدخين",
+          "sms messages": "رسائل SMS",
+          "social connections": "الاتصالات الاجتماعية",
+          "social media profiles": "ملفات التعريف على وسائل التواصل الاجتماعي",
+          "social security numbers": "أرقام الضمان الاجتماعي",
+          "spoken languages": "اللغات المحكية",
+          "spouses names": "أسماء الأزواج",
+          "support tickets": "تذاكر الدعم",
+          "survey results": "نتائج الاستبيانات",
+          "tattoo status": "حالة الوشم",
+          "taxation records": "سجلات الضرائب",
+          "telecommunications carrier": "مزود خدمات الاتصالات",
+          "time zones": "المناطق الزمنية",
+          "travel habits": "عادات السفر",
+          "travel plans": "خطط السفر",
+          "user statuses": "حالات المستخدم",
+          "user website urls": "روابط مواقع المستخدمين",
+          "usernames": "أسماء المستخدمين",
+          "utility bills": "فواتير الخدمات",
+          "vehicle details": "تفاصيل المركبات",
+          "vehicle identification numbers (vin)s": "أرقام تعريف المركبات (VINs)",
+          "warranty claims": "مطالبات الضمان",
+          "website activity": "نشاط الموقع",
+          "work habits": "عادات العمل",
+          "years of professional experience": "سنوات الخبرة المهنية"
+        };
+        return map[dataClass.toLowerCase()] || dataClass;
+      }
+      return dataClass;
+    }
+
     const scanTypeSelect = document.getElementById('scan-type');
+    const scanTypeLabel = document.getElementById('scan-type-label');
+    const inputLabel = document.getElementById('input-label');
     const inputValue = document.getElementById('input-value');
     const form = document.getElementById('scan-form');
     const resultDiv = document.getElementById('result');
     const errorDiv = document.getElementById('error-msg');
     const submitBtn = document.getElementById('scan-btn');
     const toggleLang = document.getElementById('toggle-lang');
-    const scanTypeLabel = document.getElementById('scan-type-label');
-    const inputLabel = document.getElementById('input-label');
     const title = document.getElementById('title');
-
-    let currentLang = 'en';
-
-    function translateVerdict(verdict) {
-      if (currentLang === 'ar') {
-        if (verdict === 'harmless') return 'آمن';
-        if (verdict === 'malicious') return 'ضار';
-        if (verdict === 'suspicious') return 'مشبوه';
-      }
-      return verdict;
-    }
-
-    function translateDataClass(dataClass) {
-      if (currentLang === 'ar' && dataClass.toLowerCase() === 'passwords') return 'كلمة المرور';
-      return dataClass;
-    }
 
     function setLanguage(lang) {
       currentLang = lang;
@@ -208,8 +355,8 @@
 
     scanTypeSelect.addEventListener('change', () => {
       inputLabel.textContent = currentLang === 'ar'
-        ? scanTypeSelect.value === 'url' ? 'أدخل الرابط للفحص:' : 'أدخل بريد Gmail للفحص:'
-        : scanTypeSelect.value === 'url' ? 'Enter URL to scan:' : 'Enter Gmail address:';
+        ? (scanTypeSelect.value === 'url' ? 'أدخل الرابط للفحص:' : 'أدخل بريد Gmail للفحص:')
+        : (scanTypeSelect.value === 'url' ? 'Enter URL to scan:' : 'Enter Gmail address:');
       inputValue.placeholder = scanTypeSelect.value === 'url' ? 'https://example.com' : 'example@gmail.com';
       resultDiv.textContent = '';
       errorDiv.textContent = '';
@@ -221,61 +368,97 @@
       errorDiv.textContent = '';
     });
 
-    form.addEventListener('submit', async () => {
-      const scanType = scanTypeSelect.value;
-      const value = inputValue.value.trim();
-      if (!value) return;
-
-      submitBtn.disabled = true;
-      submitBtn.textContent = currentLang === 'ar' ? 'جارٍ الفحص...' : 'Scanning...';
+    async function fetchScan() {
       errorDiv.textContent = '';
       resultDiv.textContent = '';
+      submitBtn.disabled = true;
+      submitBtn.textContent = currentLang === 'ar' ? 'جارٍ الفحص...' : 'Scanning...';
+
+      const scanType = scanTypeSelect.value;
+      const value = inputValue.value.trim();
+
+      if (!value) {
+        errorDiv.textContent = currentLang === 'ar' ? 'يرجى إدخال قيمة.' : 'Please enter a value.';
+        submitBtn.disabled = false;
+        submitBtn.textContent = currentLang === 'ar' ? 'فحص' : 'Scan';
+        return;
+      }
 
       try {
-        const res = await fetch('/api/scan', {
+        const resp = await fetch('/api/scan', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ type: scanType, value }),
+          body: JSON.stringify({ type: scanType, value: value }),
         });
-        const data = await res.json();
 
-        if (!res.ok) throw new Error(data.error || 'Unknown error');
+        const data = await resp.json();
+
+        if (!resp.ok) {
+          errorDiv.textContent = data.error || (currentLang === 'ar' ? 'حدث خطأ أثناء الفحص.' : 'Error during scan.');
+          submitBtn.disabled = false;
+          submitBtn.textContent = currentLang === 'ar' ? 'فحص' : 'Scan';
+          return;
+        }
 
         if (scanType === 'url') {
-          let text = `${currentLang === 'ar' ? 'النتيجة' : 'Verdict'}: ${translateVerdict(data.verdict)}\n\n`;
-          text += `${currentLang === 'ar' ? 'الإحصائيات' : 'Statistics'}:\n`;
-          Object.entries(data.stats).forEach(([k, v]) => {
-            text += `- ${translateVerdict(k)}: ${v}\n`;
+          let verdictText = data.verdict;
+          if (currentLang === 'ar') {
+            if (data.verdict === 'harmless') verdictText = 'آمن';
+            else if (data.verdict === 'malicious') verdictText = 'خبيث';
+            else if (data.verdict === 'suspicious') verdictText = 'مريب';
+            else if (data.verdict === 'timeout') verdictText = 'انتهت المهلة';
+            else if (data.verdict === 'undetected') verdictText = 'غير مكتشف';
+          }
+
+          let text = currentLang === 'ar'
+            ? `النتيجة: ${verdictText}\n\nالإحصائيات:\n`
+            : `Verdict: ${verdictText}\n\nStatistics:\n`;
+
+          const order = ['harmless', 'malicious', 'suspicious', 'timeout', 'undetected'];
+          order.forEach(key => {
+            if (data.stats && key in data.stats) {
+              let keyText = key;
+              if (currentLang === 'ar') {
+                if (key === 'harmless') keyText = 'آمن';
+                else if (key === 'malicious') keyText = 'خبيث';
+                else if (key === 'suspicious') keyText = 'مريب';
+                else if (key === 'timeout') keyText = 'انتهت المهلة';
+                else if (key === 'undetected') keyText = 'غير مكتشف';
+              }
+              text += `- ${keyText}: ${data.stats[key]}\n`;
+            }
           });
           resultDiv.textContent = text;
-        } else {
-          if (!data.details || data.details.length === 0) {
-            resultDiv.textContent = currentLang === 'ar' ? 'لا توجد اختراقات.' : 'No breaches found.';
+        } else if (scanType === 'email') {
+          // Gmail breaches section
+          if (!data.breaches || data.breaches.length === 0) {
+            resultDiv.textContent = currentLang === 'ar'
+              ? 'لا توجد خروقات معروفة لهذا البريد الإلكتروني.'
+              : 'No known breaches for this email.';
+            submitBtn.disabled = false;
+            submitBtn.textContent = currentLang === 'ar' ? 'فحص' : 'Scan';
             return;
           }
 
-          let breachesText = currentLang === 'ar'
-            ? `تم العثور على ${data.details.length} اختراق:\n\n`
-            : `Found ${data.details.length} breaches:\n\n`;
-
-          data.details.forEach(b => {
-            breachesText += `- ${b.Name || 'N/A'} (${b.Domain || 'N/A'})\n`;
-            breachesText += `${currentLang === 'ar' ? '  تاريخ الاختراق: ' : '  Breach Date: '}${b.BreachDate || 'N/A'}\n`;
-            breachesText += `${currentLang === 'ar' ? '  عدد الحسابات المخترقة: ' : '  Pwn Count: '}${b.PwnCount || 'N/A'}\n`;
-            const translatedClasses = (b.DataClasses || []).map(translateDataClass);
-            breachesText += `${currentLang === 'ar' ? '  البيانات التي تم تسريبها: ' : '  Data Compromised: '}${translatedClasses.join(', ') || 'N/A'}\n\n`;
+          let breachesText = currentLang === 'ar' ? 'الخروقات:\n' : 'Breaches:\n';
+          data.breaches.forEach(breach => {
+            breachesText += currentLang === 'ar'
+              ? `- ${breach.Name} (في ${breach.BreachDate}):\n  تم أخذ: ${breach.DataClasses.map(c => translateDataClass(c)).join(', ')}\n\n`
+              : `- ${breach.Name} (on ${breach.BreachDate}):\n  Data taken: ${breach.DataClasses.join(', ')}\n\n`;
           });
 
-          resultDiv.textContent = breachesText;
+          resultDiv.textContent = breachesText.trim();
         }
 
-      } catch (err) {
-        errorDiv.textContent = (currentLang === 'ar' ? 'خطأ: ' : 'Error: ') + err.message;
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = currentLang === 'ar' ? 'فحص' : 'Scan';
+      } catch (e) {
+        errorDiv.textContent = currentLang === 'ar' ? 'فشل الاتصال بالخادم.' : 'Failed to connect to server.';
       }
-    });
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = currentLang === 'ar' ? 'فحص' : 'Scan';
+    }
+
+    form.addEventListener('submit', fetchScan);
 
     setLanguage('en');
   </script>
