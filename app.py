@@ -121,13 +121,17 @@ def handle_url_scan(url, mode="quick"):
             url = 'https://' + url
         
         # Submit URL for scanning
+        print(f"Submitting URL for analysis: {url}")
         analysis_id = vt_submit_url(url)
+        print(f"Analysis ID: {analysis_id}")
         
         # Wait for analysis completion
         max_retries = 15 if mode == "deep" else 12
         for attempt in range(max_retries):
+            print(f"Checking analysis status (attempt {attempt + 1}/{max_retries})")
             report = vt_get_report(analysis_id)
             status = report["data"]["attributes"]["status"]
+            print(f"Status: {status}")
             
             if status == "completed":
                 break
@@ -144,6 +148,7 @@ def handle_url_scan(url, mode="quick"):
         # Extract results
         stats = report["data"]["attributes"]["stats"]
         engines = report["data"]["attributes"].get("results", {})
+        print(f"Scan completed. Stats: {stats}")
         
         # Add additional analysis for deep mode
         additional_info = {}
@@ -167,6 +172,7 @@ def handle_url_scan(url, mode="quick"):
         })
 
     except requests.exceptions.HTTPError as e:
+        print(f"HTTP Error: {e}")
         if e.response.status_code == 401:
             return jsonify({"error": "Invalid VirusTotal API key"}), 401
         elif e.response.status_code == 429:
@@ -174,6 +180,7 @@ def handle_url_scan(url, mode="quick"):
         else:
             return jsonify({"error": f"VirusTotal API error: {str(e)}"}), 400
     except Exception as e:
+        print(f"Unexpected error: {e}")
         return jsonify({"error": f"URL scan failed: {str(e)}"}), 400
 
 def handle_email_scan(email, mode="basic"):
@@ -184,7 +191,9 @@ def handle_email_scan(email, mode="basic"):
             return jsonify({"error": "Invalid email format"}), 400
         
         # Check for breaches
+        print(f"Checking email: {email}")
         breaches = hibp_check_email(email)
+        print(f"Found {len(breaches)} breaches")
         
         # Process results based on scan mode
         if mode == "comprehensive":
@@ -207,6 +216,7 @@ def handle_email_scan(email, mode="basic"):
             })
 
     except requests.exceptions.HTTPError as e:
+        print(f"HIBP HTTP Error: {e}")
         if e.response.status_code == 401:
             return jsonify({"error": "Invalid HIBP API key or unauthorized access"}), 401
         elif e.response.status_code == 429:
@@ -222,6 +232,7 @@ def handle_email_scan(email, mode="basic"):
         else:
             return jsonify({"error": f"HIBP API error: {str(e)}"}), 400
     except Exception as e:
+        print(f"Email scan error: {e}")
         return jsonify({"error": f"Email scan failed: {str(e)}"}), 400
 
 def calculate_reputation_score(stats):
