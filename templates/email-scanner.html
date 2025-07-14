@@ -1,4 +1,13 @@
-<!DOCTYPE html>
+input:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(56, 239, 125, 0.5), inset 0 2px 5px rgba(0,0,0,0.7);
+      transform: translateY(-2px);
+    }
+
+    input:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(56, 239, 125, 0.2), inset 0 2px 5px rgba(0,0,0,0.7);
+    }<!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
@@ -273,33 +282,6 @@
       box-shadow: inset 0 2px 5px rgba(0,0,0,0.7);
       transition: all 0.3s ease;
       animation: slideInUp 0.7s ease-out;
-    }
-
-    input:focus {
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(56, 239, 125, 0.5), inset 0 2px 5px rgba(0,0,0,0.7);
-      transform: translateY(-2px);
-    }
-
-    input:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 15px rgba(56, 239, 125, 0.2), inset 0 2px 5px rgba(0,0,0,0.7);
-    }
-
-    .domain-indicator {
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #38ef7d;
-      font-weight: 600;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .domain-indicator.show {
-      opacity: 1;
     }
 
     .scan-options {
@@ -608,7 +590,6 @@
       <label id="input-label" for="email-input">🎯 Enter email address to check:</label>
       <div class="input-container">
         <input type="email" id="email-input" name="email-input" placeholder="your.email@example.com" required />
-        <div class="domain-indicator" id="domain-indicator">@gmail.com</div>
       </div>
       
       <button type="submit" id="scan-btn">
@@ -804,21 +785,8 @@
       document.getElementById('email-input').focus();
     }
 
-    // Domain indicator
+    // Domain indicator - removed for cleaner interface
     const emailInput = document.getElementById('email-input');
-    const domainIndicator = document.getElementById('domain-indicator');
-
-    emailInput.addEventListener('input', () => {
-      const value = emailInput.value;
-      const atIndex = value.indexOf('@');
-      if (atIndex > 0 && value.length > atIndex + 1) {
-        const domain = value.substring(atIndex);
-        domainIndicator.textContent = domain;
-        domainIndicator.classList.add('show');
-      } else {
-        domainIndicator.classList.remove('show');
-      }
-    });
 
     function typeWriter(element, text, speed = 50) {
       element.innerHTML = '';
