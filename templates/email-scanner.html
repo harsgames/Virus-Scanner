@@ -1,51 +1,4 @@
-.scan-options {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-      margin-bottom: 20px;
-    }
-
-    .scan-option {
-      background: rgba(15, 25, 35, 0.7);
-      border: 2px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 15px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .scan-option:hover, .scan-option.selected {
-      border-color: #38ef7d;
-      background: rgba(56, 239, 125, 0.1);
-      transform: translateY(-2px);
-    }
-
-    .scan-option .icon {
-      font-size: 2rem;
-      margin-bottom: 8px;
-      display: block;
-    }
-
-    .scan-option .title {
-      color: #38ef7d;
-      font-weight: 600;
-      margin-bottom: 5px;
-    }
-
-    .scan-option .desc {
-      color: #a0d8ef;
-      font-size: 0.9rem;
-    }    input:focus {
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(56, 239, 125, 0.5), inset 0 2px 5px rgba(0,0,0,0.7);
-      transform: translateY(-2px);
-    }
-
-    input:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 15px rgba(56, 239, 125, 0.2), inset 0 2px 5px rgba(0,0,0,0.7);
-    }<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
@@ -295,8 +248,6 @@
     }
 
     label {
-
-    label {
       display: block;
       margin-bottom: 8px;
       font-weight: 600;
@@ -322,6 +273,17 @@
       box-shadow: inset 0 2px 5px rgba(0,0,0,0.7);
       transition: all 0.3s ease;
       animation: slideInUp 0.7s ease-out;
+    }
+
+    input:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(56, 239, 125, 0.5), inset 0 2px 5px rgba(0,0,0,0.7);
+      transform: translateY(-2px);
+    }
+
+    input:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(56, 239, 125, 0.2), inset 0 2px 5px rgba(0,0,0,0.7);
     }
 
     button {
@@ -597,158 +559,17 @@
   <script>
     let currentLang = 'en';
     let scanMode = 'basic';
+
+    function translateDataClass(dataClass) {
       if (currentLang === 'ar') {
         const map = {
-          "account balances": "أرصدة الحساب",
-          "address book contacts": "جهات اتصال دفتر العناوين",
-          "age groups": "مجموعات الأعمار",
-          "ages": "الأعمار",
-          "appointments": "المواعيد",
-          "apps installed on devices": "التطبيقات المثبتة على الأجهزة",
-          "astrological signs": "الأبراج الفلكية",
-          "audio recordings": "التسجيلات الصوتية",
-          "auth tokens": "رموز التفويض",
-          "avatars": "الصورة الرمزية",
-          "bank account numbers": "أرقام الحسابات البنكية",
-          "beauty ratings": "تقييمات الجمال",
-          "biometric data": "البيانات البيومترية",
-          "bios": "معلومات النظام",
-          "browser user agent details": "تفاصيل وكيل المستخدم للمتصفح",
-          "browsing histories": "سجل التصفح",
-          "buying preferences": "تفضيلات الشراء",
-          "car ownership statuses": "حالات ملكية السيارة",
-          "career levels": "مستويات الوظيفة",
-          "cellular network names": "أسماء شبكات الهاتف المحمول",
-          "charitable donations": "التبرعات الخيرية",
-          "chat logs": "سجلات المحادثات",
-          "citizenship statuses": "حالات الجنسية",
-          "clothing sizes": "مقاسات الملابس",
-          "comments": "التعليقات",
-          "company names": "أسماء الشركات",
-          "credit card cvv": "رمز CVV لبطاقات الائتمان",
-          "credit cards": "بطاقات الائتمان",
-          "credit status information": "معلومات حالة الائتمان",
-          "cryptocurrency wallet addresses": "عناوين محافظ العملات الرقمية",
-          "customer feedback": "تعليقات العملاء",
-          "customer interactions": "تفاعلات العملاء",
-          "dates of birth": "تواريخ الميلاد",
-          "deceased date": "تاريخ الوفاة",
-          "deceased statuses": "حالات الوفاة",
-          "delivery instructions": "تعليمات التسليم",
-          "device information": "معلومات الجهاز",
-          "device serial numbers": "أرقام تسلسلية للأجهزة",
-          "device usage tracking data": "بيانات تتبع استخدام الجهاز",
-          "drinking habits": "عادات الشرب",
-          "driver's licenses": "رخص القيادة",
-          "drug habits": "عادات تناول المخدرات",
-          "earnings": "الأرباح",
-          "eating habits": "عادات الأكل",
-          "education levels": "مستويات التعليم",
-          "email addresses": "عناوين البريد الإلكتروني",
-          "email messages": "رسائل البريد الإلكتروني",
-          "employers": "جهات العمل",
-          "employment statuses": "حالات التوظيف",
-          "encrypted keys": "المفاتيح المشفرة",
-          "ethnicities": "الأعراق",
-          "family members' names": "أسماء أفراد العائلة",
-          "family plans": "خطط الأسرة",
-          "family structure": "هيكل الأسرة",
-          "financial investments": "الاستثمارات المالية",
-          "financial transactions": "المعاملات المالية",
-          "fitness levels": "مستويات اللياقة البدنية",
-          "flights taken": "الرحلات التي تم القيام بها",
-          "genders": "النوع الاجتماعي",
-          "geographic locations": "المواقع الجغرافية",
-          "government issued ids": "الهويات الصادرة عن الحكومة",
-          "health insurance information": "معلومات التأمين الصحي",
-          "historical passwords": "كلمات المرور القديمة",
-          "hiv statuses": "حالات الإصابة بفيروس نقص المناعة",
-          "home ownership statuses": "حالات ملكية المنزل",
-          "homepage urls": "روابط الصفحات الرئيسية",
-          "imei numbers": "أرقام IMEI",
-          "imsi numbers": "أرقام IMSI",
-          "income levels": "مستويات الدخل",
-          "instant messenger identities": "هويات المراسلة الفورية",
-          "ip addresses": "عناوين IP",
-          "job applications": "طلبات التوظيف",
-          "job titles": "المسميات الوظيفية",
-          "licence plates": "لوحات الترخيص",
-          "living costs": "تكاليف المعيشة",
-          "loan information": "معلومات القروض",
-          "login histories": "سجلات الدخول",
-          "loyalty program details": "تفاصيل برامج الولاء",
-          "mac addresses": "عناوين MAC",
-          "marital statuses": "الحالة الاجتماعية",
-          "military service": "الخدمة العسكرية",
-          "mnemonic phrases": "عبارات التذكير",
-          "mothers maiden names": "اسم عائلة الأم قبل الزواج",
-          "names": "الأسماء",
-          "nationalities": "الجنسيات",
-          "net worths": "صافي الثروات",
-          "nicknames": "الأسماء المستعارة",
-          "occupations": "المهن",
-          "parenting plans": "خطط الأبوة",
-          "partial credit card data": "بيانات جزئية لبطاقات الائتمان",
-          "partial dates of birth": "تواريخ ميلاد جزئية",
-          "partial phone numbers": "أرقام هواتف جزئية",
-          "passport numbers": "أرقام جوازات السفر",
-          "password hints": "تلميحات كلمات المرور",
-          "password strengths": "قوة كلمات المرور",
           "passwords": "كلمات المرور",
-          "payment histories": "سجلات الدفع",
-          "payment methods": "طرق الدفع",
-          "personal descriptions": "الأوصاف الشخصية",
-          "personal health data": "البيانات الصحية الشخصية",
-          "personal interests": "الاهتمامات الشخصية",
-          "phone numbers": "أرقام الهواتف",
-          "photos": "الصور",
-          "physical addresses": "العناوين الفعلية",
-          "physical attributes": "السمات الجسدية",
-          "pins": "أرقام التعريف الشخصية",
-          "places of birth": "أماكن الميلاد",
-          "political donations": "التبرعات السياسية",
-          "political views": "الآراء السياسية",
-          "private messages": "الرسائل الخاصة",
-          "professional skills": "المهارات المهنية",
-          "profile photos": "صور الملف الشخصي",
-          "purchases": "المشتريات",
-          "purchasing habits": "عادات الشراء",
-          "races": "الأعراق",
-          "recovery email addresses": "عناوين البريد الإلكتروني للاسترداد",
-          "relationship statuses": "الحالة العاطفية",
-          "religions": "الأديان",
-          "reward program balances": "أرصدة برامج المكافآت",
-          "salutations": "التحيات",
-          "school grades (class levels)": "درجات المدرسة (مستويات الصفوف)",
-          "security questions and answers": "أسئلة الأمان وأجوبتها",
-          "sexual fetishes": "الميول الجنسية",
-          "sexual orientations": "الاتجاهات الجنسية",
-          "shipment tracking numbers": "أرقام تتبع الشحنات",
-          "smoking habits": "عادات التدخين",
-          "sms messages": "رسائل SMS",
-          "social connections": "الاتصالات الاجتماعية",
-          "social media profiles": "ملفات التعريف على وسائل التواصل الاجتماعي",
-          "social security numbers": "أرقام الضمان الاجتماعي",
-          "spoken languages": "اللغات المحكية",
-          "spouses names": "أسماء الأزواج",
-          "support tickets": "تذاكر الدعم",
-          "survey results": "نتائج الاستبيانات",
-          "tattoo status": "حالة الوشم",
-          "taxation records": "سجلات الضرائب",
-          "telecommunications carrier": "مزود خدمات الاتصالات",
-          "time zones": "المناطق الزمنية",
-          "travel habits": "عادات السفر",
-          "travel plans": "خطط السفر",
-          "user statuses": "حالات المستخدم",
-          "user website urls": "روابط مواقع المستخدمين",
+          "email addresses": "عناوين البريد الإلكتروني",
           "usernames": "أسماء المستخدمين",
-          "utility bills": "فواتير الخدمات",
-          "vehicle details": "تفاصيل المركبات",
-          "vehicle identification numbers (vin)s": "أرقام تعريف المركبات (VINs)",
-          "warranty claims": "مطالبات الضمان",
-          "website activity": "نشاط الموقع",
-          "work habits": "عادات العمل",
-          "years of professional experience": "سنوات الخبرة المهنية"
+          "names": "الأسماء",
+          "phone numbers": "أرقام الهواتف",
+          "dates of birth": "تواريخ الميلاد",
+          "physical addresses": "العناوين الفعلية"
         };
         return map[dataClass.toLowerCase()] || dataClass;
       }
@@ -799,10 +620,6 @@
         // Update info section
         document.querySelector('.email-info h3').textContent = '🛡️ ما نفحصه';
         document.querySelectorAll('.info-item .title')[0].textContent = 'تسريبات البيانات';
-        document.querySelectorAll('.info-item .desc')[0].textContent = 'حوادث أمنية معروفة تم فيها كشف بياناتك';
-        document.querySelectorAll('.info-item .title')[1].textContent = 'تسريب كلمات المرور';
-        document.querySelectorAll('.info-item .desc')[1].textContent = 'ما إذا كانت كلمات المرور قد تم اختراقها';
-        document.querySelectorAll('.info-item .title')[2].textContent = 'تفاصيل التسريبات';
         document.querySelectorAll('.info-item .desc')[2].textContent = 'أي الخدمات تأثرت ومتى';
         document.querySelectorAll('.info-item .title')[3].textContent = 'تقييم المخاطر';
         document.querySelectorAll('.info-item .desc')[3].textContent = 'تحليل الخطورة وتوصيات الأمان';
@@ -835,7 +652,6 @@
         
         // Update examples
         document.querySelector('.email-examples h3').textContent = 'Test Examples:';
-        
       }
     }
 
@@ -891,7 +707,7 @@
       ];
 
       for (let i = 0; i < scanSteps.length; i++) {
-        await new Promise(resolve => setTimeout(resolve, 400)); // Faster - reduced from 700ms to 400ms
+        await new Promise(resolve => setTimeout(resolve, 400));
         resultDiv.innerHTML = `
           <div style="text-align: center;">
             <div class="loading-dots">
@@ -971,7 +787,7 @@
         }
 
         resultDiv.className = resultClass;
-        typeWriter(resultDiv, result, 15); // Faster typewriter - reduced from 25ms to 15ms
+        typeWriter(resultDiv, result, 15);
 
       } catch (error) {
         scanProgress.style.display = 'none';
@@ -1008,4 +824,8 @@
     setLanguage('en');
   </script>
 </body>
-</html>
+</html>')[0].textContent = 'حوادث أمنية معروفة تم فيها كشف بياناتك';
+        document.querySelectorAll('.info-item .title')[1].textContent = 'تسريب كلمات المرور';
+        document.querySelectorAll('.info-item .desc')[1].textContent = 'ما إذا كانت كلمات المرور قد تم اختراقها';
+        document.querySelectorAll('.info-item .title')[2].textContent = 'تفاصيل التسريبات';
+        document.querySelectorAll('.info-item .desc
