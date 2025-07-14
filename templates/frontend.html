@@ -149,22 +149,34 @@
     <div id="result"></div>
     <div class="error" id="error-msg"></div>
   </div>
-
   <button class="lang-btn" id="toggle-lang">AR</button>
-
   <script>
     const scanTypeSelect = document.getElementById('scan-type');
-    const scanTypeLabel = document.getElementById('scan-type-label');
-    const inputLabel = document.getElementById('input-label');
     const inputValue = document.getElementById('input-value');
     const form = document.getElementById('scan-form');
     const resultDiv = document.getElementById('result');
     const errorDiv = document.getElementById('error-msg');
     const submitBtn = document.getElementById('scan-btn');
     const toggleLang = document.getElementById('toggle-lang');
+    const scanTypeLabel = document.getElementById('scan-type-label');
+    const inputLabel = document.getElementById('input-label');
     const title = document.getElementById('title');
 
     let currentLang = 'en';
+
+    function translateVerdict(verdict) {
+      if (currentLang === 'ar') {
+        if (verdict === 'harmless') return 'آمن';
+        if (verdict === 'malicious') return 'ضار';
+        if (verdict === 'suspicious') return 'مشبوه';
+      }
+      return verdict;
+    }
+
+    function translateDataClass(dataClass) {
+      if (currentLang === 'ar' && dataClass.toLowerCase() === 'passwords') return 'كلمة المرور';
+      return dataClass;
+    }
 
     function setLanguage(lang) {
       currentLang = lang;
@@ -209,71 +221,61 @@
       errorDiv.textContent = '';
     });
 
-    async function fetchScan() {
-      errorDiv.textContent = '';
-      resultDiv.textContent = '';
-      submitBtn.disabled = true;
-      submitBtn.textContent = currentLang === 'ar' ? 'جارٍ الفحص...' : 'Scanning...';
-
+    form.addEventListener('submit', async () => {
       const scanType = scanTypeSelect.value;
       const value = inputValue.value.trim();
+      if (!value) return;
 
-      if (!value) {
-        errorDiv.textContent = currentLang === 'ar' ? 'يرجى إدخال قيمة.' : 'Please enter a value.';
-        submitBtn.disabled = false;
-        submitBtn.textContent = currentLang === 'ar' ? 'فحص' : 'Scan';
-        return;
-      }
+      submitBtn.disabled = true;
+      submitBtn.textContent = currentLang === 'ar' ? 'جارٍ الفحص...' : 'Scanning...';
+      errorDiv.textContent = '';
+      resultDiv.textContent = '';
 
       try {
-        const resp = await fetch('/api/scan', {
+        const res = await fetch('/api/scan', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ type: scanType, value: value }),
+          body: JSON.stringify({ type: scanType, value }),
         });
+        const data = await res.json();
 
-        const data = await resp.json();
-
-        if (!resp.ok) {
-          errorDiv.textContent = data.error || (currentLang === 'ar' ? 'حدث خطأ أثناء الفحص.' : 'Error during scan.');
-          return;
-        }
+        if (!res.ok) throw new Error(data.error || 'Unknown error');
 
         if (scanType === 'url') {
-          let text = (currentLang === 'ar' ? `النتيجة: ${data.verdict}\n\nالإحصائيات:\n` : `Verdict: ${data.verdict}\n\nStatistics:\n`);
-          const order = ['harmless', 'malicious', 'suspicious', 'timeout', 'undetected'];
-          order.forEach(key => {
-            if (data.stats && key in data.stats) {
-              text += `- ${key}: ${data.stats[key]}\n`;
-            }
+          let text = `${currentLang === 'ar' ? 'النتيجة' : 'Verdict'}: ${translateVerdict(data.verdict)}\n\n`;
+          text += `${currentLang === 'ar' ? 'الإحصائيات' : 'Statistics'}:\n`;
+          Object.entries(data.stats).forEach(([k, v]) => {
+            text += `- ${translateVerdict(k)}: ${v}\n`;
           });
           resultDiv.textContent = text;
-        } else if (scanType === 'email') {
+        } else {
           if (!data.details || data.details.length === 0) {
             resultDiv.textContent = currentLang === 'ar' ? 'لا توجد اختراقات.' : 'No breaches found.';
             return;
           }
-          // Show all breaches
-          let breachesText = currentLang === 'ar' 
+
+          let breachesText = currentLang === 'ar'
             ? `تم العثور على ${data.details.length} اختراق:\n\n`
             : `Found ${data.details.length} breaches:\n\n`;
+
           data.details.forEach(b => {
-            breachesText += `- ${b.Name || 'غير معروف'} (${b.Domain || 'N/A'})\n`;
-            breachesText += currentLang === 'ar' ? `  تاريخ الاختراق: ${b.BreachDate || 'غير معروف'}\n` : `  Breach Date: ${b.BreachDate || 'Unknown'}\n`;
-            breachesText += currentLang === 'ar' ? `  عدد الحسابات المخترقة: ${b.PwnCount?.toLocaleString() || 'غير معروف'}\n` : `  Pwn Count: ${b.PwnCount?.toLocaleString() || 'Unknown'}\n`;
-            breachesText += currentLang === 'ar' ? `  البيانات التي تم تسريبها: ${(b.DataClasses || []).join(', ') || 'غير معروف'}\n\n` : `  Data Compromised: ${(b.DataClasses || []).join(', ') || 'Unknown'}\n\n`;
+            breachesText += `- ${b.Name || 'N/A'} (${b.Domain || 'N/A'})\n`;
+            breachesText += `${currentLang === 'ar' ? '  تاريخ الاختراق: ' : '  Breach Date: '}${b.BreachDate || 'N/A'}\n`;
+            breachesText += `${currentLang === 'ar' ? '  عدد الحسابات المخترقة: ' : '  Pwn Count: '}${b.PwnCount || 'N/A'}\n`;
+            const translatedClasses = (b.DataClasses || []).map(translateDataClass);
+            breachesText += `${currentLang === 'ar' ? '  البيانات التي تم تسريبها: ' : '  Data Compromised: '}${translatedClasses.join(', ') || 'N/A'}\n\n`;
           });
+
           resultDiv.textContent = breachesText;
         }
+
       } catch (err) {
         errorDiv.textContent = (currentLang === 'ar' ? 'خطأ: ' : 'Error: ') + err.message;
       } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = currentLang === 'ar' ? 'فحص' : 'Scan';
       }
-    }
-
-    form.addEventListener('submit', fetchScan);
+    });
 
     setLanguage('en');
   </script>
