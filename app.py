@@ -115,5 +115,8 @@ def api_scan():
     else:
         return jsonify({"error": "bad type"}), 400
 
+import os
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))  # Render sets $PORT for you
+    app.run(host="0.0.0.0", port=port)
