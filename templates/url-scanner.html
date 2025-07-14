@@ -1,4 +1,42 @@
-input:focus {
+.scan-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .scan-option {
+      background: rgba(15, 25, 35, 0.7);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .scan-option:hover, .scan-option.selected {
+      border-color: #00ffc8;
+      background: rgba(0, 255, 200, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .scan-option .icon {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .scan-option .title {
+      color: #00ffc8;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .scan-option .desc {
+      color: #a0d8ef;
+      font-size: 0.9rem;
+    }    input:focus {
       outline: none;
       box-shadow: 0 0 0 2px rgba(0, 255, 200, 0.5), inset 0 2px 5px rgba(0,0,0,0.7);
       transform: translateY(-2px);
@@ -173,6 +211,56 @@ input:focus {
       margin-bottom: 30px;
       font-size: 1.1rem;
       opacity: 0.8;
+    }
+
+    .url-info {
+      background: rgba(15, 25, 35, 0.7);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 25px;
+      border-left: 4px solid #00ffc8;
+    }
+
+    .url-info h3 {
+      color: #00ffc8;
+      margin: 0 0 15px 0;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .info-item {
+      background: rgba(0, 255, 200, 0.1);
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 255, 200, 0.2);
+    }
+
+    .info-item .icon {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .info-item .title {
+      color: #00ffc8;
+      font-weight: 600;
+      margin-bottom: 5px;
+      font-size: 0.9rem;
+    }
+
+    .info-item .desc {
+      color: #a0d8ef;
+      font-size: 0.8rem;
+      line-height: 1.4;
     }
 
     .url-examples {
@@ -446,7 +534,7 @@ input:focus {
         padding: 10px;
       }
       
-      .scan-options {
+      .info-grid {
         grid-template-columns: 1fr;
       }
       
@@ -490,25 +578,38 @@ input:focus {
     <h1 id="title">🌐 URL Security Scanner</h1>
     <p class="subtitle" id="subtitle">Advanced malware detection powered by VirusTotal</p>
     
+    <div class="url-info">
+      <h3>🛡️ What We Check</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="icon">🦠</span>
+          <div class="title">Malware Detection</div>
+          <div class="desc">Scan for viruses, trojans, and malicious code</div>
+        </div>
+        <div class="info-item">
+          <span class="icon">🔒</span>
+          <div class="title">Security Threats</div>
+          <div class="desc">Identify phishing sites and suspicious content</div>
+        </div>
+        <div class="info-item">
+          <span class="icon">📊</span>
+          <div class="title">Engine Analysis</div>
+          <div class="desc">Results from 70+ security engines worldwide</div>
+        </div>
+        <div class="info-item">
+          <span class="icon">🎯</span>
+          <div class="title">Risk Assessment</div>
+          <div class="desc">Comprehensive security evaluation and recommendations</div>
+        </div>
+      </div>
+    </div>
+    
     <div class="url-examples">
       <h3>Quick Examples:</h3>
       <span class="example" onclick="setExample('google.com')">google.com</span>
       <span class="example" onclick="setExample('github.com')">github.com</span>
       <span class="example" onclick="setExample('stackoverflow.com')">stackoverflow.com</span>
       <span class="example" onclick="setExample('facebook.com')">facebook.com</span>
-    </div>
-
-    <div class="scan-options">
-      <div class="scan-option selected" data-mode="quick">
-        <span class="icon">⚡</span>
-        <div class="title">Quick Scan</div>
-        <div class="desc">Fast malware detection</div>
-      </div>
-      <div class="scan-option" data-mode="deep">
-        <span class="icon">🔬</span>
-        <div class="title">Deep Analysis</div>
-        <div class="desc">Comprehensive security audit</div>
-      </div>
     </div>
     
     <form id="scan-form" onsubmit="return false;">
@@ -535,15 +636,6 @@ input:focus {
   <script>
     let currentLang = 'en';
     let scanMode = 'quick';
-
-    // Handle scan mode selection
-    document.querySelectorAll('.scan-option').forEach(option => {
-      option.addEventListener('click', () => {
-        document.querySelectorAll('.scan-option').forEach(o => o.classList.remove('selected'));
-        option.classList.add('selected');
-        scanMode = option.dataset.mode;
-      });
-    });
 
     // Set example URL
     function setExample(url) {
@@ -586,14 +678,19 @@ input:focus {
         navLinks[0].textContent = '🌐 ماسح المواقع';
         navLinks[1].textContent = '📧 ماسح البريد';
         
+        // Update info section
+        document.querySelector('.url-info h3').textContent = '🛡️ ما نفحصه';
+        document.querySelectorAll('.info-item .title')[0].textContent = 'كشف البرامج الضارة';
+        document.querySelectorAll('.info-item .desc')[0].textContent = 'فحص الفيروسات وأحصنة طروادة والكود الخبيث';
+        document.querySelectorAll('.info-item .title')[1].textContent = 'التهديدات الأمنية';
+        document.querySelectorAll('.info-item .desc')[1].textContent = 'تحديد مواقع التصيد والمحتوى المشبوه';
+        document.querySelectorAll('.info-item .title')[2].textContent = 'تحليل المحركات';
+        document.querySelectorAll('.info-item .desc')[2].textContent = 'نتائج من أكثر من 70 محرك أمان عالمياً';
+        document.querySelectorAll('.info-item .title')[3].textContent = 'تقييم المخاطر';
+        document.querySelectorAll('.info-item .desc')[3].textContent = 'تقييم أمني شامل وتوصيات';
+        
         // Update examples
         document.querySelector('.url-examples h3').textContent = 'أمثلة سريعة:';
-        
-        // Update scan options
-        document.querySelectorAll('.scan-option')[0].querySelector('.title').textContent = 'فحص سريع';
-        document.querySelectorAll('.scan-option')[0].querySelector('.desc').textContent = 'كشف سريع للبرامج الضارة';
-        document.querySelectorAll('.scan-option')[1].querySelector('.title').textContent = 'تحليل عميق';
-        document.querySelectorAll('.scan-option')[1].querySelector('.desc').textContent = 'تدقيق أمني شامل';
         
       } else {
         document.getElementById('title').textContent = '🌐 URL Security Scanner';
@@ -607,14 +704,20 @@ input:focus {
         navLinks[0].textContent = '🌐 URL Scanner';
         navLinks[1].textContent = '📧 Email Scanner';
         
+        // Update info section
+        document.querySelector('.url-info h3').textContent = '🛡️ What We Check';
+        document.querySelectorAll('.info-item .title')[0].textContent = 'Malware Detection';
+        document.querySelectorAll('.info-item .desc')[0].textContent = 'Scan for viruses, trojans, and malicious code';
+        document.querySelectorAll('.info-item .title')[1].textContent = 'Security Threats';
+        document.querySelectorAll('.info-item .desc')[1].textContent = 'Identify phishing sites and suspicious content';
+        document.querySelectorAll('.info-item .title')[2].textContent = 'Engine Analysis';
+        document.querySelectorAll('.info-item .desc')[2].textContent = 'Results from 70+ security engines worldwide';
+        document.querySelectorAll('.info-item .title')[3].textContent = 'Risk Assessment';
+        document.querySelectorAll('.info-item .desc')[3].textContent = 'Comprehensive security evaluation and recommendations';
+        
         // Update examples
         document.querySelector('.url-examples h3').textContent = 'Quick Examples:';
         
-        // Update scan options
-        document.querySelectorAll('.scan-option')[0].querySelector('.title').textContent = 'Quick Scan';
-        document.querySelectorAll('.scan-option')[0].querySelector('.desc').textContent = 'Fast malware detection';
-        document.querySelectorAll('.scan-option')[1].querySelector('.title').textContent = 'Deep Analysis';
-        document.querySelectorAll('.scan-option')[1].querySelector('.desc').textContent = 'Comprehensive security audit';
       }
     }
 
