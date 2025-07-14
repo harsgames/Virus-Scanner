@@ -765,7 +765,8 @@
               currentLang === 'ar' ? translateDataClass(dc) : dc
             ).join(', ');
             
-            breachList += `\n${index + 1}. ${breach.Name} (${breach.BreachDate})\n   البيانات المكشوفة: ${dataClasses}`;
+            const exposedDataLabel = currentLang === 'ar' ? 'البيانات المكشوفة:' : 'Exposed Data:';
+            breachList += `\n${index + 1}. ${breach.Name} (${breach.BreachDate})\n   ${exposedDataLabel} ${dataClasses}`;
           });
 
           if (breachCount > 15) {
