@@ -116,8 +116,8 @@
       padding: 30px 40px;
       backdrop-filter: blur(15px);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      max-height: 90vh;
-      overflow: hidden;
+      max-height: none;
+      overflow: visible;
       display: flex;
       flex-direction: column;
       animation: slideInUp 0.8s ease-out;
@@ -146,6 +146,10 @@
       height: 3px;
       background: linear-gradient(90deg, transparent, #00ffc8, transparent);
       animation: typewriter 2s ease-out forwards;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
     }
 
     label {
@@ -253,6 +257,7 @@
       animation: slideInUp 0.9s ease-out;
       position: relative;
       border: 1px solid rgba(0, 255, 200, 0.2);
+      min-height: 150px;
     }
 
     .result-fade-in {
@@ -406,19 +411,28 @@
 
   <div class="container">
     <h1 id="title">Virus Scanner</h1>
-    <label for="scan-type" id="scan-type-label">Choose scan type:</label>
-    <select id="scan-type" aria-label="Scan Type">
-      <option value="url">Scan URL</option>
-      <option value="email">Check Gmail</option>
-    </select>
+    
+    <div class="form-group">
+      <label for="scan-type" id="scan-type-label">Choose scan type:</label>
+      <select id="scan-type" aria-label="Scan Type">
+        <option value="url">Scan URL</option>
+        <option value="email">Check Gmail</option>
+      </select>
+    </div>
+    
     <form id="scan-form" onsubmit="return false;">
-      <label id="input-label" for="input-value">Enter URL to scan:</label>
-      <input type="text" id="input-value" name="input-value" placeholder="google.com" required />
+      <div class="form-group">
+        <label id="input-label" for="input-value">Enter URL to scan:</label>
+        <input type="text" id="input-value" name="input-value" placeholder="google.com" required />
+      </div>
+      
       <button type="submit" id="scan-btn">Scan</button>
+      
       <div class="scan-progress" id="scan-progress">
         <div class="scan-progress-bar"></div>
       </div>
     </form>
+    
     <div id="result"></div>
     <div class="error" id="error-msg"></div>
   </div>
