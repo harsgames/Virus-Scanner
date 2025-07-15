@@ -72,7 +72,7 @@ def hibp_check_email(email):
         })
     return results
 
-# Routes for different scanner pages
+# EXISTING DESKTOP ROUTES
 @app.route("/")
 def index():
     """Default to URL scanner page"""
@@ -88,7 +88,34 @@ def email_scanner():
     """Dedicated email scanner page"""
     return render_template("email-scanner.html")
 
-# API endpoint for all scan types
+# NEW MOBILE ROUTES
+@app.route("/mobile")
+def mobile_index():
+    """Mobile URL scanner page (default)"""
+    return render_template("mobile-url-scanner.html")
+
+@app.route("/mobile/url-scanner")
+def mobile_url_scanner():
+    """Mobile URL scanner page"""
+    return render_template("mobile-url-scanner.html")
+
+@app.route("/mobile/email-scanner")
+def mobile_email_scanner():
+    """Mobile email scanner page"""
+    return render_template("mobile-email-scanner.html")
+
+# REDIRECT ROUTES FOR MOBILE NAVIGATION
+@app.route("/url-scanner-mobile")
+def url_scanner_mobile_redirect():
+    """Redirect for mobile navigation compatibility"""
+    return render_template("mobile-url-scanner.html")
+
+@app.route("/email-scanner-mobile")
+def email_scanner_mobile_redirect():
+    """Redirect for mobile navigation compatibility"""
+    return render_template("mobile-email-scanner.html")
+
+# API endpoint for all scan types (UNCHANGED)
 @app.route("/api/scan", methods=["POST"])
 def api_scan():
     try:
@@ -302,6 +329,8 @@ def health_check():
             "url_scanner": "/",
             "url_scanner_alt": "/url-scanner", 
             "email_scanner": "/email-scanner",
+            "mobile_url_scanner": "/mobile/url-scanner",
+            "mobile_email_scanner": "/mobile/email-scanner",
             "api_scan": "/api/scan"
         }
     })
@@ -326,8 +355,10 @@ if __name__ == "__main__":
     print("🚀 Starting Enhanced Virus Scanner Backend...")
     print(f"📡 Server will run on port {port}")
     print("🌐 Available endpoints:")
-    print(f"   • URL Scanner (Home): http://localhost:{port}/")
-    print(f"   • Email Scanner: http://localhost:{port}/email-scanner")
+    print(f"   • URL Scanner (Desktop): http://localhost:{port}/")
+    print(f"   • Email Scanner (Desktop): http://localhost:{port}/email-scanner")
+    print(f"   • URL Scanner (Mobile): http://localhost:{port}/mobile/url-scanner")
+    print(f"   • Email Scanner (Mobile): http://localhost:{port}/mobile/email-scanner")
     print(f"   • API Health: http://localhost:{port}/api/health")
     
     app.run(host="0.0.0.0", port=port, debug=debug_mode)
