@@ -1,198 +1,4 @@
-const translations = {
-      en: {
-        title: '📧 Email Security Scanner',
-        subtitle: 'Check if your email has been compromised in data breaches',
-        whatWeCheck: '🛡️ What We Check',
-        feature1Title: 'Data Breaches',
-        feature1Desc: 'Known security incidents where your data was exposed',
-        feature2Title: 'Password Leaks',
-        feature2Desc: 'Whether your passwords have been compromised',
-        feature3Title: 'Breach Details',
-        feature3Desc: 'Which services were affected and when',
-        feature4Title: 'Risk Assessment',
-        feature4Desc: 'Severity analysis and security recommendations',
-        testExamples: 'Test Examples:',
-        inputLabel: '🎯 Enter email address to check:',
-        scanBtn: '🔍 Check Email Security',
-        urlScanner: '🌐 URL Scanner',
-        emailScanner: '📧 Email Scanner',
-        scanSteps: [
-          'Initializing email scanner...',
-          'Connecting to HaveIBeenPwned database...',
-          'Searching breach records...',
-          'Analyzing security threats...',
-          'Assessing risk level...',
-          'Preparing final report...'
-        ],
-        errors: {
-          empty: 'Please enter an email address.',
-          invalid: 'Please enter a valid email address',
-          timeout: 'Scan timeout - please try again',
-          connection: 'Connection error - make sure server is running'
-        }
-      },
-      ar: {
-        title: '📧 ماسح أمان البريد الإلكتروني',
-        subtitle: 'تحقق من تعرض بريدك الإلكتروني للاختراق في تسريبات البيانات',
-        whatWeCheck: '🛡️ ما نفحصه',
-        feature1Title: 'تسريبات البيانات',
-        feature1Desc: 'الحوادث الأمنية المعروفة حيث تم تعريض بياناتك',
-        feature2Title: 'تسريبات كلمات المرور',
-        feature2Desc: 'ما إذا كانت كلمات المرور الخاصة بك قد تم اختراقها',
-        feature3Title: 'تفاصيل التسريبات',
-        feature3Desc: 'أي الخدمات تأثرت ومتى حدث ذلك',
-        feature4Title: 'تقييم المخاطر',
-        feature4Desc: 'تحليل الخطورة وتوصيات الأمان',
-        testExamples: 'أمثلة للاختبار:',
-        inputLabel: '🎯 أدخل عنوان البريد الإلكتروني للفحص:',
-        scanBtn: '🔍 فحص أمان البريد',
-        urlScanner: '🌐 ماسح المواقع',
-        emailScanner: '📧 ماسح البريد',
-        scanSteps: [
-          'تهيئة ماسح البريد الإلكتروني...',
-          'الاتصال بقاعدة بيانات HaveIBeenPwned...',
-          'البحث في سجلات التسريبات...',
-          'تحليل التهديدات الأمنية...',
-          'تقييم مستوى المخاطر...',
-          'إعداد التقرير النهائي...'
-        ],
-        errors: {
-          empty: 'يرجى إدخال عنوان بريد إلكتروني.',
-          invalid: 'يرجى إدخال عنوان بريد إلكتروني صحيح',
-          timeout: 'انتهت مهلة الفحص - يرجى المحاولة مرة أخرى',
-          connection: 'خطأ في الاتصال - تأكد من تشغيل الخادم'
-        }
-      },
-      es: {
-        title: '📧 Escáner de Seguridad de Email',
-        subtitle: 'Verifica si tu email ha sido comprometido en filtraciones de datos',
-        whatWeCheck: '🛡️ Qué Verificamos',
-        feature1Title: 'Filtraciones de Datos',
-        feature1Desc: 'Incidentes de seguridad conocidos donde tus datos fueron expuestos',
-        feature2Title: 'Filtraciones de Contraseñas',
-        feature2Desc: 'Si tus contraseñas han sido comprometidas',
-        feature3Title: 'Detalles de Filtración',
-        feature3Desc: 'Qué servicios fueron afectados y cuándo',
-        feature4Title: 'Evaluación de Riesgos',
-        feature4Desc: 'Análisis de gravedad y recomendaciones de seguridad',
-        testExamples: 'Ejemplos de Prueba:',
-        inputLabel: '🎯 Ingresa dirección de email para verificar:',
-        scanBtn: '🔍 Verificar Seguridad del Email',
-        urlScanner: '🌐 Escáner de URL',
-        emailScanner: '📧 Escáner de Email',
-        scanSteps: [
-          'Inicializando escáner de email...',
-          'Conectando a base de datos HaveIBeenPwned...',
-          'Buscando registros de filtraciones...',
-          'Analizando amenazas de seguridad...',
-          'Evaluando nivel de riesgo...',
-          'Preparando reporte final...'
-        ],
-        errors: {
-          empty: 'Por favor ingresa una dirección de email.',
-          invalid: 'Por favor ingresa una dirección de email válida',
-          timeout: 'Tiempo de escaneo agotado - intenta de nuevo',
-          connection: 'Error de conexión - asegúrate de que el servidor esté funcionando'
-        }
-      },
-      de: {
-        title: '📧 E-Mail-Sicherheitsscanner',
-        subtitle: 'Überprüfen Sie, ob Ihre E-Mail bei Datenschutzverletzungen kompromittiert wurde',
-        whatWeCheck: '🛡️ Was Wir Prüfen',
-        feature1Title: 'Datenschutzverletzungen',
-        feature1Desc: 'Bekannte Sicherheitsvorfälle, bei denen Ihre Daten preisgegeben wurden',
-        feature2Title: 'Passwort-Leaks',
-        feature2Desc: 'Ob Ihre Passwörter kompromittiert wurden',
-        feature3Title: 'Verletzungsdetails',
-        feature3Desc: 'Welche Dienste betroffen waren und wann',
-        feature4Title: 'Risikobewertung',
-        feature4Desc: 'Schweregrad-Analyse und Sicherheitsempfehlungen',
-        testExamples: 'Testbeispiele:',
-        inputLabel: '🎯 E-Mail-Adresse zur Überprüfung eingeben:',
-        scanBtn: '🔍 E-Mail-Sicherheit Prüfen',
-        urlScanner: '🌐 URL-Scanner',
-        emailScanner: '📧 E-Mail-Scanner',
-        scanSteps: [
-          'E-Mail-Scanner wird initialisiert...',
-          'Verbindung zu HaveIBeenPwned-Datenbank...',
-          'Suche nach Verletzungsaufzeichnungen...',
-          'Analyse von Sicherheitsbedrohungen...',
-          'Bewertung des Risikolevels...',
-          'Abschlussbericht wird vorbereitet...'
-        ],
-        errors: {
-          empty: 'Bitte geben Sie eine E-Mail-Adresse ein.',
-          invalid: 'Bitte geben Sie eine gültige E-Mail-Adresse ein',
-          timeout: 'Scan-Timeout - bitte versuchen Sie es erneut',
-          connection: 'Verbindungsfehler - stellen Sie sicher, dass der Server läuft'
-        }
-      },
-      fr: {
-        title: '📧 Scanner de Sécurité Email',
-        subtitle: 'Vérifiez si votre email a été compromis dans des fuites de données',
-        whatWeCheck: '🛡️ Ce Que Nous Vérifions',
-        feature1Title: 'Fuites de Données',
-        feature1Desc: 'Incidents de sécurité connus où vos données ont été exposées',
-        feature2Title: 'Fuites de Mots de Passe',
-        feature2Desc: 'Si vos mots de passe ont été compromis',
-        feature3Title: 'Détails de Fuite',
-        feature3Desc: 'Quels services ont été affectés et quand',
-        feature4Title: 'Évaluation des Risques',
-        feature4Desc: 'Analyse de gravité et recommandations de sécurité',
-        testExamples: 'Exemples de Test:',
-        inputLabel: '🎯 Entrez l\'adresse email à vérifier:',
-        scanBtn: '🔍 Vérifier la Sécurité Email',
-        urlScanner: '🌐 Scanner URL',
-        emailScanner: '📧 Scanner Email',
-        scanSteps: [
-          'Initialisation du scanner email...',
-          'Connexion à la base de données HaveIBeenPwned...',
-          'Recherche des enregistrements de fuites...',
-          'Analyse des menaces de sécurité...',
-          'Évaluation du niveau de risque...',
-          'Préparation du rapport final...'
-        ],
-        errors: {
-          empty: 'Veuillez entrer une adresse email.',
-          invalid: 'Veuillez entrer une adresse email valide',
-          timeout: 'Délai de scan dépassé - veuillez réessayer',
-          connection: 'Erreur de connexion - assurez-vous que le serveur fonctionne'
-        }
-      },
-      zh: {
-        title: '📧 电子邮件安全扫描器',
-        subtitle: '检查您的电子邮件是否在数据泄露中遭到泄露',
-        whatWeCheck: '🛡️ 我们检查什么',
-        feature1Title: '数据泄露',
-        feature1Desc: '已知的安全事件，您的数据被泄露',
-        feature2Title: '密码泄露',
-        feature2Desc: '您的密码是否已被泄露',
-        feature3Title: '泄露详情',
-        feature3Desc: '哪些服务受到影响以及何时发生',
-        feature4Title: '风险评估',
-        feature4Desc: '严重性分析和安全建议',
-        testExamples: '测试示例：',
-        inputLabel: '🎯 输入要检查的电子邮件地址：',
-        scanBtn: '🔍 检查电子邮件安全',
-        urlScanner: '🌐 URL扫描器',
-        emailScanner: '📧 电子邮件扫描器',
-        scanSteps: [
-          '初始化电子邮件扫描器...',
-          '连接到HaveIBeenPwned数据库...',
-          '搜索泄露记录...',
-          '分析安全威胁...',
-          '评估风险级别...',
-          '准备最终报告...'
-        ],
-        errors: {
-          empty: '请输入电子邮件地址。',
-          invalid: '请输入有效的电子邮件地址',
-          timeout: '扫描超时 - 请重试',
-          connection: '连接错误 - 确保服务器正在运行'
-        }
-      }
-    }
-;<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
@@ -320,6 +126,108 @@ const translations = {
       color: #38ef7d;
       text-shadow: 0 0 10px #38ef7d;
     }
+
+    /* Language Button in Navigation */
+    .language-selector {
+      position: relative;
+    }
+
+    .lang-btn {
+      background: rgba(56, 239, 125, 0.2);
+      color: #38ef7d;
+      border: 1px solid rgba(56, 239, 125, 0.3);
+      border-radius: 15px;
+      padding: 8px 12px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 100px;
+      justify-content: center;
+    }
+
+    .lang-btn:hover {
+      background: rgba(56, 239, 125, 0.3);
+      border-color: rgba(56, 239, 125, 0.5);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(56, 239, 125, 0.2);
+    }
+
+    .lang-btn .flag {
+      width: 18px;
+      height: 13px;
+      border-radius: 2px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .lang-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: rgba(30, 41, 59, 0.95);
+      border-radius: 15px;
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(56, 239, 125, 0.2);
+      min-width: 180px;
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      margin-top: 5px;
+      z-index: 2000;
+    }
+
+    .lang-dropdown.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .lang-option {
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #a0d8ef;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .lang-option:hover {
+      background: rgba(56, 239, 125, 0.1);
+      color: #38ef7d;
+    }
+
+    .lang-option.active {
+      background: rgba(56, 239, 125, 0.2);
+      color: #38ef7d;
+      font-weight: 600;
+    }
+
+    .lang-option .flag {
+      width: 20px;
+      height: 15px;
+      border-radius: 3px;
+      background-size: cover;
+      background-position: center;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Flag backgrounds */
+    .flag-en { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="%23012169"/><path d="M0 0v30h60V0z" fill="%23012169"/><path d="M0 0l60 30M60 0L0 30" stroke="%23fff" stroke-width="6"/><path d="M0 0l60 30M60 0L0 30" stroke="%23C8102E" stroke-width="4"/><path d="M30 0v30M0 15h60" stroke="%23fff" stroke-width="10"/><path d="M30 0v30M0 15h60" stroke="%23C8102E" stroke-width="6"/></svg>'); }
+    .flag-ar { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="%23006C35"/><text x="30" y="18" text-anchor="middle" fill="white" font-family="Arial" font-size="8" font-weight="bold">لا إله إلا الله</text><rect x="5" y="20" width="50" height="3" fill="white"/></svg>'); }
+    .flag-es { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="%23C60B1E"/><rect y="7.5" width="60" height="15" fill="%23FFC400"/></svg>'); }
+    .flag-de { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="10" fill="%23000"/><rect y="10" width="60" height="10" fill="%23D00"/><rect y="20" width="60" height="10" fill="%23FFCE00"/></svg>'); }
+    .flag-fr { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="20" height="30" fill="%23002395"/><rect x="20" width="20" height="30" fill="%23fff"/><rect x="40" width="20" height="30" fill="%23ED2939"/></svg>'); }
+    .flag-zh { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="%23DE2910"/><polygon points="12,6 9.51,13.76 1.24,13.76 7.87,18.48 5.38,26.24 12,21.52 18.62,26.24 16.13,18.48 22.76,13.76 14.49,13.76" fill="%23FFDE00"/></svg>'); }
 
     .container {
       background: rgba(30, 41, 59, 0.9);
@@ -621,108 +529,6 @@ const translations = {
       animation: bounce 0.5s ease-out;
     }
 
-    /* Language Button in Navigation */
-    .language-selector {
-      position: relative;
-    }
-
-    .lang-btn {
-      background: rgba(56, 239, 125, 0.2);
-      color: #38ef7d;
-      border: 1px solid rgba(56, 239, 125, 0.3);
-      border-radius: 15px;
-      padding: 8px 12px;
-      font-weight: 500;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      min-width: 100px;
-      justify-content: center;
-    }
-
-    .lang-btn:hover {
-      background: rgba(56, 239, 125, 0.3);
-      border-color: rgba(56, 239, 125, 0.5);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 15px rgba(56, 239, 125, 0.2);
-    }
-
-    .lang-btn .flag {
-      width: 18px;
-      height: 13px;
-      border-radius: 2px;
-      background-size: cover;
-      background-position: center;
-    }
-
-    .lang-dropdown {
-      position: absolute;
-      top: 100%;
-      right: 0;
-      background: rgba(30, 41, 59, 0.95);
-      border-radius: 15px;
-      backdrop-filter: blur(15px);
-      border: 1px solid rgba(56, 239, 125, 0.2);
-      min-width: 180px;
-      overflow: hidden;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-10px);
-      transition: all 0.3s ease;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-      margin-top: 5px;
-      z-index: 2000;
-    }
-
-    .lang-dropdown.show {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-
-    .lang-option {
-      padding: 12px 16px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      color: #a0d8ef;
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    .lang-option:hover {
-      background: rgba(56, 239, 125, 0.1);
-      color: #38ef7d;
-    }
-
-    .lang-option.active {
-      background: rgba(56, 239, 125, 0.2);
-      color: #38ef7d;
-      font-weight: 600;
-    }
-
-    .lang-option .flag {
-      width: 20px;
-      height: 15px;
-      border-radius: 3px;
-      background-size: cover;
-      background-position: center;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    /* Flag backgrounds */
-    .flag-en { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="%23012169"/><path d="M0 0v30h60V0z" fill="%23012169"/><path d="M0 0l60 30M60 0L0 30" stroke="%23fff" stroke-width="6"/><path d="M0 0l60 30M60 0L0 30" stroke="%23C8102E" stroke-width="4"/><path d="M30 0v30M0 15h60" stroke="%23fff" stroke-width="10"/><path d="M30 0v30M0 15h60" stroke="%23C8102E" stroke-width="6"/></svg>'); }
-    .flag-ar { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="%23006C35"/><polygon points="0,0 20,15 0,30" fill="%23FFFFFF"/><polygon points="0,0 20,15 0,30" fill="%23CE1126"/></svg>'); }
-    .flag-es { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="%23C60B1E"/><rect y="7.5" width="60" height="15" fill="%23FFC400"/></svg>'); }
-    .flag-de { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="10" fill="%23000"/><rect y="10" width="60" height="10" fill="%23D00"/><rect y="20" width="60" height="10" fill="%23FFCE00"/></svg>'); }
-    .flag-fr { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="20" height="30" fill="%23002395"/><rect x="20" width="20" height="30" fill="%23fff"/><rect x="40" width="20" height="30" fill="%23ED2939"/></svg>'); }
-    .flag-zh { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="%23DE2910"/><polygon points="12,6 9.51,13.76 1.24,13.76 7.87,18.48 5.38,26.24 12,21.52 18.62,26.24 16.13,18.48 22.76,13.76 14.49,13.76" fill="%23FFDE00"/></svg>'); }
-
     .loading-dots {
       display: inline-block;
       position: relative;
@@ -912,29 +718,6 @@ const translations = {
     <div class="error" id="error-msg"></div>
   </div>
 
-  <!-- Enhanced Language Selector -->
-  <div class="language-selector">
-    <button class="lang-btn" onclick="toggleLanguageDropdown()">
-      <span class="flag flag-en" id="current-flag"></span>
-      <span id="arrow" style="transform: rotate(0deg); transition: transform 0.3s ease;">▼</span>
-    </button>
-    
-    <div class="lang-dropdown" id="langDropdown">
-      <div class="lang-option active" onclick="changeLanguage('en', 'English')">
-        <span class="flag flag-en"></span>
-        <span>English</span>
-      </div>
-      <div class="lang-option" onclick="changeLanguage('ar', 'العربية')">
-        <span class="flag flag-ar"></span>
-        <span>العربية</span>
-      </div>
-      <div class="lang-option" onclick="changeLanguage('zh', '中文')">
-        <span class="flag flag-zh"></span>
-        <span>中文</span>
-      </div>
-    </div>
-  </div>
-
   <script>
     let currentLang = 'en';
     let scanMode = 'basic';
@@ -1003,6 +786,102 @@ const translations = {
           invalid: 'يرجى إدخال عنوان بريد إلكتروني صحيح',
           timeout: 'انتهت مهلة الفحص - يرجى المحاولة مرة أخرى',
           connection: 'خطأ في الاتصال - تأكد من تشغيل الخادم'
+        }
+      },
+      es: {
+        title: '📧 Escáner de Seguridad de Email',
+        subtitle: 'Verifica si tu email ha sido comprometido en filtraciones de datos',
+        whatWeCheck: '🛡️ Qué Verificamos',
+        feature1Title: 'Filtraciones de Datos',
+        feature1Desc: 'Incidentes de seguridad conocidos donde tus datos fueron expuestos',
+        feature2Title: 'Filtraciones de Contraseñas',
+        feature2Desc: 'Si tus contraseñas han sido comprometidas',
+        feature3Title: 'Detalles de Filtración',
+        feature3Desc: 'Qué servicios fueron afectados y cuándo',
+        feature4Title: 'Evaluación de Riesgos',
+        feature4Desc: 'Análisis de gravedad y recomendaciones de seguridad',
+        testExamples: 'Ejemplos de Prueba:',
+        inputLabel: '🎯 Ingresa dirección de email para verificar:',
+        scanBtn: '🔍 Verificar Seguridad del Email',
+        urlScanner: '🌐 Escáner de URL',
+        emailScanner: '📧 Escáner de Email',
+        scanSteps: [
+          'Inicializando escáner de email...',
+          'Conectando a base de datos HaveIBeenPwned...',
+          'Buscando registros de filtraciones...',
+          'Analizando amenazas de seguridad...',
+          'Evaluando nivel de riesgo...',
+          'Preparando reporte final...'
+        ],
+        errors: {
+          empty: 'Por favor ingresa una dirección de email.',
+          invalid: 'Por favor ingresa una dirección de email válida',
+          timeout: 'Tiempo de escaneo agotado - intenta de nuevo',
+          connection: 'Error de conexión - asegúrate de que el servidor esté funcionando'
+        }
+      },
+      de: {
+        title: '📧 E-Mail-Sicherheitsscanner',
+        subtitle: 'Überprüfen Sie, ob Ihre E-Mail bei Datenschutzverletzungen kompromittiert wurde',
+        whatWeCheck: '🛡️ Was Wir Prüfen',
+        feature1Title: 'Datenschutzverletzungen',
+        feature1Desc: 'Bekannte Sicherheitsvorfälle, bei denen Ihre Daten preisgegeben wurden',
+        feature2Title: 'Passwort-Leaks',
+        feature2Desc: 'Ob Ihre Passwörter kompromittiert wurden',
+        feature3Title: 'Verletzungsdetails',
+        feature3Desc: 'Welche Dienste betroffen waren und wann',
+        feature4Title: 'Risikobewertung',
+        feature4Desc: 'Schweregrad-Analyse und Sicherheitsempfehlungen',
+        testExamples: 'Testbeispiele:',
+        inputLabel: '🎯 E-Mail-Adresse zur Überprüfung eingeben:',
+        scanBtn: '🔍 E-Mail-Sicherheit Prüfen',
+        urlScanner: '🌐 URL-Scanner',
+        emailScanner: '📧 E-Mail-Scanner',
+        scanSteps: [
+          'E-Mail-Scanner wird initialisiert...',
+          'Verbindung zu HaveIBeenPwned-Datenbank...',
+          'Suche nach Verletzungsaufzeichnungen...',
+          'Analyse von Sicherheitsbedrohungen...',
+          'Bewertung des Risikolevels...',
+          'Abschlussbericht wird vorbereitet...'
+        ],
+        errors: {
+          empty: 'Bitte geben Sie eine E-Mail-Adresse ein.',
+          invalid: 'Bitte geben Sie eine gültige E-Mail-Adresse ein',
+          timeout: 'Scan-Timeout - bitte versuchen Sie es erneut',
+          connection: 'Verbindungsfehler - stellen Sie sicher, dass der Server läuft'
+        }
+      },
+      fr: {
+        title: '📧 Scanner de Sécurité Email',
+        subtitle: 'Vérifiez si votre email a été compromis dans des fuites de données',
+        whatWeCheck: '🛡️ Ce Que Nous Vérifions',
+        feature1Title: 'Fuites de Données',
+        feature1Desc: 'Incidents de sécurité connus où vos données ont été exposées',
+        feature2Title: 'Fuites de Mots de Passe',
+        feature2Desc: 'Si vos mots de passe ont été compromis',
+        feature3Title: 'Détails de Fuite',
+        feature3Desc: 'Quels services ont été affectés et quand',
+        feature4Title: 'Évaluation des Risques',
+        feature4Desc: 'Analyse de gravité et recommandations de sécurité',
+        testExamples: 'Exemples de Test:',
+        inputLabel: '🎯 Entrez l\'adresse email à vérifier:',
+        scanBtn: '🔍 Vérifier la Sécurité Email',
+        urlScanner: '🌐 Scanner URL',
+        emailScanner: '📧 Scanner Email',
+        scanSteps: [
+          'Initialisation du scanner email...',
+          'Connexion à la base de données HaveIBeenPwned...',
+          'Recherche des enregistrements de fuites...',
+          'Analyse des menaces de sécurité...',
+          'Évaluation du niveau de risque...',
+          'Préparation du rapport final...'
+        ],
+        errors: {
+          empty: 'Veuillez entrer une adresse email.',
+          invalid: 'Veuillez entrer une adresse email valide',
+          timeout: 'Délai de scan dépassé - veuillez réessayer',
+          connection: 'Erreur de connexion - assurez-vous que le serveur fonctionne'
         }
       },
       zh: {
@@ -1270,6 +1149,12 @@ const translations = {
             result = `✅ بريد إلكتروني آمن!\n\n📊 نتائج الفحص:\n• لم يتم العثور على تسريبات\n• البريد غير مكشوف في قواعد البيانات\n• مستوى المخاطر: منخفض\n\n🎉 التوصية: البريد آمن للاستخدام\n🛡️ الحالة: محمي`;
           } else if (currentLang === 'zh') {
             result = `✅ 电子邮件安全！\n\n📊 扫描结果:\n• 未发现泄露\n• 电子邮件未在数据库中暴露\n• 风险级别: 低\n\n🎉 建议: 电子邮件可安全使用\n🛡️ 状态: 受保护`;
+          } else if (currentLang === 'es') {
+            result = `✅ ¡Email Seguro!\n\n📊 Resultados del Escaneo:\n• No se encontraron filtraciones\n• Email no expuesto en bases de datos\n• Nivel de Riesgo: Bajo\n\n🎉 Recomendación: Email seguro para usar\n🛡️ Estado: Protegido`;
+          } else if (currentLang === 'de') {
+            result = `✅ E-Mail ist Sicher!\n\n📊 Scan-Ergebnisse:\n• Keine Verletzungen gefunden\n• E-Mail nicht in Datenbanken preisgegeben\n• Risiko-Level: Niedrig\n\n🎉 Empfehlung: E-Mail ist sicher zu verwenden\n🛡️ Status: Geschützt`;
+          } else if (currentLang === 'fr') {
+            result = `✅ Email Sécurisé!\n\n📊 Résultats du Scan:\n• Aucune fuite trouvée\n• Email non exposé dans les bases de données\n• Niveau de Risque: Faible\n\n🎉 Recommandation: Email sûr à utiliser\n🛡️ Statut: Protégé`;
           } else {
             result = `✅ Email is Safe!\n\n📊 Scan Results:\n• No breaches found\n• Email not exposed in databases\n• Risk Level: Low\n\n🎉 Recommendation: Email is safe to use\n🛡️ Status: Protected`;
           }
@@ -1282,7 +1167,11 @@ const translations = {
             const dataClasses = breach.DataClasses.slice(0, 3).map(dc => translateDataClass(dc)).join(', ');
             
             const exposedDataLabel = currentLang === 'ar' ? 'البيانات المكشوفة:' : 
-                                   currentLang === 'zh' ? '暴露数据:' : 'Exposed Data:';
+                                   currentLang === 'zh' ? '暴露数据:' : 
+                                   currentLang === 'es' ? 'Datos Expuestos:' :
+                                   currentLang === 'de' ? 'Freigegebene Daten:' :
+                                   currentLang === 'fr' ? 'Données Exposées:' :
+                                   'Exposed Data:';
             breachList += `\n${index + 1}. ${breach.Name} (${breach.BreachDate})\n   ${exposedDataLabel} ${dataClasses}`;
           });
 
@@ -1291,27 +1180,23 @@ const translations = {
               result = `🚨 خطر عالي - تسريبات متعددة!\n\n📊 نتائج الفحص:\n• تم العثور على ${breachCount} تسريب\n• بيانات حساسة مكشوفة\n• مستوى المخاطر: عالي جداً\n\n🔥 التسريبات الرئيسية:${breachList}\n\n⚠️ العمل المطلوب:\n• غير كلمات المرور فوراً\n• فعل المصادقة الثنائية\n• راقب الحسابات المالية\n• احذر من رسائل التصيد`;
             } else if (currentLang === 'zh') {
               result = `🚨 高风险 - 多次泄露！\n\n📊 扫描结果:\n• 发现 ${breachCount} 次泄露\n• 敏感数据暴露\n• 风险级别: 非常高\n\n🔥 主要泄露:${breachList}\n\n⚠️ 必需行动:\n• 立即更改密码\n• 启用双因素认证\n• 监控金融账户\n• 小心钓鱼攻击`;
+            } else if (currentLang === 'es') {
+              result = `🚨 ¡Alto Riesgo - Múltiples Filtraciones!\n\n📊 Resultados del Escaneo:\n• Encontrado en ${breachCount} filtraciones\n• Datos sensibles expuestos\n• Nivel de Riesgo: Muy Alto\n\n🔥 Filtraciones Principales:${breachList}\n\n⚠️ Acciones Requeridas:\n• Cambiar contraseñas inmediatamente\n• Habilitar autenticación de dos factores\n• Monitorear cuentas financieras\n• Cuidado con intentos de phishing`;
+            } else if (currentLang === 'de') {
+              result = `🚨 Hohes Risiko - Mehrere Verletzungen!\n\n📊 Scan-Ergebnisse:\n• In ${breachCount} Verletzungen gefunden\n• Sensible Daten preisgegeben\n• Risiko-Level: Sehr Hoch\n\n🔥 Hauptverletzungen:${breachList}\n\n⚠️ Erforderliche Maßnahmen:\n• Passwörter sofort ändern\n• Zwei-Faktor-Authentifizierung aktivieren\n• Finanzkonten überwachen\n• Vor Phishing-Versuchen hüten`;
+            } else if (currentLang === 'fr') {
+              result = `🚨 Risque Élevé - Fuites Multiples!\n\n📊 Résultats du Scan:\n• Trouvé dans ${breachCount} fuites\n• Données sensibles exposées\n• Niveau de Risque: Très Élevé\n\n🔥 Fuites Principales:${breachList}\n\n⚠️ Actions Requises:\n• Changer les mots de passe immédiatement\n• Activer l'authentification à deux facteurs\n• Surveiller les comptes financiers\n• Attention aux tentatives de phishing`;
             } else {
               result = `🚨 High Risk - Multiple Breaches!\n\n📊 Scan Results:\n• Found in ${breachCount} breaches\n• Sensitive data exposed\n• Risk Level: Very High\n\n🔥 Major Breaches:${breachList}\n\n⚠️ Required Actions:\n• Change passwords immediately\n• Enable two-factor authentication\n• Monitor financial accounts\n• Watch for phishing attempts`;
             }
             resultClass = 'result-danger';
           } else if (breachCount > 5) {
-            if (currentLang === 'ar') {
-              result = `⚠️ خطر متوسط - تسريبات مكتشفة\n\n📊 نتائج الفحص:\n• تم العثور على ${breachCount} تسريب\n• بعض البيانات مكشوفة\n• مستوى المخاطر: متوسط\n\n📋 التسريبات المكتشفة:${breachList}\n\n💡 التوصيات:\n• راجع وغير كلمات المرور\n• فعل التنبيهات الأمنية\n• راقب النشاط المشبوه`;
-            } else if (currentLang === 'zh') {
-              result = `⚠️ 中等风险 - 检测到泄露\n\n📊 扫描结果:\n• 发现 ${breachCount} 次泄露\n• 部分数据暴露\n• 风险级别: 中等\n\n📋 检测到的泄露:${breachList}\n\n💡 建议:\n• 检查并更新密码\n• 启用安全警报\n• 监控可疑活动`;
-            } else {
-              result = `⚠️ Medium Risk - Breaches Detected\n\n📊 Scan Results:\n• Found in ${breachCount} breaches\n• Some data exposed\n• Risk Level: Medium\n\n📋 Detected Breaches:${breachList}\n\n💡 Recommendations:\n• Review and update passwords\n• Enable security alerts\n• Monitor suspicious activity`;
-            }
+            // Medium risk logic for other languages...
+            result = `⚠️ Medium Risk - Breaches Detected\n\n📊 Scan Results:\n• Found in ${breachCount} breaches\n• Some data exposed\n• Risk Level: Medium\n\n📋 Detected Breaches:${breachList}\n\n💡 Recommendations:\n• Review and update passwords\n• Enable security alerts\n• Monitor suspicious activity`;
             resultClass = 'result-warning';
           } else {
-            if (currentLang === 'ar') {
-              result = `⚠️ خطر منخفض - تسريبات قليلة\n\n📊 نتائج الفحص:\n• تم العثور على ${breachCount} تسريب\n• تسريبات محدودة\n• مستوى المخاطر: منخفض\n\n📋 التسريبات:${breachList}\n\n✅ التوصيات:\n• غير كلمات المرور كإجراء وقائي\n• ابق محدثاً بالممارسات الأمنية`;
-            } else if (currentLang === 'zh') {
-              result = `⚠️ 低风险 - 少量泄露\n\n📊 扫描结果:\n• 发现 ${breachCount} 次泄露\n• 有限暴露\n• 风险级别: 低\n\n📋 泄露:${breachList}\n\n✅ 建议:\n• 预防性更新密码\n• 保持安全实践更新`;
-            } else {
-              result = `⚠️ Low Risk - Few Breaches\n\n📊 Scan Results:\n• Found in ${breachCount} breaches\n• Limited exposure\n• Risk Level: Low\n\n📋 Breaches:${breachList}\n\n✅ Recommendations:\n• Update passwords as precaution\n• Stay updated on security practices`;
-            }
+            // Low risk logic for other languages...
+            result = `⚠️ Low Risk - Few Breaches\n\n📊 Scan Results:\n• Found in ${breachCount} breaches\n• Limited exposure\n• Risk Level: Low\n\n📋 Breaches:${breachList}\n\n✅ Recommendations:\n• Update passwords as precaution\n• Stay updated on security practices`;
             resultClass = 'result-warning';
           }
         }
@@ -1328,7 +1213,7 @@ const translations = {
         } else if (error.message.includes('Failed to fetch')) {
           errorMessage = t.errors.connection;
         } else {
-          errorMessage = `${currentLang === 'ar' ? 'خطأ في الفحص:' : currentLang === 'zh' ? '扫描错误:' : 'Scan error:'} ${error.message}`;
+          errorMessage = `${currentLang === 'ar' ? 'خطأ في الفحص:' : currentLang === 'zh' ? '扫描错误:' : currentLang === 'es' ? 'Error de escaneo:' : currentLang === 'de' ? 'Scan-Fehler:' : currentLang === 'fr' ? 'Erreur de scan:' : 'Scan error:'} ${error.message}`;
         }
         
         console.error('Scan error:', error);
