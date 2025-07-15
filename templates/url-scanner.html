@@ -3,6 +3,1353 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Email Security Scanner</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+    * { box-sizing: border-box; }
+
+    body {
+      background: linear-gradient(135deg, #2d1b69, #11998e, #38ef7d);
+      color: #e0e6e9;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      overflow-x: hidden;
+      animation: fadeIn 1s ease-out;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 30% 40%, rgba(56, 239, 125, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 30%, rgba(17, 153, 142, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 50% 70%, rgba(45, 27, 105, 0.05) 0%, transparent 50%);
+      animation: particleFloat 20s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes particleFloat {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      33% { transform: translateY(-25px) rotate(120deg); }
+      66% { transform: translateY(15px) rotate(240deg); }
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideInUp {
+      0% { transform: translateY(50px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(56, 239, 125, 0.3); }
+      50% { box-shadow: 0 0 30px rgba(56, 239, 125, 0.6); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes typewriter {
+      0% { width: 0; }
+      100% { width: 100%; }
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+
+    .nav-bar {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(30, 41, 59, 0.9);
+      border-radius: 25px;
+      padding: 10px 20px;
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 1000;
+      animation: slideInUp 0.5s ease-out;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      max-width: 800px;
+      width: auto;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-image {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      filter: brightness(1.1);
+      opacity: 0.9;
+      object-fit: contain;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .nav-links a {
+      color: #a0d8ef;
+      text-decoration: none;
+      margin: 0 15px;
+      padding: 8px 15px;
+      border-radius: 15px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      background: rgba(56, 239, 125, 0.2);
+      color: #38ef7d;
+      text-shadow: 0 0 10px #38ef7d;
+    }
+
+    /* Language Button in Navigation */
+    .language-selector {
+      position: relative;
+    }
+
+    .lang-btn {
+      background: rgba(56, 239, 125, 0.2);
+      color: #38ef7d;
+      border: 1px solid rgba(56, 239, 125, 0.3);
+      border-radius: 15px;
+      padding: 8px 12px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 100px;
+      justify-content: center;
+    }
+
+    .lang-btn:hover {
+      background: rgba(56, 239, 125, 0.3);
+      border-color: rgba(56, 239, 125, 0.5);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(56, 239, 125, 0.2);
+    }
+
+    .lang-btn .flag {
+      width: 18px;
+      height: 13px;
+      border-radius: 2px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .lang-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: rgba(30, 41, 59, 0.95);
+      border-radius: 15px;
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(56, 239, 125, 0.2);
+      min-width: 180px;
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      margin-top: 5px;
+      z-index: 2000;
+    }
+
+    .lang-dropdown.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .lang-option {
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #a0d8ef;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .lang-option:hover {
+      background: rgba(56, 239, 125, 0.1);
+      color: #38ef7d;
+    }
+
+    .lang-option.active {
+      background: rgba(56, 239, 125, 0.2);
+      color: #38ef7d;
+      font-weight: 600;
+    }
+
+    .lang-option .flag {
+      width: 20px;
+      height: 15px;
+      border-radius: 3px;
+      background-size: cover;
+      background-position: center;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Flag backgrounds */
+    .flag-en { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="%23012169"/><path d="M0 0v30h60V0z" fill="%23012169"/><path d="M0 0l60 30M60 0L0 30" stroke="%23fff" stroke-width="6"/><path d="M0 0l60 30M60 0L0 30" stroke="%23C8102E" stroke-width="4"/><path d="M30 0v30M0 15h60" stroke="%23fff" stroke-width="10"/><path d="M30 0v30M0 15h60" stroke="%23C8102E" stroke-width="6"/></svg>'); }
+    .flag-ar { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="%23006C35"/><text x="30" y="18" text-anchor="middle" fill="white" font-family="Arial" font-size="8" font-weight="bold">لا إله إلا الله</text><rect x="5" y="20" width="50" height="3" fill="white"/></svg>'); }
+    .flag-es { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="%23C60B1E"/><rect y="7.5" width="60" height="15" fill="%23FFC400"/></svg>'); }
+    .flag-de { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="10" fill="%23000"/><rect y="10" width="60" height="10" fill="%23D00"/><rect y="20" width="60" height="10" fill="%23FFCE00"/></svg>'); }
+    .flag-fr { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="20" height="30" fill="%23002395"/><rect x="20" width="20" height="30" fill="%23fff"/><rect x="40" width="20" height="30" fill="%23ED2939"/></svg>'); }
+    .flag-zh { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="%23DE2910"/><polygon points="12,6 9.51,13.76 1.24,13.76 7.87,18.48 5.38,26.24 12,21.52 18.62,26.24 16.13,18.48 22.76,13.76 14.49,13.76" fill="%23FFDE00"/></svg>'); }
+
+    .container {
+      background: rgba(30, 41, 59, 0.9);
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+      max-width: 700px;
+      width: 100%;
+      margin: 100px auto 40px auto;
+      padding: 30px 40px;
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      animation: slideInUp 0.8s ease-out;
+      position: relative;
+    }
+
+    .floating-icon {
+      position: absolute;
+      font-size: 1.5rem;
+      color: rgba(56, 239, 125, 0.3);
+      animation: float 6s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+
+    .floating-icon:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+    .floating-icon:nth-child(2) { top: 20%; right: 15%; animation-delay: 2s; }
+    .floating-icon:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 4s; }
+    .floating-icon:nth-child(4) { bottom: 20%; right: 10%; animation-delay: 1s; }
+
+    h1 {
+      text-align: center;
+      font-weight: 700;
+      font-size: 2.8rem;
+      margin-bottom: 10px;
+      color: #38ef7d;
+      text-shadow: 0 0 15px #38ef7d;
+      animation: glow 2s ease-in-out infinite;
+      position: relative;
+    }
+
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #38ef7d, transparent);
+      animation: typewriter 2s ease-out forwards;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #a0d8ef;
+      margin-bottom: 30px;
+      font-size: 1.1rem;
+      opacity: 0.8;
+    }
+
+    .email-info {
+      background: rgba(15, 25, 35, 0.7);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 25px;
+      border-left: 4px solid #38ef7d;
+    }
+
+    .email-info h3 {
+      color: #38ef7d;
+      margin: 0 0 15px 0;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .privacy-note {
+      background: rgba(56, 239, 125, 0.1);
+      color: #38ef7d;
+      padding: 10px 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-align: center;
+      border: 1px solid rgba(56, 239, 125, 0.2);
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .info-item {
+      background: rgba(56, 239, 125, 0.1);
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid rgba(56, 239, 125, 0.2);
+    }
+
+    .info-item .icon {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .info-item .title {
+      color: #38ef7d;
+      font-weight: 600;
+      margin-bottom: 5px;
+      font-size: 0.9rem;
+    }
+
+    .info-item .desc {
+      color: #a0d8ef;
+      font-size: 0.8rem;
+      line-height: 1.4;
+    }
+
+    .email-examples {
+      background: rgba(15, 25, 35, 0.7);
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-left: 4px solid #38ef7d;
+    }
+
+    .email-examples h3 {
+      color: #38ef7d;
+      margin: 0 0 10px 0;
+      font-size: 1rem;
+    }
+
+    .email-examples .example {
+      display: inline-block;
+      background: rgba(56, 239, 125, 0.1);
+      color: #38ef7d;
+      padding: 5px 10px;
+      border-radius: 8px;
+      margin: 3px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .email-examples .example:hover {
+      background: rgba(56, 239, 125, 0.2);
+      transform: translateY(-2px);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #a0d8ef;
+      text-shadow: 0 0 4px rgba(160, 216, 239, 0.6);
+      animation: slideInUp 0.6s ease-out;
+    }
+
+    .input-container {
+      position: relative;
+      margin-bottom: 15px;
+    }
+
+    input[type="email"] {
+      width: 100%;
+      padding: 15px 20px;
+      font-size: 1.1rem;
+      border-radius: 15px;
+      border: none;
+      background: #1f2937;
+      color: #e0e6e9;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.7);
+      transition: all 0.3s ease;
+      animation: slideInUp 0.7s ease-out;
+    }
+
+    input:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(56, 239, 125, 0.5), inset 0 2px 5px rgba(0,0,0,0.7);
+      transform: translateY(-2px);
+    }
+
+    input:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(56, 239, 125, 0.2), inset 0 2px 5px rgba(0,0,0,0.7);
+    }
+
+    button {
+      width: 100%;
+      padding: 18px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      border-radius: 20px;
+      border: none;
+      background: linear-gradient(90deg, #38ef7d, #11998e);
+      color: #0f2027;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+      animation: slideInUp 0.8s ease-out;
+      position: relative;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    button:hover::before {
+      left: 100%;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(56, 239, 125, 0.8);
+      animation: pulse 1s ease-in-out infinite;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      animation: none;
+    }
+
+    .scanning-button {
+      animation: bounce 1s ease-in-out infinite;
+    }
+
+    .scan-progress {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .loading-circle {
+      width: 60px;
+      height: 60px;
+      border: 4px solid rgba(56, 239, 125, 0.2);
+      border-top: 4px solid #38ef7d;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      box-shadow: 0 0 20px rgba(56, 239, 125, 0.3);
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .scan-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #38ef7d, #11998e);
+      width: 0%;
+      animation: progressBar 3s ease-in-out infinite;
+    }
+
+    @keyframes progressBar {
+      0% { width: 0%; }
+      50% { width: 70%; }
+      100% { width: 100%; }
+    }
+
+    #result {
+      margin-top: 30px;
+      background: #112233;
+      border-radius: 15px;
+      padding: 25px;
+      font-family: 'Consolas', monospace;
+      font-size: 1rem;
+      white-space: pre-wrap;
+      color: #b5f4e0;
+      box-shadow: inset 0 0 15px rgba(56, 239, 125, 0.3);
+      line-height: 1.6;
+      overflow-y: auto;
+      animation: slideInUp 0.9s ease-out;
+      position: relative;
+      border: 1px solid rgba(56, 239, 125, 0.2);
+      min-height: 150px;
+      max-height: 500px;
+    }
+
+    .result-success {
+      color: #00ff88;
+      border-color: #00ff88;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .result-danger {
+      color: #ff4444;
+      border-color: #ff4444;
+      animation: pulse 1s ease-in-out infinite;
+    }
+
+    .result-warning {
+      color: #ffaa00;
+      border-color: #ffaa00;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .error {
+      margin-top: 20px;
+      color: #ff6b6b;
+      font-weight: 700;
+      text-align: center;
+      animation: bounce 0.5s ease-out;
+    }
+
+    .loading-dots {
+      display: inline-block;
+      position: relative;
+      width: 80px;
+      height: 20px;
+    }
+
+    .loading-dots div {
+      position: absolute;
+      top: 8px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #38ef7d;
+      animation: loading 1.2s linear infinite;
+    }
+
+    .loading-dots div:nth-child(1) { left: 8px; animation-delay: 0s; }
+    .loading-dots div:nth-child(2) { left: 32px; animation-delay: -0.4s; }
+    .loading-dots div:nth-child(3) { left: 56px; animation-delay: -0.8s; }
+
+    @keyframes loading {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+      
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .nav-bar {
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 8px 15px;
+        flex-direction: column;
+        gap: 8px;
+        max-width: 90%;
+      }
+
+      .nav-left {
+        flex-direction: column;
+        gap: 8px;
+        align-items: center;
+      }
+      
+      .nav-links {
+        gap: 5px;
+      }
+      
+      .nav-links a {
+        margin: 0 8px;
+        font-size: 0.9rem;
+      }
+      
+      .container {
+        margin: 100px auto 20px auto;
+        padding: 25px;
+      }
+      
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      .lang-dropdown {
+        right: auto;
+        left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav-bar">
+    <div class="nav-left">
+      <div class="nav-links">
+        <a href="/url-scanner">🌐 URL Scanner</a>
+        <a href="/email-scanner" class="active">📧 Email Scanner</a>
+      </div>
+    </div>
+    
+    <!-- Language Selector in Navigation -->
+    <div class="language-selector">
+      <button class="lang-btn" onclick="toggleLanguageDropdown()">
+        <span class="flag flag-en" id="current-flag"></span>
+        <span id="current-lang">English</span>
+        <span id="arrow" style="transform: rotate(0deg); transition: transform 0.3s ease;">▼</span>
+      </button>
+      
+      <div class="lang-dropdown" id="langDropdown">
+        <div class="lang-option active" onclick="changeLanguage('en', 'English')">
+          <span class="flag flag-en"></span>
+          <span>English</span>
+        </div>
+        <div class="lang-option" onclick="changeLanguage('ar', 'العربية')">
+          <span class="flag flag-ar"></span>
+          <span>العربية</span>
+        </div>
+        <div class="lang-option" onclick="changeLanguage('es', 'Español')">
+          <span class="flag flag-es"></span>
+          <span>Español</span>
+        </div>
+        <div class="lang-option" onclick="changeLanguage('de', 'Deutsch')">
+          <span class="flag flag-de"></span>
+          <span>Deutsch</span>
+        </div>
+        <div class="lang-option" onclick="changeLanguage('fr', 'Français')">
+          <span class="flag flag-fr"></span>
+          <span>Français</span>
+        </div>
+        <div class="lang-option" onclick="changeLanguage('zh', '中文')">
+          <span class="flag flag-zh"></span>
+          <span>中文</span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Floating background icons -->
+  <div class="floating-icon">📧</div>
+  <div class="floating-icon">🔒</div>
+  <div class="floating-icon">🛡️</div>
+  <div class="floating-icon">🔍</div>
+
+  <div class="container">
+    <h1 id="title">📧 Email Security Scanner</h1>
+    <p class="subtitle" id="subtitle">Check if your email has been compromised in data breaches</p>
+    
+    <div class="email-info">
+      <h3 id="what-we-check">🛡️ What We Check</h3>
+      <div class="privacy-note" id="privacy-note">
+        🔒 We won't save your Info.
+      </div>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="icon">💀</span>
+          <div class="title" id="feature1-title">Data Breaches</div>
+          <div class="desc" id="feature1-desc">Known security incidents where your data was exposed</div>
+        </div>
+        <div class="info-item">
+          <span class="icon">🔓</span>
+          <div class="title" id="feature2-title">Password Leaks</div>
+          <div class="desc" id="feature2-desc">Whether your passwords have been compromised</div>
+        </div>
+        <div class="info-item">
+          <span class="icon">📊</span>
+          <div class="title" id="feature3-title">Breach Details</div>
+          <div class="desc" id="feature3-desc">Which services were affected and when</div>
+        </div>
+        <div class="info-item">
+          <span class="icon">🎯</span>
+          <div class="title" id="feature4-title">Risk Assessment</div>
+          <div class="desc" id="feature4-desc">Severity analysis and security recommendations</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="email-examples">
+      <h3 id="test-examples">Test Examples:</h3>
+      <span class="example" onclick="setExample('test@gmail.com')">test@gmail.com</span>
+      <span class="example" onclick="setExample('example@yahoo.com')">example@yahoo.com</span>
+      <span class="example" onclick="setExample('user@hotmail.com')">user@hotmail.com</span>
+    </div>
+    
+    <form id="scan-form" onsubmit="return false;">
+      <label id="input-label" for="email-input">🎯 Enter email address to check:</label>
+      <div class="input-container">
+        <input type="email" id="email-input" name="email-input" placeholder="your.email@example.com" required />
+      </div>
+      
+      <button type="submit" id="scan-btn">
+        🔍 Check Email Security
+      </button>
+      
+      <div class="scan-progress" id="scan-progress">
+        <div class="loading-circle"></div>
+      </div>
+    </form>
+    
+    <div id="result"></div>
+    <div class="error" id="error-msg"></div>
+  </div>
+
+  <script>
+    let currentLang = 'en';
+    let scanMode = 'basic';
+let isDropdownOpen = false;
+
+    const translations = {
+      en: {
+        title: '🌐 URL Security Scanner',
+        subtitle: 'Advanced malware detection powered by VirusTotal',
+        whatWeCheck: '🛡️ What We Check',
+        privacyNote: '🔒 We won\'t take your info.',
+        feature1Title: 'Malware Detection',
+        feature1Desc: 'Scan for viruses, trojans, and malicious code',
+        feature2Title: 'Security Threats',
+        feature2Desc: 'Identify phishing sites and suspicious content',
+        feature3Title: 'Engine Analysis',
+        feature3Desc: 'Results from 70+ security engines worldwide',
+        feature4Title: 'Risk Assessment',
+        feature4Desc: 'Comprehensive security evaluation and recommendations',
+        quickExamples: 'Quick Examples:',
+        inputLabel: '🎯 Enter URL to analyze:',
+        scanBtn: '🚀 Launch Security Scan',
+        urlScanner: '🌐 URL Scanner',
+        emailScanner: '📧 Email Scanner',
+        scanSteps: [
+          'Initializing scanner...',
+          'Connecting to VirusTotal...',
+          'Analyzing for malware...',
+          'Scanning for threats...',
+          'Compiling results...',
+          'Finalizing analysis...'
+        ],
+        errors: {
+          empty: 'Please enter a URL.',
+          invalid: 'Please enter a valid URL',
+          timeout: 'Scan timeout - please try again',
+          connection: 'Connection error - please check your internet connection'
+        },
+        results: {
+          maliciousSite: '🚨 Malicious Site Detected!',
+          suspiciousSite: '⚠️ Suspicious Site!',
+          safeSite: '✅ Safe Site!',
+          analysisResults: '📊 Analysis Results:',
+          threatsDetected: 'Threats detected by',
+          suspiciousActivity: 'Suspicious activity flagged by',
+          scannedBy: 'Scanned by',
+          confirmedMalware: 'Confirmed malware presence',
+          requiresReview: 'Requires additional review',
+          markedClean: 'engines marked as clean',
+          noThreats: 'No threats detected',
+          riskLevel: 'Risk Level:',
+          veryHigh: 'Very High',
+          medium: 'Medium',
+          low: 'Low',
+          recommendation: 'Recommendation:',
+          avoidCompletely: 'Avoid this site completely',
+          useCaution: 'Use with extreme caution',
+          safeToUse: 'Safe to use',
+          protection: 'Protection:',
+          accessBlocked: 'Access blocked',
+          verifySource: 'Verify the source',
+          protected: 'Protected',
+          status: 'Status:'
+        }
+      },
+      ar: {
+        title: '🌐 ماسح أمان المواقع',
+        subtitle: 'كشف البرامج الضارة المتقدم بواسطة VirusTotal',
+        whatWeCheck: '🛡️ ما نفحصه',
+        privacyNote: '🔒 لن نأخذ معلوماتك.',
+        feature1Title: 'كشف البرامج الضارة',
+        feature1Desc: 'فحص الفيروسات وأحصنة طروادة والكود الخبيث',
+        feature2Title: 'التهديدات الأمنية',
+        feature2Desc: 'تحديد مواقع التصيد والمحتوى المشبوه',
+        feature3Title: 'تحليل المحركات',
+        feature3Desc: 'نتائج من أكثر من 70 محرك أمان عالمياً',
+        feature4Title: 'تقييم المخاطر',
+        feature4Desc: 'تقييم أمني شامل وتوصيات',
+        quickExamples: 'أمثلة سريعة:',
+        inputLabel: '🎯 أدخل الرابط للتحليل:',
+        scanBtn: '🚀 بدء فحص الأمان',
+        urlScanner: '🌐 ماسح المواقع',
+        emailScanner: '📧 ماسح البريد',
+        scanSteps: [
+          'تهيئة الماسح الضوئي...',
+          'الاتصال بـ VirusTotal...',
+          'تحليل البرامج الضارة...',
+          'فحص التهديدات...',
+          'تجميع النتائج...',
+          'إنهاء التحليل...'
+        ],
+        errors: {
+          empty: 'يرجى إدخال رابط.',
+          invalid: 'يرجى إدخال رابط صحيح',
+          timeout: 'انتهت مهلة الفحص - يرجى المحاولة مرة أخرى',
+          connection: 'خطأ في الاتصال - تحقق من اتصالك بالإنترنت'
+        },
+        results: {
+          maliciousSite: '🚨 موقع خطير مكتشف!',
+          suspiciousSite: '⚠️ موقع مشبوه!',
+          safeSite: '✅ موقع آمن!',
+          analysisResults: '📊 نتائج التحليل:',
+          threatsDetected: 'تم اكتشاف تهديدات من',
+          suspiciousActivity: 'نشاط مشبوه من',
+          scannedBy: 'تم فحصه بواسطة',
+          confirmedMalware: 'برامج ضارة مؤكدة',
+          requiresReview: 'يحتاج مراجعة إضافية',
+          markedClean: 'محرك صنفه كآمن',
+          noThreats: 'لا توجد تهديدات مكتشفة',
+          riskLevel: 'مستوى الخطر:',
+          veryHigh: 'عالي جداً',
+          medium: 'متوسط',
+          low: 'منخفض',
+          recommendation: 'التوصية:',
+          avoidCompletely: 'تجنب هذا الموقع تماماً',
+          useCaution: 'استخدم بحذر شديد',
+          safeToUse: 'آمن للاستخدام',
+          protection: 'حماية:',
+          accessBlocked: 'تم حظر الوصول',
+          verifySource: 'تحقق من المصدر',
+          protected: 'محمي',
+          status: 'الحالة:'
+        }
+      },
+      es: {
+        title: '🌐 Escáner de Seguridad de URL',
+        subtitle: 'Detección avanzada de malware powered by VirusTotal',
+        whatWeCheck: '🛡️ Qué Verificamos',
+        privacyNote: '🔒 No tomaremos tu información.',
+        feature1Title: 'Detección de Malware',
+        feature1Desc: 'Escanea virus, trojanos y código malicioso',
+        feature2Title: 'Amenazas de Seguridad',
+        feature2Desc: 'Identifica sitios de phishing y contenido sospechoso',
+        feature3Title: 'Análisis de Motores',
+        feature3Desc: 'Resultados de más de 70 motores de seguridad mundiales',
+        feature4Title: 'Evaluación de Riesgos',
+        feature4Desc: 'Evaluación de seguridad integral y recomendaciones',
+        quickExamples: 'Ejemplos Rápidos:',
+        inputLabel: '🎯 Ingresa URL para analizar:',
+        scanBtn: '🚀 Lanzar Escaneo de Seguridad',
+        urlScanner: '🌐 Escáner de URL',
+        emailScanner: '📧 Escáner de Email',
+        scanSteps: [
+          'Inicializando escáner...',
+          'Conectando a VirusTotal...',
+          'Analizando por malware...',
+          'Escaneando amenazas...',
+          'Compilando resultados...',
+          'Finalizando análisis...'
+        ],
+        errors: {
+          empty: 'Por favor ingresa una URL.',
+          invalid: 'Por favor ingresa una URL válida',
+          timeout: 'Tiempo de escaneo agotado - intenta de nuevo',
+          connection: 'Error de conexión - verifica tu conexión a internet'
+        },
+        results: {
+          maliciousSite: '🚨 ¡Sitio Malicioso Detectado!',
+          suspiciousSite: '⚠️ ¡Sitio Sospechoso!',
+          safeSite: '✅ ¡Sitio Seguro!',
+          analysisResults: '📊 Resultados del Análisis:',
+          threatsDetected: 'Amenazas detectadas por',
+          suspiciousActivity: 'Actividad sospechosa marcada por',
+          scannedBy: 'Escaneado por',
+          confirmedMalware: 'Presencia de malware confirmada',
+          requiresReview: 'Requiere revisión adicional',
+          markedClean: 'motores marcaron como limpio',
+          noThreats: 'No se detectaron amenazas',
+          riskLevel: 'Nivel de Riesgo:',
+          veryHigh: 'Muy Alto',
+          medium: 'Medio',
+          low: 'Bajo',
+          recommendation: 'Recomendación:',
+          avoidCompletely: 'Evita este sitio completamente',
+          useCaution: 'Usa con extrema precaución',
+          safeToUse: 'Seguro para usar',
+          protection: 'Protección:',
+          accessBlocked: 'Acceso bloqueado',
+          verifySource: 'Verifica la fuente',
+          protected: 'Protegido',
+          status: 'Estado:'
+        }
+      },
+      de: {
+        title: '🌐 URL-Sicherheitsscanner',
+        subtitle: 'Erweiterte Malware-Erkennung powered by VirusTotal',
+        whatWeCheck: '🛡️ Was Wir Prüfen',
+        privacyNote: '🔒 Wir nehmen Ihre Daten nicht.',
+        feature1Title: 'Malware-Erkennung',
+        feature1Desc: 'Scannt nach Viren, Trojanern und bösartigem Code',
+        feature2Title: 'Sicherheitsbedrohungen',
+        feature2Desc: 'Identifiziert Phishing-Sites und verdächtige Inhalte',
+        feature3Title: 'Engine-Analyse',
+        feature3Desc: 'Ergebnisse von über 70 Sicherheits-Engines weltweit',
+        feature4Title: 'Risikobewertung',
+        feature4Desc: 'Umfassende Sicherheitsbewertung und Empfehlungen',
+        quickExamples: 'Schnelle Beispiele:',
+        inputLabel: '🎯 URL zur Analyse eingeben:',
+        scanBtn: '🚀 Sicherheitsscan Starten',
+        urlScanner: '🌐 URL-Scanner',
+        emailScanner: '📧 E-Mail-Scanner',
+        scanSteps: [
+          'Scanner wird initialisiert...',
+          'Verbindung zu VirusTotal...',
+          'Malware-Analyse...',
+          'Bedrohungen scannen...',
+          'Ergebnisse zusammenstellen...',
+          'Analyse abschließen...'
+        ],
+        errors: {
+          empty: 'Bitte geben Sie eine URL ein.',
+          invalid: 'Bitte geben Sie eine gültige URL ein',
+          timeout: 'Scan-Timeout - bitte versuchen Sie es erneut',
+          connection: 'Verbindungsfehler - prüfen Sie Ihre Internetverbindung'
+        },
+        results: {
+          maliciousSite: '🚨 Bösartige Seite Erkannt!',
+          suspiciousSite: '⚠️ Verdächtige Seite!',
+          safeSite: '✅ Sichere Seite!',
+          analysisResults: '📊 Analyse-Ergebnisse:',
+          threatsDetected: 'Bedrohungen erkannt von',
+          suspiciousActivity: 'Verdächtige Aktivität markiert von',
+          scannedBy: 'Gescannt von',
+          confirmedMalware: 'Bestätigte Malware-Präsenz',
+          requiresReview: 'Erfordert zusätzliche Überprüfung',
+          markedClean: 'Engines als sauber markiert',
+          noThreats: 'Keine Bedrohungen erkannt',
+          riskLevel: 'Risiko-Level:',
+          veryHigh: 'Sehr Hoch',
+          medium: 'Mittel',
+          low: 'Niedrig',
+          recommendation: 'Empfehlung:',
+          avoidCompletely: 'Diese Seite vollständig meiden',
+          useCaution: 'Mit äußerster Vorsicht verwenden',
+          safeToUse: 'Sicher zu verwenden',
+          protection: 'Schutz:',
+          accessBlocked: 'Zugriff blockiert',
+          verifySource: 'Quelle überprüfen',
+          protected: 'Geschützt',
+          status: 'Status:'
+        }
+      },
+      fr: {
+        title: '🌐 Scanner de Sécurité URL',
+        subtitle: 'Détection avancée de malware powered by VirusTotal',
+        whatWeCheck: '🛡️ Ce Que Nous Vérifions',
+        privacyNote: '🔒 Nous ne prendrons pas vos informations.',
+        feature1Title: 'Détection de Malware',
+        feature1Desc: 'Scanne les virus, trojans et code malveillant',
+        feature2Title: 'Menaces de Sécurité',
+        feature2Desc: 'Identifie les sites de phishing et contenu suspect',
+        feature3Title: 'Analyse des Moteurs',
+        feature3Desc: 'Résultats de plus de 70 moteurs de sécurité mondiaux',
+        feature4Title: 'Évaluation des Risques',
+        feature4Desc: 'Évaluation de sécurité complète et recommandations',
+        quickExamples: 'Exemples Rapides:',
+        inputLabel: '🎯 Entrez l\'URL à analyser:',
+        scanBtn: '🚀 Lancer le Scan de Sécurité',
+        urlScanner: '🌐 Scanner URL',
+        emailScanner: '📧 Scanner Email',
+        scanSteps: [
+          'Initialisation du scanner...',
+          'Connexion à VirusTotal...',
+          'Analyse des malwares...',
+          'Scan des menaces...',
+          'Compilation des résultats...',
+          'Finalisation de l\'analyse...'
+        ],
+        errors: {
+          empty: 'Veuillez entrer une URL.',
+          invalid: 'Veuillez entrer une URL valide',
+          timeout: 'Délai de scan dépassé - veuillez réessayer',
+          connection: 'Erreur de connexion - vérifiez votre connexion internet'
+        },
+        results: {
+          maliciousSite: '🚨 Site Malveillant Détecté!',
+          suspiciousSite: '⚠️ Site Suspect!',
+          safeSite: '✅ Site Sûr!',
+          analysisResults: '📊 Résultats de l\'Analyse:',
+          threatsDetected: 'Menaces détectées par',
+          suspiciousActivity: 'Activité suspecte signalée par',
+          scannedBy: 'Scanné par',
+          confirmedMalware: 'Présence de malware confirmée',
+          requiresReview: 'Nécessite une révision supplémentaire',
+          markedClean: 'moteurs marqués comme propres',
+          noThreats: 'Aucune menace détectée',
+          riskLevel: 'Niveau de Risque:',
+          veryHigh: 'Très Élevé',
+          medium: 'Moyen',
+          low: 'Faible',
+          recommendation: 'Recommandation:',
+          avoidCompletely: 'Évitez complètement ce site',
+          useCaution: 'Utilisez avec une extrême prudence',
+          safeToUse: 'Sûr à utiliser',
+          protection: 'Protection:',
+          accessBlocked: 'Accès bloqué',
+          verifySource: 'Vérifiez la source',
+          protected: 'Protégé',
+          status: 'Statut:'
+        }
+      },
+      zh: {
+        title: '🌐 URL安全扫描器',
+        subtitle: '由VirusTotal提供支持的高级恶意软件检测',
+        whatWeCheck: '🛡️ 我们检查什么',
+        privacyNote: '🔒 我们不会获取您的信息。',
+        feature1Title: '恶意软件检测',
+        feature1Desc: '扫描病毒、木马和恶意代码',
+        feature2Title: '安全威胁',
+        feature2Desc: '识别钓鱼网站和可疑内容',
+        feature3Title: '引擎分析',
+        feature3Desc: '来自全球70+安全引擎的结果',
+        feature4Title: '风险评估',
+        feature4Desc: '全面的安全评估和建议',
+        quickExamples: '快速示例：',
+        inputLabel: '🎯 输入要分析的URL：',
+        scanBtn: '🚀 启动安全扫描',
+        urlScanner: '🌐 URL扫描器',
+        emailScanner: '📧 电子邮件扫描器',
+        scanSteps: [
+          '初始化扫描器...',
+          '连接到VirusTotal...',
+          '分析恶意软件...',
+          '扫描威胁...',
+          '编译结果...',
+          '完成分析...'
+        ],
+        errors: {
+          empty: '请输入URL。',
+          invalid: '请输入有效的URL',
+          timeout: '扫描超时 - 请重试',
+          connection: '连接错误 - 请检查您的网络连接'
+        },
+        results: {
+          maliciousSite: '🚨 检测到恶意网站！',
+          suspiciousSite: '⚠️ 可疑网站！',
+          safeSite: '✅ 安全网站！',
+          analysisResults: '📊 分析结果：',
+          threatsDetected: '威胁检测由',
+          suspiciousActivity: '可疑活动标记由',
+          scannedBy: '扫描由',
+          confirmedMalware: '确认恶意软件存在',
+          requiresReview: '需要额外审查',
+          markedClean: '个引擎标记为干净',
+          noThreats: '未检测到威胁',
+          riskLevel: '风险级别：',
+          veryHigh: '非常高',
+          medium: '中等',
+          low: '低',
+          recommendation: '建议：',
+          avoidCompletely: '完全避免此网站',
+          useCaution: '极其谨慎使用',
+          safeToUse: '可安全使用',
+          protection: '保护：',
+          accessBlocked: '访问已阻止',
+          verifySource: '验证来源',
+          protected: '受保护',
+          status: '状态：'
+        }
+      }
+    };
+
+    function setExample(url) {
+      document.getElementById('url-input').value = url;
+      document.getElementById('url-input').focus();
+    }
+
+    function toggleLanguageDropdown() {
+      const dropdown = document.getElementById('langDropdown');
+      const arrow = document.getElementById('arrow');
+      
+      isDropdownOpen = !isDropdownOpen;
+      
+      if (isDropdownOpen) {
+        dropdown.classList.add('show');
+        arrow.style.transform = 'rotate(180deg)';
+      } else {
+        dropdown.classList.remove('show');
+        arrow.style.transform = 'rotate(0deg)';
+      }
+    }
+
+    function changeLanguage(langCode, langName) {
+      currentLang = langCode;
+      
+      // Update flag
+      const currentFlag = document.getElementById('current-flag');
+      currentFlag.className = `flag flag-${langCode}`;
+      
+      // Update current language text
+      document.getElementById('current-lang').textContent = langName;
+      
+      // Update active state in dropdown
+      document.querySelectorAll('.lang-option').forEach(option => {
+        option.classList.remove('active');
+      });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape' && isDropdownOpen) {
+        toggleLanguageDropdown();
+      }
+    });
+
+    document.getElementById('scan-form').addEventListener('submit', fetchScan);
+    document.getElementById('scan-btn').addEventListener('click', fetchScan);
+
+    // Initialize page
+    updatePageContent();
+  </script>
+</body>
+</html>
+      event.target.closest('.lang-option').classList.add('active');
+      
+      // Update page content
+      updatePageContent();
+      
+      // Close dropdown
+      toggleLanguageDropdown();
+      
+      // Update document direction for RTL languages
+      if (langCode === 'ar') {
+        document.documentElement.setAttribute('dir', 'rtl');
+        document.documentElement.setAttribute('lang', 'ar');
+      } else {
+        document.documentElement.setAttribute('dir', 'ltr');
+        document.documentElement.setAttribute('lang', langCode);
+      }
+    }
+
+    function updatePageContent() {
+      const t = translations[currentLang];
+      
+      document.getElementById('title').textContent = t.title;
+      document.getElementById('subtitle').textContent = t.subtitle;
+      document.getElementById('what-we-check').textContent = t.whatWeCheck;
+      document.getElementById('privacy-note').textContent = t.privacyNote;
+      document.getElementById('feature1-title').textContent = t.feature1Title;
+      document.getElementById('feature1-desc').textContent = t.feature1Desc;
+      document.getElementById('feature2-title').textContent = t.feature2Title;
+      document.getElementById('feature2-desc').textContent = t.feature2Desc;
+      document.getElementById('feature3-title').textContent = t.feature3Title;
+      document.getElementById('feature3-desc').textContent = t.feature3Desc;
+      document.getElementById('feature4-title').textContent = t.feature4Title;
+      document.getElementById('feature4-desc').textContent = t.feature4Desc;
+      document.getElementById('quick-examples').textContent = t.quickExamples;
+      document.getElementById('input-label').textContent = t.inputLabel;
+      document.getElementById('scan-btn').textContent = t.scanBtn;
+      
+      // Update navigation
+      const navLinks = document.querySelectorAll('.nav-links a');
+      navLinks[0].textContent = t.urlScanner;
+      navLinks[1].textContent = t.emailScanner;
+    }
+
+    function typeWriter(element, text, speed = 50) {
+      element.innerHTML = '';
+      let i = 0;
+      const timer = setInterval(() => {
+        if (i < text.length) {
+          element.innerHTML += text.charAt(i);
+          i++;
+        } else {
+          clearInterval(timer);
+        }
+      }, speed);
+    }
+
+    async function fetchScan() {
+      const errorDiv = document.getElementById('error-msg');
+      const resultDiv = document.getElementById('result');
+      const submitBtn = document.getElementById('scan-btn');
+      const scanProgress = document.getElementById('scan-progress');
+      const urlInput = document.getElementById('url-input');
+      const t = translations[currentLang];
+
+      errorDiv.textContent = '';
+      resultDiv.textContent = '';
+      resultDiv.className = '';
+      submitBtn.disabled = true;
+      submitBtn.classList.add('scanning-button');
+      
+      let value = urlInput.value.trim();
+
+      if (!value) {
+        errorDiv.textContent = t.errors.empty;
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('scanning-button');
+        return;
+      }
+
+      if (!value.match(/^https?:\/\//)) {
+        value = 'https://' + value;
+        urlInput.value = value;
+      }
+      
+      if (!value.match(/^https?:\/\/.+\..+/)) {
+        errorDiv.textContent = t.errors.invalid;
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('scanning-button');
+        return;
+      }
+
+      scanProgress.style.display = 'flex';
+
+      for (let i = 0; i < t.scanSteps.length; i++) {
+        await new Promise(resolve => setTimeout(resolve, 600));
+        resultDiv.innerHTML = `
+          <div style="text-align: center;">
+            <div class="loading-dots">
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+            <p>${t.scanSteps[i]}</p>
+          </div>
+        `;
+      }
+
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 120000);
+
+        const response = await fetch('/api/scan', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            type: 'url',
+            value: value,
+            mode: scanMode
+          }),
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || `HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        scanProgress.style.display = 'none';
+
+        const verdict = data.verdict;
+        const stats = data.stats;
+        const engines = data.engines;
+        const totalEngines = Object.keys(engines).length;
+        const maliciousCount = stats.malicious || 0;
+        const suspiciousCount = stats.suspicious || 0;
+        const harmlessCount = stats.harmless || 0;
+
+        let result, resultClass;
+
+        if (verdict === 'malicious') {
+          result = `${t.results.maliciousSite}\n\n${t.results.analysisResults}\n• ${t.results.threatsDetected} ${maliciousCount}/${totalEngines} engines\n• ${t.results.confirmedMalware}\n• ${t.results.riskLevel} ${t.results.veryHigh}\n\n⚠️ ${t.results.recommendation} ${t.results.avoidCompletely}\n🛡️ ${t.results.protection} ${t.results.accessBlocked}`;
+          resultClass = 'result-danger';
+        } else if (verdict === 'suspicious') {
+          result = `${t.results.suspiciousSite}\n\n${t.results.analysisResults}\n• ${t.results.suspiciousActivity} ${suspiciousCount}/${totalEngines} engines\n• ${t.results.requiresReview}\n• ${t.results.riskLevel} ${t.results.medium}\n\n💡 ${t.results.recommendation} ${t.results.useCaution}\n🔍 ${t.results.verifySource}`;
+          resultClass = 'result-warning';
+        } else {
+          result = `${t.results.safeSite}\n\n${t.results.analysisResults}\n• ${t.results.scannedBy} ${totalEngines} security engines\n• ${harmlessCount} ${t.results.markedClean}\n• ${t.results.noThreats}\n• ${t.results.riskLevel} ${t.results.low}\n\n🎉 ${t.results.recommendation} ${t.results.safeToUse}\n🛡️ ${t.results.status} ${t.results.protected}`;
+          resultClass = 'result-success';
+        }
+
+        resultDiv.className = resultClass;
+        typeWriter(resultDiv, result, 20);
+
+      } catch (error) {
+        scanProgress.style.display = 'none';
+        
+        let errorMessage;
+        if (error.name === 'AbortError') {
+          errorMessage = t.errors.timeout;
+        } else if (error.message.includes('Failed to fetch')) {
+          errorMessage = t.errors.connection;
+        } else if (error.message.includes('timeout')) {
+          errorMessage = currentLang === 'ar' ? 'انتهت مهلة الفحص - قد يكون الموقع بطيء في الاستجابة' : 
+                       currentLang === 'zh' ? '扫描超时 - 网站可能响应缓慢。请重试。' :
+                       currentLang === 'es' ? 'Tiempo de escaneo agotado - el sitio puede ser lento para responder. Intenta de nuevo.' :
+                       currentLang === 'de' ? 'Scan-Timeout - die Seite reagiert möglicherweise langsam. Bitte versuchen Sie es erneut.' :
+                       currentLang === 'fr' ? 'Délai de scan dépassé - le site peut être lent à répondre. Veuillez réessayer.' :
+                       'Scan timeout - the site may be slow to respond. Please try again.';
+        } else {
+          errorMessage = `${currentLang === 'ar' ? 'خطأ في الفحص:' : currentLang === 'zh' ? '扫描错误:' : currentLang === 'es' ? 'Error de escaneo:' : currentLang === 'de' ? 'Scan-Fehler:' : currentLang === 'fr' ? 'Erreur de scan:' : 'Scan error:'} ${error.message}`;
+        }
+        
+        console.error('Scan error:', error);
+        errorDiv.textContent = errorMessage;
+        resultDiv.textContent = '';
+      }
+
+      submitBtn.disabled = false;
+      submitBtn.classList.remove('scanning-button');
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+      const languageSelector = document.querySelector('.language-selector');
+      if (!languageSelector.contains(event.target) && isDropdownOpen) {
+        toggleLanguageDropdown();
+      }<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>URL Security Scanner</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
@@ -231,7 +1578,6 @@
     .flag-fr { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="20" height="30" fill="%23002395"/><rect x="20" width="20" height="30" fill="%23fff"/><rect x="40" width="20" height="30" fill="%23ED2939"/></svg>'); }
     .flag-zh { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="%23DE2910"/><polygon points="12,6 9.51,13.76 1.24,13.76 7.87,18.48 5.38,26.24 12,21.52 18.62,26.24 16.13,18.48 22.76,13.76 14.49,13.76" fill="%23FFDE00"/></svg>'); }
 
-    /* Rest of the styles remain the same as original URL scanner */
     .container {
       background: rgba(30, 41, 59, 0.9);
       border-radius: 20px;
@@ -691,9 +2037,6 @@
     
     <div class="url-info">
       <h3 id="what-we-check">🛡️ What We Check</h3>
-      <div class="privacy-note" id="privacy-note">
-        🔒 We won't save your Info.
-      </div>
       <div class="info-grid">
         <div class="info-item">
           <span class="icon">🦠</span>
@@ -716,6 +2059,11 @@
           <div class="desc" id="feature4-desc">Comprehensive security evaluation and recommendations</div>
         </div>
       </div>
+    </div>
+
+    <!-- Privacy Note -->
+    <div class="privacy-note" id="privacy-note">
+      🔒 We won't take your info.
     </div>
     
     <div class="url-examples">
@@ -748,627 +2096,4 @@
   <script>
     let currentLang = 'en';
     let scanMode = 'quick';
-    let isDropdownOpen = false;
-
-    const translations = {
-      en: {
-        title: '🌐 URL Security Scanner',
-        subtitle: 'Advanced malware detection powered by VirusTotal',
-        whatWeCheck: '🛡️ What We Check',
-        privacyNote: '🔒 We won\'t save your Info.',
-        feature1Title: 'Malware Detection',
-        feature1Desc: 'Scan for viruses, trojans, and malicious code',
-        feature2Title: 'Security Threats',
-        feature2Desc: 'Identify phishing sites and suspicious content',
-        feature3Title: 'Engine Analysis',
-        feature3Desc: 'Results from 70+ security engines worldwide',
-        feature4Title: 'Risk Assessment',
-        feature4Desc: 'Comprehensive security evaluation and recommendations',
-        quickExamples: 'Quick Examples:',
-        inputLabel: '🎯 Enter URL to analyze:',
-        scanBtn: '🚀 Launch Security Scan',
-        urlScanner: '🌐 URL Scanner',
-        emailScanner: '📧 Email Scanner',
-        scanSteps: [
-          'Initializing scanner...',
-          'Connecting to VirusTotal...',
-          'Analyzing for malware...',
-          'Scanning for threats...',
-          'Compiling results...',
-          'Finalizing analysis...'
-        ],
-        errors: {
-          empty: 'Please enter a URL.',
-          invalid: 'Please enter a valid URL',
-          timeout: 'Scan timeout - please try again',
-          connection: 'Connection error - please check your internet connection'
-        },
-        results: {
-          maliciousSite: '🚨 Malicious Site Detected!',
-          suspiciousSite: '⚠️ Suspicious Site!',
-          safeSite: '✅ Safe Site!',
-          analysisResults: '📊 Analysis Results:',
-          threatsDetected: 'Threats detected by',
-          suspiciousActivity: 'Suspicious activity flagged by',
-          scannedBy: 'Scanned by',
-          confirmedMalware: 'Confirmed malware presence',
-          requiresReview: 'Requires additional review',
-          markedClean: 'engines marked as clean',
-          noThreats: 'No threats detected',
-          riskLevel: 'Risk Level:',
-          veryHigh: 'Very High',
-          medium: 'Medium',
-          low: 'Low',
-          recommendation: 'Recommendation:',
-          avoidCompletely: 'Avoid this site completely',
-          useCaution: 'Use with extreme caution',
-          safeToUse: 'Safe to use',
-          protection: 'Protection:',
-          accessBlocked: 'Access blocked',
-          verifySource: 'Verify the source',
-          protected: 'Protected',
-          status: 'Status:',
-          advice: 'Advice:'
-        }
-      },
-      ar: {
-        title: '🌐 ماسح أمان المواقع',
-        subtitle: 'كشف البرامج الضارة المتقدم بواسطة VirusTotal',
-        whatWeCheck: '🛡️ ما نفحصه',
-        privacyNote: '🔒 لن نحفظ معلوماتك.',
-        feature1Title: 'كشف البرامج الضارة',
-        feature1Desc: 'فحص الفيروسات وأحصنة طروادة والكود الخبيث',
-        feature2Title: 'التهديدات الأمنية',
-        feature2Desc: 'تحديد مواقع التصيد والمحتوى المشبوه',
-        feature3Title: 'تحليل المحركات',
-        feature3Desc: 'نتائج من أكثر من 70 محرك أمان عالمياً',
-        feature4Title: 'تقييم المخاطر',
-        feature4Desc: 'تقييم أمني شامل وتوصيات',
-        quickExamples: 'أمثلة سريعة:',
-        inputLabel: '🎯 أدخل الرابط للتحليل:',
-        scanBtn: '🚀 بدء فحص الأمان',
-        urlScanner: '🌐 ماسح المواقع',
-        emailScanner: '📧 ماسح البريد',
-        scanSteps: [
-          'تهيئة الماسح الضوئي...',
-          'الاتصال بـ VirusTotal...',
-          'تحليل البرامج الضارة...',
-          'فحص التهديدات...',
-          'تجميع النتائج...',
-          'إنهاء التحليل...'
-        ],
-        errors: {
-          empty: 'يرجى إدخال رابط.',
-          invalid: 'يرجى إدخال رابط صحيح',
-          timeout: 'انتهت مهلة الفحص - يرجى المحاولة مرة أخرى',
-          connection: 'خطأ في الاتصال - تحقق من اتصالك بالإنترنت'
-        },
-        results: {
-          maliciousSite: '🚨 موقع خطير مكتشف!',
-          suspiciousSite: '⚠️ موقع مشبوه!',
-          safeSite: '✅ موقع آمن!',
-          analysisResults: '📊 نتائج التحليل:',
-          threatsDetected: 'تم اكتشاف تهديدات من',
-          suspiciousActivity: 'نشاط مشبوه من',
-          scannedBy: 'تم فحصه بواسطة',
-          confirmedMalware: 'برامج ضارة مؤكدة',
-          requiresReview: 'يحتاج مراجعة إضافية',
-          markedClean: 'محرك صنفه كآمن',
-          noThreats: 'لا توجد تهديدات مكتشفة',
-          riskLevel: 'مستوى الخطر:',
-          veryHigh: 'عالي جداً',
-          medium: 'متوسط',
-          low: 'منخفض',
-          recommendation: 'التوصية:',
-          avoidCompletely: 'تجنب هذا الموقع تماماً',
-          useCaution: 'استخدم بحذر شديد',
-          safeToUse: 'آمن للاستخدام',
-          protection: 'حماية:',
-          accessBlocked: 'تم حظر الوصول',
-          verifySource: 'تحقق من المصدر',
-          protected: 'محمي',
-          status: 'الحالة:',
-          advice: 'نصيحة:'
-        }
-      },
-      es: {
-        title: '🌐 Escáner de Seguridad de URL',
-        subtitle: 'Detección avanzada de malware powered by VirusTotal',
-        whatWeCheck: '🛡️ Qué Verificamos',
-        privacyNote: '🔒 No guardaremos tu información.',
-        feature1Title: 'Detección de Malware',
-        feature1Desc: 'Escanea virus, trojanos y código malicioso',
-        feature2Title: 'Amenazas de Seguridad',
-        feature2Desc: 'Identifica sitios de phishing y contenido sospechoso',
-        feature3Title: 'Análisis de Motores',
-        feature3Desc: 'Resultados de más de 70 motores de seguridad mundiales',
-        feature4Title: 'Evaluación de Riesgos',
-        feature4Desc: 'Evaluación de seguridad integral y recomendaciones',
-        quickExamples: 'Ejemplos Rápidos:',
-        inputLabel: '🎯 Ingresa URL para analizar:',
-        scanBtn: '🚀 Lanzar Escaneo de Seguridad',
-        urlScanner: '🌐 Escáner de URL',
-        emailScanner: '📧 Escáner de Email',
-        scanSteps: [
-          'Inicializando escáner...',
-          'Conectando a VirusTotal...',
-          'Analizando por malware...',
-          'Escaneando amenazas...',
-          'Compilando resultados...',
-          'Finalizando análisis...'
-        ],
-        errors: {
-          empty: 'Por favor ingresa una URL.',
-          invalid: 'Por favor ingresa una URL válida',
-          timeout: 'Tiempo de escaneo agotado - intenta de nuevo',
-          connection: 'Error de conexión - verifica tu conexión a internet'
-        },
-        results: {
-          maliciousSite: '🚨 ¡Sitio Malicioso Detectado!',
-          suspiciousSite: '⚠️ ¡Sitio Sospechoso!',
-          safeSite: '✅ ¡Sitio Seguro!',
-          analysisResults: '📊 Resultados del Análisis:',
-          threatsDetected: 'Amenazas detectadas por',
-          suspiciousActivity: 'Actividad sospechosa marcada por',
-          scannedBy: 'Escaneado por',
-          confirmedMalware: 'Presencia de malware confirmada',
-          requiresReview: 'Requiere revisión adicional',
-          markedClean: 'motores marcaron como limpio',
-          noThreats: 'No se detectaron amenazas',
-          riskLevel: 'Nivel de Riesgo:',
-          veryHigh: 'Muy Alto',
-          medium: 'Medio',
-          low: 'Bajo',
-          recommendation: 'Recomendación:',
-          avoidCompletely: 'Evita este sitio completamente',
-          useCaution: 'Usa con extrema precaución',
-          safeToUse: 'Seguro para usar',
-          protection: 'Protección:',
-          accessBlocked: 'Acceso bloqueado',
-          verifySource: 'Verifica la fuente',
-          protected: 'Protegido',
-          status: 'Estado:',
-          advice: 'Consejo:'
-        }
-      },
-      de: {
-        title: '🌐 URL-Sicherheitsscanner',
-        subtitle: 'Erweiterte Malware-Erkennung powered by VirusTotal',
-        whatWeCheck: '🛡️ Was Wir Prüfen',
-        privacyNote: '🔒 Wir speichern Ihre Daten nicht.',
-        feature1Title: 'Malware-Erkennung',
-        feature1Desc: 'Scannt nach Viren, Trojanern und bösartigem Code',
-        feature2Title: 'Sicherheitsbedrohungen',
-        feature2Desc: 'Identifiziert Phishing-Sites und verdächtige Inhalte',
-        feature3Title: 'Engine-Analyse',
-        feature3Desc: 'Ergebnisse von über 70 Sicherheits-Engines weltweit',
-        feature4Title: 'Risikobewertung',
-        feature4Desc: 'Umfassende Sicherheitsbewertung und Empfehlungen',
-        quickExamples: 'Schnelle Beispiele:',
-        inputLabel: '🎯 URL zur Analyse eingeben:',
-        scanBtn: '🚀 Sicherheitsscan Starten',
-        urlScanner: '🌐 URL-Scanner',
-        emailScanner: '📧 E-Mail-Scanner',
-        scanSteps: [
-          'Scanner wird initialisiert...',
-          'Verbindung zu VirusTotal...',
-          'Malware-Analyse...',
-          'Bedrohungen scannen...',
-          'Ergebnisse zusammenstellen...',
-          'Analyse abschließen...'
-        ],
-        errors: {
-          empty: 'Bitte geben Sie eine URL ein.',
-          invalid: 'Bitte geben Sie eine gültige URL ein',
-          timeout: 'Scan-Timeout - bitte versuchen Sie es erneut',
-          connection: 'Verbindungsfehler - prüfen Sie Ihre Internetverbindung'
-        },
-        results: {
-          maliciousSite: '🚨 Bösartige Seite Erkannt!',
-          suspiciousSite: '⚠️ Verdächtige Seite!',
-          safeSite: '✅ Sichere Seite!',
-          analysisResults: '📊 Analyse-Ergebnisse:',
-          threatsDetected: 'Bedrohungen erkannt von',
-          suspiciousActivity: 'Verdächtige Aktivität markiert von',
-          scannedBy: 'Gescannt von',
-          confirmedMalware: 'Bestätigte Malware-Präsenz',
-          requiresReview: 'Erfordert zusätzliche Überprüfung',
-          markedClean: 'Engines als sauber markiert',
-          noThreats: 'Keine Bedrohungen erkannt',
-          riskLevel: 'Risiko-Level:',
-          veryHigh: 'Sehr Hoch',
-          medium: 'Mittel',
-          low: 'Niedrig',
-          recommendation: 'Empfehlung:',
-          avoidCompletely: 'Diese Seite vollständig meiden',
-          useCaution: 'Mit äußerster Vorsicht verwenden',
-          safeToUse: 'Sicher zu verwenden',
-          protection: 'Schutz:',
-          accessBlocked: 'Zugriff blockiert',
-          verifySource: 'Quelle überprüfen',
-          protected: 'Geschützt',
-          status: 'Status:',
-          advice: 'Rat:'
-        }
-      },
-      fr: {
-        title: '🌐 Scanner de Sécurité URL',
-        subtitle: 'Détection avancée de malware powered by VirusTotal',
-        whatWeCheck: '🛡️ Ce Que Nous Vérifions',
-        privacyNote: '🔒 Nous ne sauvegarderons pas vos informations.',
-        feature1Title: 'Détection de Malware',
-        feature1Desc: 'Scanne les virus, trojans et code malveillant',
-        feature2Title: 'Menaces de Sécurité',
-        feature2Desc: 'Identifie les sites de phishing et contenu suspect',
-        feature3Title: 'Analyse des Moteurs',
-        feature3Desc: 'Résultats de plus de 70 moteurs de sécurité mondiaux',
-        feature4Title: 'Évaluation des Risques',
-        feature4Desc: 'Évaluation de sécurité complète et recommandations',
-        quickExamples: 'Exemples Rapides:',
-        inputLabel: '🎯 Entrez l\'URL à analyser:',
-        scanBtn: '🚀 Lancer le Scan de Sécurité',
-        urlScanner: '🌐 Scanner URL',
-        emailScanner: '📧 Scanner Email',
-        scanSteps: [
-          'Initialisation du scanner...',
-          'Connexion à VirusTotal...',
-          'Analyse des malwares...',
-          'Scan des menaces...',
-          'Compilation des résultats...',
-          'Finalisation de l\'analyse...'
-        ],
-        errors: {
-          empty: 'Veuillez entrer une URL.',
-          invalid: 'Veuillez entrer une URL valide',
-          timeout: 'Délai de scan dépassé - veuillez réessayer',
-          connection: 'Erreur de connexion - vérifiez votre connexion internet'
-        },
-        results: {
-          maliciousSite: '🚨 Site Malveillant Détecté!',
-          suspiciousSite: '⚠️ Site Suspect!',
-          safeSite: '✅ Site Sûr!',
-          analysisResults: '📊 Résultats de l\'Analyse:',
-          threatsDetected: 'Menaces détectées par',
-          suspiciousActivity: 'Activité suspecte signalée par',
-          scannedBy: 'Scanné par',
-          confirmedMalware: 'Présence de malware confirmée',
-          requiresReview: 'Nécessite une révision supplémentaire',
-          markedClean: 'moteurs marqués comme propres',
-          noThreats: 'Aucune menace détectée',
-          riskLevel: 'Niveau de Risque:',
-          veryHigh: 'Très Élevé',
-          medium: 'Moyen',
-          low: 'Faible',
-          recommendation: 'Recommandation:',
-          avoidCompletely: 'Évitez complètement ce site',
-          useCaution: 'Utilisez avec une extrême prudence',
-          safeToUse: 'Sûr à utiliser',
-          protection: 'Protection:',
-          accessBlocked: 'Accès bloqué',
-          verifySource: 'Vérifiez la source',
-          protected: 'Protégé',
-          status: 'Statut:',
-          advice: 'Conseil:'
-        }
-      },
-      zh: {
-        title: '🌐 URL安全扫描器',
-        subtitle: '由VirusTotal提供支持的高级恶意软件检测',
-        whatWeCheck: '🛡️ 我们检查什么',
-        privacyNote: '🔒 我们不会保存您的信息。',
-        feature1Title: '恶意软件检测',
-        feature1Desc: '扫描病毒、木马和恶意代码',
-        feature2Title: '安全威胁',
-        feature2Desc: '识别钓鱼网站和可疑内容',
-        feature3Title: '引擎分析',
-        feature3Desc: '来自全球70+安全引擎的结果',
-        feature4Title: '风险评估',
-        feature4Desc: '全面的安全评估和建议',
-        quickExamples: '快速示例：',
-        inputLabel: '🎯 输入要分析的URL：',
-        scanBtn: '🚀 启动安全扫描',
-        urlScanner: '🌐 URL扫描器',
-        emailScanner: '📧 电子邮件扫描器',
-        scanSteps: [
-          '初始化扫描器...',
-          '连接到VirusTotal...',
-          '分析恶意软件...',
-          '扫描威胁...',
-          '编译结果...',
-          '完成分析...'
-        ],
-        errors: {
-          empty: '请输入URL。',
-          invalid: '请输入有效的URL',
-          timeout: '扫描超时 - 请重试',
-          connection: '连接错误 - 请检查您的网络连接'
-        },
-        results: {
-          maliciousSite: '🚨 检测到恶意网站！',
-          suspiciousSite: '⚠️ 可疑网站！',
-          safeSite: '✅ 安全网站！',
-          analysisResults: '📊 分析结果：',
-          threatsDetected: '威胁检测由',
-          suspiciousActivity: '可疑活动标记由',
-          scannedBy: '扫描由',
-          confirmedMalware: '确认恶意软件存在',
-          requiresReview: '需要额外审查',
-          markedClean: '个引擎标记为干净',
-          noThreats: '未检测到威胁',
-          riskLevel: '风险级别：',
-          veryHigh: '非常高',
-          medium: '中等',
-          low: '低',
-          recommendation: '建议：',
-          avoidCompletely: '完全避免此网站',
-          useCaution: '极其谨慎使用',
-          safeToUse: '可安全使用',
-          protection: '保护：',
-          accessBlocked: '访问已阻止',
-          verifySource: '验证来源',
-          protected: '受保护',
-          status: '状态：',
-          advice: '建议：'
-        }
-      }
-    };
-
-    function setExample(url) {
-      document.getElementById('url-input').value = url;
-      document.getElementById('url-input').focus();
-    }
-
-    function toggleLanguageDropdown() {
-      const dropdown = document.getElementById('langDropdown');
-      const arrow = document.getElementById('arrow');
-      
-      isDropdownOpen = !isDropdownOpen;
-      
-      if (isDropdownOpen) {
-        dropdown.classList.add('show');
-        arrow.style.transform = 'rotate(180deg)';
-      } else {
-        dropdown.classList.remove('show');
-        arrow.style.transform = 'rotate(0deg)';
-      }
-    }
-
-    function changeLanguage(langCode, langName) {
-      currentLang = langCode;
-      
-      // Update flag
-      const currentFlag = document.getElementById('current-flag');
-      currentFlag.className = `flag flag-${langCode}`;
-      
-      // Update current language text
-      document.getElementById('current-lang').textContent = langName;
-      
-      // Update active state in dropdown
-      document.querySelectorAll('.lang-option').forEach(option => {
-        option.classList.remove('active');
-      });
-      event.target.closest('.lang-option').classList.add('active');
-      
-      // Update page content
-      updatePageContent();
-      
-      // Close dropdown
-      toggleLanguageDropdown();
-      
-      // Update document direction for RTL languages
-      if (langCode === 'ar') {
-        document.documentElement.setAttribute('dir', 'rtl');
-        document.documentElement.setAttribute('lang', 'ar');
-      } else {
-        document.documentElement.setAttribute('dir', 'ltr');
-        document.documentElement.setAttribute('lang', langCode);
-      }
-    }
-
-    function updatePageContent() {
-      const t = translations[currentLang];
-      
-      document.getElementById('title').textContent = t.title;
-      document.getElementById('subtitle').textContent = t.subtitle;
-      document.getElementById('what-we-check').textContent = t.whatWeCheck;
-      document.getElementById('privacy-note').textContent = t.privacyNote;
-      document.getElementById('feature1-title').textContent = t.feature1Title;
-      document.getElementById('feature1-desc').textContent = t.feature1Desc;
-      document.getElementById('feature2-title').textContent = t.feature2Title;
-      document.getElementById('feature2-desc').textContent = t.feature2Desc;
-      document.getElementById('feature3-title').textContent = t.feature3Title;
-      document.getElementById('feature3-desc').textContent = t.feature3Desc;
-      document.getElementById('feature4-title').textContent = t.feature4Title;
-      document.getElementById('feature4-desc').textContent = t.feature4Desc;
-      document.getElementById('quick-examples').textContent = t.quickExamples;
-      document.getElementById('input-label').textContent = t.inputLabel;
-      document.getElementById('scan-btn').textContent = t.scanBtn;
-      
-      // Update navigation
-      const navLinks = document.querySelectorAll('.nav-links a');
-      navLinks[0].textContent = t.urlScanner;
-      navLinks[1].textContent = t.emailScanner;
-    }
-
-    function typeWriter(element, text, speed = 50) {
-      element.innerHTML = '';
-      let i = 0;
-      const timer = setInterval(() => {
-        if (i < text.length) {
-          element.innerHTML += text.charAt(i);
-          i++;
-        } else {
-          clearInterval(timer);
-        }
-      }, speed);
-    }
-
-    async function fetchScan() {
-      const errorDiv = document.getElementById('error-msg');
-      const resultDiv = document.getElementById('result');
-      const submitBtn = document.getElementById('scan-btn');
-      const scanProgress = document.getElementById('scan-progress');
-      const urlInput = document.getElementById('url-input');
-      const t = translations[currentLang];
-
-      errorDiv.textContent = '';
-      resultDiv.textContent = '';
-      resultDiv.className = '';
-      submitBtn.disabled = true;
-      submitBtn.classList.add('scanning-button');
-      
-      let value = urlInput.value.trim();
-
-      if (!value) {
-        errorDiv.textContent = t.errors.empty;
-        submitBtn.disabled = false;
-        submitBtn.classList.remove('scanning-button');
-        return;
-      }
-
-      if (!value.match(/^https?:\/\//)) {
-        value = 'https://' + value;
-        urlInput.value = value;
-      }
-      
-      if (!value.match(/^https?:\/\/.+\..+/)) {
-        errorDiv.textContent = t.errors.invalid;
-        submitBtn.disabled = false;
-        submitBtn.classList.remove('scanning-button');
-        return;
-      }
-
-      scanProgress.style.display = 'flex';
-
-      for (let i = 0; i < t.scanSteps.length; i++) {
-        await new Promise(resolve => setTimeout(resolve, 600));
-        resultDiv.innerHTML = `
-          <div style="text-align: center;">
-            <div class="loading-dots">
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
-            <p>${t.scanSteps[i]}</p>
-          </div>
-        `;
-      }
-
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 120000);
-
-        const response = await fetch('/api/scan', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            type: 'url',
-            value: value,
-            mode: scanMode
-          }),
-          signal: controller.signal
-        });
-
-        clearTimeout(timeoutId);
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.error || `HTTP ${response.status}: ${response.statusText}`);
-        }
-
-        scanProgress.style.display = 'none';
-
-        const verdict = data.verdict;
-        const stats = data.stats;
-        const engines = data.engines;
-        const totalEngines = Object.keys(engines).length;
-        const maliciousCount = stats.malicious || 0;
-        const suspiciousCount = stats.suspicious || 0;
-        const harmlessCount = stats.harmless || 0;
-
-        let result, resultClass;
-
-        if (verdict === 'malicious') {
-          result = `${t.results.maliciousSite}\n\n${t.results.analysisResults}\n• ${t.results.threatsDetected} ${maliciousCount}/${totalEngines} engines\n• ${t.results.confirmedMalware}\n• ${t.results.riskLevel} ${t.results.veryHigh}\n\n⚠️ ${t.results.recommendation} ${t.results.avoidCompletely}\n🛡️ ${t.results.protection} ${t.results.accessBlocked}`;
-          resultClass = 'result-danger';
-        } else if (verdict === 'suspicious') {
-          result = `${t.results.suspiciousSite}\n\n${t.results.analysisResults}\n• ${t.results.suspiciousActivity} ${suspiciousCount}/${totalEngines} engines\n• ${t.results.requiresReview}\n• ${t.results.riskLevel} ${t.results.medium}\n\n💡 ${t.results.recommendation} ${t.results.useCaution}\n🔍 ${t.results.advice} ${t.results.verifySource}`;
-          resultClass = 'result-warning';
-        } else {
-          result = `${t.results.safeSite}\n\n${t.results.analysisResults}\n• ${t.results.scannedBy} ${totalEngines} security engines\n• ${harmlessCount} ${t.results.markedClean}\n• ${t.results.noThreats}\n• ${t.results.riskLevel} ${t.results.low}\n\n🎉 ${t.results.recommendation} ${t.results.safeToUse}\n🛡️ ${t.results.status} ${t.results.protected}`;
-          resultClass = 'result-success';
-        }
-
-        resultDiv.className = resultClass;
-        typeWriter(resultDiv, result, 20);
-
-      } catch (error) {
-        scanProgress.style.display = 'none';
-        
-        let errorMessage;
-        if (error.name === 'AbortError') {
-          errorMessage = t.errors.timeout;
-        } else if (error.message.includes('Failed to fetch')) {
-          errorMessage = t.errors.connection;
-        } else if (error.message.includes('timeout')) {
-          errorMessage = currentLang === 'ar' ? 'انتهت مهلة الفحص - قد يكون الموقع بطيء في الاستجابة' : 
-                       currentLang === 'zh' ? '扫描超时 - 网站可能响应缓慢。请重试。' :
-                       currentLang === 'es' ? 'Tiempo de escaneo agotado - el sitio puede ser lento para responder. Intenta de nuevo.' :
-                       currentLang === 'de' ? 'Scan-Timeout - die Seite reagiert möglicherweise langsam. Bitte versuchen Sie es erneut.' :
-                       currentLang === 'fr' ? 'Délai de scan dépassé - le site peut être lent à répondre. Veuillez réessayer.' :
-                       'Scan timeout - the site may be slow to respond. Please try again.';
-        } else {
-          errorMessage = `${currentLang === 'ar' ? 'خطأ في الفحص:' : currentLang === 'zh' ? '扫描错误:' : currentLang === 'es' ? 'Error de escaneo:' : currentLang === 'de' ? 'Scan-Fehler:' : currentLang === 'fr' ? 'Erreur de scan:' : 'Scan error:'} ${error.message}`;
-        }
-        
-        console.error('Scan error:', error);
-        errorDiv.textContent = errorMessage;
-        resultDiv.textContent = '';
-      }
-
-      submitBtn.disabled = false;
-      submitBtn.classList.remove('scanning-button');
-    }
-
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function(event) {
-      const languageSelector = document.querySelector('.language-selector');
-      if (!languageSelector.contains(event.target) && isDropdownOpen) {
-        toggleLanguageDropdown();
-      }
-    });
-
-    // Keyboard navigation
-    document.addEventListener('keydown', function(event) {
-      if (event.key === 'Escape' && isDropdownOpen) {
-        toggleLanguageDropdown();
-      }
-    });
-
-    document.getElementById('scan-form').addEventListener('submit', fetchScan);
-    document.getElementById('scan-btn').addEventListener('click', fetchScan);
-
-    // Initialize page
-    updatePageContent();
-  </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>URL Security Scanner</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-
-    * { box-sizing: border-box; }
-
-    body {
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: #e0e6e9;
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      padding: 20px;
-    }
+    let isDropdown
