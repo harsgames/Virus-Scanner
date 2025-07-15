@@ -76,8 +76,8 @@
     .nav-bar {
       position: fixed;
       top: 20px;
-      left: 20px;
-      right: 20px;
+      left: 50%;
+      transform: translateX(-50%);
       background: rgba(30, 41, 59, 0.9);
       border-radius: 25px;
       padding: 10px 20px;
@@ -89,6 +89,8 @@
       align-items: center;
       justify-content: space-between;
       gap: 15px;
+      max-width: 800px;
+      width: auto;
     }
 
     .nav-left {
@@ -310,6 +312,18 @@
       gap: 10px;
     }
 
+    .privacy-note {
+      background: rgba(0, 255, 200, 0.1);
+      color: #00ffc8;
+      padding: 10px 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-align: center;
+      border: 1px solid rgba(0, 255, 200, 0.2);
+    }
+
     .info-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -463,13 +477,26 @@
     }
 
     .scan-progress {
-      width: 100%;
-      height: 6px;
-      background: rgba(0, 255, 200, 0.1);
-      border-radius: 3px;
-      overflow: hidden;
-      margin-top: 15px;
       display: none;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .loading-circle {
+      width: 60px;
+      height: 60px;
+      border: 4px solid rgba(0, 255, 200, 0.2);
+      border-top: 4px solid #00ffc8;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      box-shadow: 0 0 20px rgba(0, 255, 200, 0.3);
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     .scan-progress-bar {
@@ -566,11 +593,12 @@
       }
       
       .nav-bar {
-        left: 10px;
-        right: 10px;
+        left: 50%;
+        transform: translateX(-50%);
         padding: 8px 15px;
         flex-direction: column;
         gap: 8px;
+        max-width: 90%;
       }
 
       .nav-left {
@@ -669,6 +697,9 @@
     
     <div class="url-info">
       <h3 id="what-we-check">🛡️ What We Check</h3>
+      <div class="privacy-note" id="privacy-note">
+        🔒 We won't save your Info.
+      </div>
       <div class="info-grid">
         <div class="info-item">
           <span class="icon">🦠</span>
@@ -712,7 +743,7 @@
       </button>
       
       <div class="scan-progress" id="scan-progress">
-        <div class="scan-progress-bar"></div>
+        <div class="loading-circle"></div>
       </div>
     </form>
     
@@ -730,6 +761,7 @@
         title: '🌐 URL Security Scanner',
         subtitle: 'Advanced malware detection powered by VirusTotal',
         whatWeCheck: '🛡️ What We Check',
+        privacyNote: '🔒 We won\'t save your Info.',
         feature1Title: 'Malware Detection',
         feature1Desc: 'Scan for viruses, trojans, and malicious code',
         feature2Title: 'Security Threats',
@@ -789,6 +821,7 @@
         title: '🌐 ماسح أمان المواقع',
         subtitle: 'كشف البرامج الضارة المتقدم بواسطة VirusTotal',
         whatWeCheck: '🛡️ ما نفحصه',
+        privacyNote: '🔒 لن نحفظ معلوماتك.',
         feature1Title: 'كشف البرامج الضارة',
         feature1Desc: 'فحص الفيروسات وأحصنة طروادة والكود الخبيث',
         feature2Title: 'التهديدات الأمنية',
@@ -848,6 +881,7 @@
         title: '🌐 Escáner de Seguridad de URL',
         subtitle: 'Detección avanzada de malware powered by VirusTotal',
         whatWeCheck: '🛡️ Qué Verificamos',
+        privacyNote: '🔒 No guardaremos tu información.',
         feature1Title: 'Detección de Malware',
         feature1Desc: 'Escanea virus, trojanos y código malicioso',
         feature2Title: 'Amenazas de Seguridad',
@@ -907,6 +941,7 @@
         title: '🌐 URL-Sicherheitsscanner',
         subtitle: 'Erweiterte Malware-Erkennung powered by VirusTotal',
         whatWeCheck: '🛡️ Was Wir Prüfen',
+        privacyNote: '🔒 Wir speichern Ihre Daten nicht.',
         feature1Title: 'Malware-Erkennung',
         feature1Desc: 'Scannt nach Viren, Trojanern und bösartigem Code',
         feature2Title: 'Sicherheitsbedrohungen',
@@ -966,6 +1001,7 @@
         title: '🌐 Scanner de Sécurité URL',
         subtitle: 'Détection avancée de malware powered by VirusTotal',
         whatWeCheck: '🛡️ Ce Que Nous Vérifions',
+        privacyNote: '🔒 Nous ne sauvegarderons pas vos informations.',
         feature1Title: 'Détection de Malware',
         feature1Desc: 'Scanne les virus, trojans et code malveillant',
         feature2Title: 'Menaces de Sécurité',
@@ -1025,6 +1061,7 @@
         title: '🌐 URL安全扫描器',
         subtitle: '由VirusTotal提供支持的高级恶意软件检测',
         whatWeCheck: '🛡️ 我们检查什么',
+        privacyNote: '🔒 我们不会保存您的信息。',
         feature1Title: '恶意软件检测',
         feature1Desc: '扫描病毒、木马和恶意代码',
         feature2Title: '安全威胁',
@@ -1140,6 +1177,7 @@
       document.getElementById('title').textContent = t.title;
       document.getElementById('subtitle').textContent = t.subtitle;
       document.getElementById('what-we-check').textContent = t.whatWeCheck;
+      document.getElementById('privacy-note').textContent = t.privacyNote;
       document.getElementById('feature1-title').textContent = t.feature1Title;
       document.getElementById('feature1-desc').textContent = t.feature1Desc;
       document.getElementById('feature2-title').textContent = t.feature2Title;
@@ -1206,7 +1244,7 @@
         return;
       }
 
-      scanProgress.style.display = 'block';
+      scanProgress.style.display = 'flex';
 
       for (let i = 0; i < t.scanSteps.length; i++) {
         await new Promise(resolve => setTimeout(resolve, 600));
