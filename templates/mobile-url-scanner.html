@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <title>URL Security Scanner</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    * { 
+      box-sizing: border-box; 
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+      color: #ffffff;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      touch-action: manipulation;
+    }
+
+    /* Animated background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.1) 0%, transparent 50%);
+      animation: gradientShift 8s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.05); }
+    }
+
+    /* Mobile-first navigation */
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(26, 26, 46, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 1000;
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+
+align-items: center;
+      height: 60px;
+    }
+
+    .nav-brand {
+      font-size: 18px;
+      font-weight: 700;
+      color: #00ffc8;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-toggle {
+      background: none;
+      border: none;
+      color: #ffffff;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-toggle:active {
+      background: rgba(255, 255, 255, 0.1);
+      transform: scale(0.95);
+    }
+
+    .nav-menu {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      right: 0;
+      background: rgba(15, 20, 25, 0.98);
+      backdrop-filter: blur(20px);
+      transform: translateY(-100%);
+      transition: transform 0.3s ease;
+      z-index: 999;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-menu.active {
+      transform: translateY(0);
+    }
+
+    .nav-menu a {
+      display: block;
+      padding: 16px 20px;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .nav-menu a:active {
+      background: rgba(0, 255, 200, 0.2);
+      color: #00ffc8;
+    }
+
+    .nav-menu a.active {
+      background: rgba(0, 255, 200, 0.2);
+      color: #00ffc8;
+    }
+
+    /* Language selector */
+    .lang-selector {
+      padding: 12px 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .lang-btn {
+      width: 100%;
+      background: rgba(0, 255, 200, 0.2);
+      color: #00ffc8;
+      border: 1px solid rgba(0, 255, 200, 0.3);
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-weight: 500;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .lang-btn:active {
+      background: rgba(0, 255, 200, 0.3);
+      transform: scale(0.98);
+    }
+
+    .lang-options {
+      margin-top: 8px;
+      background: rgba(30, 47, 56, 0.95);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .lang-options.show {
+      max-height: 300px;
+      opacity: 1;
+    }
+
+    .lang-option {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #ffffff;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .lang-option:last-child {
+      border-bottom: none;
+    }
+
+    .lang-option:active {
+      background: rgba(0, 255, 200, 0.2);
+    }
+
+    .lang-option.active {
+      background: rgba(0, 255, 200, 0.2);
+      color: #00ffc8;
+    }
+
+    .flag {
+      width: 20px;
+      height: 15px;
+      border-radius: 3px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* Flag backgrounds */
+    .flag-en { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="%23012169"/><path d="M0 0v30h60V0z" fill="%23012169"/><path d="M0 0l60 30M60 0L0 30" stroke="%23fff" stroke-width="6"/><path d="M0 0l60 30M60 0L0 30" stroke="%23C8102E" stroke-width="4"/><path d="M30 0v30M0 15h60" stroke="%23fff" stroke-width="10"/><path d="M30 0v30M0 15h60" stroke="%23C8102E" stroke-width="6"/></svg>'); }
+    .flag-ar { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="%23006C35"/><rect x="5" y="20" width="50" height="3" fill="white"/></svg>'); }
+    .flag-es { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="%23C60B1E"/><rect y="7.5" width="60" height="15" fill="%23FFC400"/></svg>'); }
+    .flag-de { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="10" fill="%23000"/><rect y="10" width="60" height="10" fill="%23D00"/><rect y="20" width="60" height="10" fill="%23FFCE00"/></svg>'); }
+    .flag-fr { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="20" height="30" fill="%23002395"/><rect x="20" width="20" height="30" fill="%23fff"/><rect x="40" width="20" height="30" fill="%23ED2939"/></svg>'); }
+    .flag-zh { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="%23DE2910"/><polygon points="12,6 9.51,13.76 1.24,13.76 7.87,18.48 5.38,26.24 12,21.52 18.62,26.24 16.13,18.48 22.76,13.76 14.49,13.76" fill="%23FFDE00"/></svg>'); }
+
+    /* Main container */
+    .container {
+      margin-top: 60px;
+      padding: 20px 16px;
+      max-width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header section */
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #00ffc8, #00a8ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.4;
+    }
+
+    /* Info cards */
+    .info-section {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .info-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #00ffc8;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .privacy-note {
+      background: rgba(0, 255, 200, 0.2);
+      color: #00ffc8;
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      font-weight: 500;
+      text-align: center;
+      border: 1px solid rgba(0, 255, 200, 0.3);
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+    }
+
+    .feature-icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .feature-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #00ffc8;
+      margin-bottom: 4px;
+    }
+
+    .feature-desc {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.3;
+    }
+
+    /* Examples section */
+    .examples {
+      margin-bottom: 24px;
+    }
+
+    .examples-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #00ffc8;
+      margin-bottom: 12px;
+    }
+
+    .example-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .example-tag {
+      background: rgba(0, 255, 200, 0.2);
+      color: #00ffc8;
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(0, 255, 200, 0.3);
+    }
+
+    .example-tag:active {
+      background: rgba(0, 255, 200, 0.4);
+      transform: scale(0.95);
+    }
+
+    /* Form section */
+    .scan-form {
+      margin-bottom: 24px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 16px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .input-container {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 16px 20px;
+      font-size: 16px;
+      border-radius: 12px;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+      color: #ffffff;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #00ffc8;
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 0 4px rgba(0, 255, 200, 0.2);
+    }
+
+    .form-input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .scan-btn {
+      width: 100%;
+      padding: 16px 24px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, #00ffc8, #00a8ff);
+      color: #0f1419;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scan-btn:active {
+      transform: scale(0.98);
+    }
+
+    .scan-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .scan-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .scan-btn:active::before {
+      left: 100%;
+    }
+
+    /* Loading animation */
+    .loading-container {
+      display: none;
+      text-align: center;
+      padding: 24px;
+      margin: 24px 0;
+    }
+
+    .loading-container.show {
+      display: block;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(0, 255, 200, 0.3);
+      border-top: 3px solid #00ffc8;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* Results section */
+    .results {
+      background: rgba(30, 47, 56, 0.8);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      display: none;
+      backdrop-filter: blur(10px);
+    }
+
+    .results.show {
+      display: block;
+      animation: slideUp 0.5s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .result-success {
+      border-left: 4px solid #4ade80;
+      color: #4ade80;
+    }
+
+    .result-warning {
+      border-left: 4px solid #fbbf24;
+      color: #fbbf24;
+    }
+
+    .result-danger {
+      border-left: 4px solid #ef4444;
+      color: #ef4444;
+    }
+
+    /* Error message */
+    .error-message {
+      background: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-top: 16px;
+      font-size: 14px;
+      text-align: center;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    /* Bounce animation for scanning button */
+    .scanning {
+      animation: bounce 1s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-3px); }
+      60% { transform: translateY(-2px); }
+    }
+
+    /* Safe area adjustments for iPhone */
+    @supports (padding: max(0px)) {
+      .mobile-nav {
+        padding-top: max(8px, env(safe-area-inset-top));
+        height: max(60px, calc(60px + env(safe-area-inset-top)));
+      }
+      
+      .container {
+        margin-top: max(60px, calc(60px + env(safe-area-inset-top)));
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
+      }
+    }
+
+    /* Landscape orientation adjustments */
+    @media screen and (orientation: landscape) and (max-height: 500px) {
+      .container {
+        padding: 16px 20px;
+      }
+      
+      .header {
+        margin-bottom: 16px;
+      }
+      
+      .title {
+        font-size: 24px;
+      }
+      
+      .info-section {
+        padding: 16px;
+        margin-bottom: 16px;
+      }
+    }
+
+    /* Large phone adjustments */
+    @media (min-width: 400px) {
+      .container {
+        padding: 24px 20px;
+      }
+      
+      .title {
+        font-size: 32px;
+      }
+      
+      .subtitle {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Mobile Navigation -->
+  <nav class="mobile-nav">
+    <div class="nav-brand">
+      🌐 URL Scanner
+    </div>
+    <button class="nav-toggle" id="navToggle">☰</button>
+  </nav>
+
+  <!-- Navigation Menu -->
+  <div class="nav-menu" id="navMenu">
+    <a href="/url-scanner" class="active">🌐 URL Scanner</a>
+    <a href="/email-scanner">📧 Email Scanner</a>
+    
+    <div class="lang-selector">
+      <button class="lang-btn" id="langBtn">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="flag flag-en" id="currentFlag"></span>
+          <span id="currentLang">English</span>
+        </div>
+        <span id="langArrow">▼</span>
+      </button>
+      
+      <div class="lang-options" id="langOptions">
+        <div class="lang-option active" data-lang="en" data-name="English">
+          <span class="flag flag-en"></span>
+          <span>English</span>
+        </div>
+        <div class="lang-option" data-lang="ar" data-name="العربية">
+          <span class="flag flag-ar"></span>
+          <span>العربية</span>
+        </div>
+        <div class="lang-option" data-lang="es" data-name="Español">
+          <span class="flag flag-es"></span>
+          <span>Español</span>
+        </div>
+        <div class="lang-option" data-lang="de" data-name="Deutsch">
+          <span class="flag flag-de"></span>
+          <span>Deutsch</span>
+        </div>
+        <div class="lang-option" data-lang="fr" data-name="Français">
+          <span class="flag flag-fr"></span>
+          <span>Français</span>
+        </div>
+        <div class="lang-option" data-lang="zh" data-name="中文">
+          <span class="flag flag-zh"></span>
+          <span>中文</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1 class="title" id="title">🌐 URL Security Scanner</h1>
+      <p class="subtitle" id="subtitle">Advanced malware detection powered by VirusTotal</p>
+    </div>
+
+    <!-- Info Section -->
+    <div class="info-section">
+      <h3 class="info-title" id="infoTitle">🛡️ What We Check</h3>
+      <div class="privacy-note" id="privacyNote">
+        🔒 We won't save your Info.
+      </div>
+      
+      <div class="feature-grid">
+        <div class="feature-card">
+          <span class="feature-icon">🦠</span>
+          <div class="feature-title" id="feature1Title">Malware Detection</div>
+          <div class="feature-desc" id="feature1Desc">Scan for viruses, trojans, and malicious code</div>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">🔒</span>
+          <div class="feature-title" id="feature2Title">Security Threats</div>
+          <div class="feature-desc" id="feature2Desc">Identify phishing sites and suspicious content</div>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">📊</span>
+          <div class="feature-title" id="feature3Title">Engine Analysis</div>
+          <div class="feature-desc" id="feature3Desc">Results from 70+ security engines worldwide</div>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">🎯</span>
+          <div class="feature-title" id="feature4Title">Risk Assessment</div>
+          <div class="feature-desc" id="feature4Desc">Comprehensive security evaluation and recommendations</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Examples -->
+    <div class="examples">
+      <h3 class="examples-title" id="examplesTitle">Quick Examples:</h3>
+      <div class="example-tags">
+        <span class="example-tag" onclick="setExample('google.com')">google.com</span>
+        <span class="example-tag" onclick="setExample('github.com')">github.com</span>
+        <span class="example-tag" onclick="setExample('stackoverflow.com')">stackoverflow.com</span>
+      </div>
+    </div>
+
+    <!-- Scan Form -->
+    <form class="scan-form" id="scanForm">
+      <label class="form-label" id="formLabel" for="urlInput">🎯 Enter URL to analyze:</label>
+      <div class="input-container">
+        <input 
+          type="text" 
+          id="urlInput" 
+          class="form-input" 
+          placeholder="example.com" 
+          required 
+        />
+      </div>
+      <button type="submit" class="scan-btn" id="scanBtn">
+        🚀 Launch Security Scan
+      </button>
+    </form>
+
+    <!-- Loading Animation -->
+    <div class="loading-container" id="loadingContainer">
+      <div class="loading-spinner"></div>
+      <div class="loading-text" id="loadingText">Initializing scanner...</div>
+    </div>
+
+    <!-- Results -->
+    <div class="results" id="results"></div>
+
+    <!-- Error Message -->
+    <div class="error-message" id="errorMessage"></div>
+  </div>
+
+  <script>
+    let currentLang = 'en';
+    let isMenuOpen = false;
+    let isLangOpen = false;
+
+    const translations = {
+      en: {
+        title: '🌐 URL Security Scanner',
+        subtitle: 'Advanced malware detection powered by VirusTotal',
+        infoTitle: '🛡️ What We Check',
+        privacyNote: '🔒 We won\'t save your Info.',
+        feature1Title: 'Malware Detection',
+        feature1Desc: 'Scan for viruses, trojans, and malicious code',
+        feature2Title: 'Security Threats',
+        feature2Desc: 'Identify phishing sites and suspicious content',
+        feature3Title: 'Engine Analysis',
+        feature3Desc: 'Results from 70+ security engines worldwide',
+        feature4Title: 'Risk Assessment',
+        feature4Desc: 'Comprehensive security evaluation and recommendations',
+        examplesTitle: 'Quick Examples:',
+        formLabel: '🎯 Enter URL to analyze:',
+        scanBtn: '🚀 Launch Security Scan',
+        scanSteps: [
+          'Initializing scanner...',
+          'Connecting to VirusTotal...',
+          'Analyzing for malware...',
+          'Scanning for threats...',
+          'Compiling results...',
+          'Finalizing analysis...'
+        ],
+        errors: {
+          empty: 'Please enter a URL.',
+          invalid: 'Please enter a valid URL',
+          timeout: 'Scan timeout - please try again',
+          connection: 'Connection error - please check your internet connection'
+        },
+        results: {
+          maliciousSite: '🚨 Malicious Site Detected!',
+          suspiciousSite: '⚠️ Suspicious Site!',
+          safeSite: '✅ Safe Site!',
+          analysisResults: '📊 Analysis Results:',
+          threatsDetected: 'Threats detected by',
+          suspiciousActivity: 'Suspicious activity flagged by',
+          scannedBy: 'Scanned by',
+          confirmedMalware: 'Confirmed malware presence',
+          requiresReview: 'Requires additional review',
+          markedClean: 'engines marked as clean',
+          noThreats: 'No threats detected',
+          riskLevel: 'Risk Level:',
+          veryHigh: 'Very High',
+          medium: 'Medium',
+          low: 'Low',
+          recommendation: 'Recommendation:',
+          avoidCompletely: 'Avoid this site completely',
+          useCaution: 'Use with extreme caution',
+          safeToUse: 'Safe to use',
+          protection: 'Protection:',
+          accessBlocked: 'Access blocked',
+          verifySource: 'Verify the source',
+          protected: 'Protected',
+          status: 'Status:'
+        }
+      },
+      ar: {
+        title: '🌐 ماسح أمان المواقع',
+        subtitle: 'كشف البرامج الضارة المتقدم بواسطة VirusTotal',
+        infoTitle: '🛡️ ما نفحصه',
+        privacyNote: '🔒 لن نحفظ معلوماتك.',
+        feature1Title: 'كشف البرامج الضارة',
+        feature1Desc: 'فحص الفيروسات وأحصنة طروادة والكود الخبيث',
+        feature2Title: 'التهديدات الأمنية',
+        feature2Desc: 'تحديد مواقع التصيد والمحتوى المشبوه',
+        feature3Title: 'تحليل المحركات',
+        feature3Desc: 'نتائج من أكثر من 70 محرك أمان عالمياً',
+        feature4Title: 'تقييم المخاطر',
+        feature4Desc: 'تقييم أمني شامل وتوصيات',
+        examplesTitle: 'أمثلة سريعة:',
+        formLabel: '🎯 أدخل الرابط للتحليل:',
+        scanBtn: '🚀 بدء فحص الأمان',
+        scanSteps: [
+          'تهيئة الماسح الضوئي...',
+          'الاتصال بـ VirusTotal...',
+          'تحليل البرامج الضارة...',
+          'فحص التهديدات...',
+          'تجميع النتائج...',
+          'إنهاء التحليل...'
+        ],
+        errors: {
+          empty: 'يرجى إدخال رابط.',
+          invalid: 'يرجى إدخال رابط صحيح',
+          timeout: 'انتهت مهلة الفحص - يرجى المحاولة مرة أخرى',
+          connection: 'خطأ في الاتصال - تحقق من اتصالك بالإنترنت'
+        },
+        results: {
+          maliciousSite: '🚨 موقع خطير مكتشف!',
+          suspiciousSite: '⚠️ موقع مشبوه!',
+          safeSite: '✅ موقع آمن!',
+          analysisResults: '📊 نتائج التحليل:',
+          threatsDetected: 'تم اكتشاف تهديدات من',
+          suspiciousActivity: 'نشاط مشبوه من',
+          scannedBy: 'تم فحصه بواسطة',
+          confirmedMalware: 'برامج ضارة مؤكدة',
+          requiresReview: 'يحتاج مراجعة إضافية',
+          markedClean: 'محرك صنفه كآمن',
+          noThreats: 'لا توجد تهديدات مكتشفة',
+          riskLevel: 'مستوى الخطر:',
+          veryHigh: 'عالي جداً',
+          medium: 'متوسط',
+          low: 'منخفض',
+          recommendation: 'التوصية:',
+          avoidCompletely: 'تجنب هذا الموقع تماماً',
+          useCaution: 'استخدم بحذر شديد',
+          safeToUse: 'آمن للاستخدام',
+          protection: 'حماية:',
+          accessBlocked: 'تم حظر الوصول',
+          verifySource: 'تحقق من المصدر',
+          protected: 'محمي',
+          status: 'الحالة:'
+        }
+      },
+      es: {
+        title: '🌐 Escáner de Seguridad de URL',
+        subtitle: 'Detección avanzada de malware powered by VirusTotal',
+        infoTitle: '🛡️ Qué Verificamos',
+        privacyNote: '🔒 No guardaremos tu información.',
+        feature1Title: 'Detección de Malware',
+        feature1Desc: 'Escanea virus, trojanos y código malicioso',
+        feature2Title: 'Amenazas de Seguridad',
+        feature2Desc: 'Identifica sitios de phishing y contenido sospechoso',
+        feature3Title: 'Análisis de Motores',
+        feature3Desc: 'Resultados de más de 70 motores de seguridad mundiales',
+        feature4Title: 'Evaluación de Riesgos',
+        feature4Desc: 'Evaluación de seguridad integral y recomendaciones',
+        examplesTitle: 'Ejemplos Rápidos:',
+        formLabel: '🎯 Ingresa URL para analizar:',
+        scanBtn: '🚀 Lanzar Escaneo de Seguridad',
+        scanSteps: [
+          'Inicializando escáner...',
+          'Conectando a VirusTotal...',
+          'Analizando por malware...',
+          'Escaneando amenazas...',
+          'Compilando resultados...',
+          'Finalizando análisis...'
+        ],
+        errors: {
+          empty: 'Por favor ingresa una URL.',
+          invalid: 'Por favor ingresa una URL válida',
+          timeout: 'Tiempo de escaneo agotado - intenta de nuevo',
+          connection: 'Error de conexión - verifica tu conexión a internet'
+        },
+        results: {
+          maliciousSite: '🚨 ¡Sitio Malicioso Detectado!',
+          suspiciousSite: '⚠️ ¡Sitio Sospechoso!',
+          safeSite: '✅ ¡Sitio Seguro!',
+          analysisResults: '📊 Resultados del Análisis:',
+          threatsDetected: 'Amenazas detectadas por',
+          suspiciousActivity: 'Actividad sospechosa marcada por',
+          scannedBy: 'Escaneado por',
+          confirmedMalware: 'Presencia de malware confirmada',
+          requiresReview: 'Requiere revisión adicional',
+          markedClean: 'motores marcaron como limpio',
+          noThreats: 'No se detectaron amenazas',
+          riskLevel: 'Nivel de Riesgo:',
+          veryHigh: 'Muy Alto',
+          medium: 'Medio',
+          low: 'Bajo',
+          recommendation: 'Recomendación:',
+          avoidCompletely: 'Evita este sitio completamente',
+          useCaution: 'Usa con extrema precaución',
+          safeToUse: 'Seguro para usar',
+          protection: 'Protección:',
+          accessBlocked: 'Acceso bloqueado',
+          verifySource: 'Verifica la fuente',
+          protected: 'Protegido',
+          status: 'Estado:'
+        }
+      },
+      de: {
+        title: '🌐 URL-Sicherheitsscanner',
+        subtitle: 'Erweiterte Malware-Erkennung powered by VirusTotal',
+        infoTitle: '🛡️ Was Wir Prüfen',
+        privacyNote: '🔒 Wir speichern Ihre Daten nicht.',
+        feature1Title: 'Malware-Erkennung',
+        feature1Desc: 'Scannt nach Viren, Trojanern und bösartigem Code',
+        feature2Title: 'Sicherheitsbedrohungen',
+        feature2Desc: 'Identifiziert Phishing-Sites und verdächtige Inhalte',
+        feature3Title: 'Engine-Analyse',
+        feature3Desc: 'Ergebnisse von über 70 Sicherheits-Engines weltweit',
+        feature4Title: 'Risikobewertung',
+        feature4Desc: 'Umfassende Sicherheitsbewertung und Empfehlungen',
+        examplesTitle: 'Schnelle Beispiele:',
+        formLabel: '🎯 URL zur Analyse eingeben:',
+        scanBtn: '🚀 Sicherheitsscan Starten',
+        scanSteps: [
+          'Scanner wird initialisiert...',
+          'Verbindung zu VirusTotal...',
+          'Malware-Analyse...',
+          'Bedrohungen scannen...',
+          'Ergebnisse zusammenstellen...',
+          'Analyse abschließen...'
+        ],
+        errors: {
+          empty: 'Bitte geben Sie eine URL ein.',
+          invalid: 'Bitte geben Sie eine gültige URL ein',
+          timeout: 'Scan-Timeout - bitte versuchen Sie es erneut',
+          connection: 'Verbindungsfehler - prüfen Sie Ihre Internetverbindung'
+        },
+        results: {
+          maliciousSite: '🚨 Bösartige Seite Erkannt!',
+          suspiciousSite: '⚠️ Verdächtige Seite!',
+          safeSite: '✅ Sichere Seite!',
+          analysisResults: '📊 Analyse-Ergebnisse:',
+          threatsDetected: 'Bedrohungen erkannt von',
+          suspiciousActivity: 'Verdächtige Aktivität markiert von',
+          scannedBy: 'Gescannt von',
+          confirmedMalware: 'Bestätigte Malware-Präsenz',
+          requiresReview: 'Erfordert zusätzliche Überprüfung',
+          markedClean: 'Engines als sauber markiert',
+          noThreats: 'Keine Bedrohungen erkannt',
+          riskLevel: 'Risiko-Level:',
+          veryHigh: 'Sehr Hoch',
+          medium: 'Mittel',
+          low: 'Niedrig',
+          recommendation: 'Empfehlung:',
+          avoidCompletely: 'Diese Seite vollständig meiden',
+          useCaution: 'Mit äußerster Vorsicht verwenden',
+          safeToUse: 'Sicher zu verwenden',
+          protection: 'Schutz:',
+          accessBlocked: 'Zugriff blockiert',
+          verifySource: 'Quelle überprüfen',
+          protected: 'Geschützt',
+          status: 'Status:'
+        }
+      },
+      fr: {
+        title: '🌐 Scanner de Sécurité URL',
+        subtitle: 'Détection avancée de malware powered by VirusTotal',
+        infoTitle: '🛡️ Ce Que Nous Vérifions',
+        privacyNote: '🔒 Nous ne sauvegarderons pas vos informations.',
+        feature1Title: 'Détection de Malware',
+        feature1Desc: 'Scanne les virus, trojans et code malveillant',
+        feature2Title: 'Menaces de Sécurité',
+        feature2Desc: 'Identifie les sites de phishing et contenu suspect',
+        feature3Title: 'Analyse des Moteurs',
+        feature3Desc: 'Résultats de plus de 70 moteurs de sécurité mondiaux',
+        feature4Title: 'Évaluation des Risques',
+        feature4Desc: 'Évaluation de sécurité complète et recommandations',
+        examplesTitle: 'Exemples Rapides:',
+        formLabel: '🎯 Entrez l\'URL à analyser:',
+        scanBtn: '🚀 Lancer le Scan de Sécurité',
+        scanSteps: [
+          'Initialisation du scanner...',
+          'Connexion à VirusTotal...',
+          'Analyse des malwares...',
+          'Scan des menaces...',
+          'Compilation des résultats...',
+          'Finalisation de l\'analyse...'
+        ],
+        errors: {
+          empty: 'Veuillez entrer une URL.',
+          invalid: 'Veuillez entrer une URL valide',
+          timeout: 'Délai de scan dépassé - veuillez réessayer',
+          connection: 'Erreur de connexion - vérifiez votre connexion internet'
+        },
+        results: {
+          maliciousSite: '🚨 Site Malveillant Détecté!',
+          suspiciousSite: '⚠️ Site Suspect!',
+          safeSite: '✅ Site Sûr!',
+          analysisResults: '📊 Résultats de l\'Analyse:',
+          threatsDetected: 'Menaces détectées par',
+          suspiciousActivity: 'Activité suspecte signalée par',
+          scannedBy: 'Scanné par',
+          confirmedMalware: 'Présence de malware confirmée',
+          requiresReview: 'Nécessite une révision supplémentaire',
+          markedClean: 'moteurs marqués comme propres',
+          noThreats: 'Aucune menace détectée',
+          riskLevel: 'Niveau de Risque:',
+          veryHigh: 'Très Élevé',
+          medium: 'Moyen',
+          low: 'Faible',
+          recommendation: 'Recommandation:',
+          avoidCompletely: 'Évitez complètement ce site',
+          useCaution: 'Utilisez avec une extrême prudence',
+          safeToUse: 'Sûr à utiliser',
+          protection: 'Protection:',
+          accessBlocked: 'Accès bloqué',
+          verifySource: 'Vérifiez la source',
+          protected: 'Protégé',
+          status: 'Statut:'
+        }
+      },
+      zh: {
+        title: '🌐 URL安全扫描器',
+        subtitle: '由VirusTotal提供支持的高级恶意软件检测',
+        infoTitle: '🛡️ 我们检查什么',
+        privacyNote: '🔒 我们不会保存您的信息。',
+        feature1Title: '恶意软件检测',
+        feature1Desc: '扫描病毒、木马和恶意代码',
+        feature2Title: '安全威胁',
+        feature2Desc: '识别钓鱼网站和可疑内容',
+        feature3Title: '引擎分析',
+        feature3Desc: '来自全球70+安全引擎的结果',
+        feature4Title: '风险评估',
+        feature4Desc: '全面的安全评估和建议',
+        examplesTitle: '快速示例：',
+        formLabel: '🎯 输入要分析的URL：',
+        scanBtn: '🚀 启动安全扫描',
+        scanSteps: [
+          '初始化扫描器...',
+          '连接到VirusTotal...',
+          '分析恶意软件...',
+          '扫描威胁...',
+          '编译结果...',
+          '完成分析...'
+        ],
+        errors: {
+          empty: '请输入URL。',
+          invalid: '请输入有效的URL',
+          timeout: '扫描超时 - 请重试',
+          connection: '连接错误 - 请检查您的网络连接'
+        },
+        results: {
+          maliciousSite: '🚨 检测到恶意网站！',
+          suspiciousSite: '⚠️ 可疑网站！',
+          safeSite: '✅ 安全网站！',
+          analysisResults: '📊 分析结果：',
+          threatsDetected: '威胁检测由',
+          suspiciousActivity: '可疑活动标记由',
+          scannedBy: '扫描由',
+          confirmedMalware: '确认恶意软件存在',
+          requiresReview: '需要额外审查',
+          markedClean: '个引擎标记为干净',
+          noThreats: '未检测到威胁',
+          riskLevel: '风险级别：',
+          veryHigh: '非常高',
+          medium: '中等',
+          low: '低',
+          recommendation: '建议：',
+          avoidCompletely: '完全避免此网站',
+          useCaution: '极其谨慎使用',
+          safeToUse: '可安全使用',
+          protection: '保护：',
+          accessBlocked: '访问已阻止',
+          verifySource: '验证来源',
+          protected: '受保护',
+          status: '状态：'
+        }
+      }
+    };
+
+    // Mobile navigation functions
+    function toggleMenu() {
+      const navMenu = document.getElementById('navMenu');
+      const navToggle = document.getElementById('navToggle');
+      
+      isMenuOpen = !isMenuOpen;
+      
+      if (isMenuOpen) {
+        navMenu.classList.add('active');
+        navToggle.textContent = '✕';
+      } else {
+        navMenu.classList.remove('active');
+        navToggle.textContent = '☰';
+        closeLangDropdown();
+      }
+    }
+
+    function toggleLangDropdown() {
+      const langOptions = document.getElementById('langOptions');
+      const langArrow = document.getElementById('langArrow');
+      
+      isLangOpen = !isLangOpen;
+      
+      if (isLangOpen) {
+        langOptions.classList.add('show');
+        langArrow.textContent = '▲';
+      } else {
+        langOptions.classList.remove('show');
+        langArrow.textContent = '▼';
+      }
+    }
+
+    function closeLangDropdown() {
+      const langOptions = document.getElementById('langOptions');
+      const langArrow = document.getElementById('langArrow');
+      
+      isLangOpen = false;
+      langOptions.classList.remove('show');
+      langArrow.textContent = '▼';
+    }
+
+    function changeLanguage(langCode, langName) {
+      currentLang = langCode;
+      
+      // Update current language display
+      const currentFlag = document.getElementById('currentFlag');
+      const currentLangText = document.getElementById('currentLang');
+      
+      currentFlag.className = `flag flag-${langCode}`;
+      currentLangText.textContent = langName;
+      
+      // Update active state
+      document.querySelectorAll('.lang-option').forEach(option => {
+        option.classList.remove('active');
+        if (option.dataset.lang === langCode) {
+          option.classList.add('active');
+        }
+      });
+      
+      // Update page content
+      updatePageContent();
+      closeLangDropdown();
+      
+      // Update document direction for RTL languages
+      if (langCode === 'ar') {
+        document.documentElement.setAttribute('dir', 'rtl');
+        document.documentElement.setAttribute('lang', 'ar');
+      } else {
+        document.documentElement.setAttribute('dir', 'ltr');
+        document.documentElement.setAttribute('lang', langCode);
+      }
+    }
+
+    function updatePageContent() {
+      const t = translations[currentLang];
+      
+      document.getElementById('title').textContent = t.title;
+      document.getElementById('subtitle').textContent = t.subtitle;
+      document.getElementById('infoTitle').textContent = t.infoTitle;
+      document.getElementById('privacyNote').textContent = t.privacyNote;
+      document.getElementById('feature1Title').textContent = t.feature1Title;
+      document.getElementById('feature1Desc').textContent = t.feature1Desc;
+      document.getElementById('feature2Title').textContent = t.feature2Title;
+      document.getElementById('feature2Desc').textContent = t.feature2Desc;
+      document.getElementById('feature3Title').textContent = t.feature3Title;
+      document.getElementById('feature3Desc').textContent = t.feature3Desc;
+      document.getElementById('feature4Title').textContent = t.feature4Title;
+      document.getElementById('feature4Desc').textContent = t.feature4Desc;
+      document.getElementById('examplesTitle').textContent = t.examplesTitle;
+      document.getElementById('formLabel').textContent = t.formLabel;
+      document.getElementById('scanBtn').textContent = t.scanBtn;
+    }
+
+    function setExample(url) {
+      document.getElementById('urlInput').value = url;
+      document.getElementById('urlInput').focus();
+    }
+
+    function typeWriter(element, text, speed = 30) {
+      element.innerHTML = '';
+      let i = 0;
+      const timer = setInterval(() => {
+        if (i < text.length) {
+          element.innerHTML += text.charAt(i);
+          i++;
+        } else {
+          clearInterval(timer);
+        }
+      }, speed);
+    }
+
+    async function performScan() {
+      const urlInput = document.getElementById('urlInput');
+      const loadingContainer = document.getElementById('loadingContainer');
+      const loadingText = document.getElementById('loadingText');
+      const results = document.getElementById('results');
+      const errorMessage = document.getElementById('errorMessage');
+      const scanBtn = document.getElementById('scanBtn');
+      const t = translations[currentLang];
+
+      // Reset UI
+      errorMessage.classList.remove('show');
+      results.classList.remove('show');
+      results.className = 'results';
+      
+      let url = urlInput.value.trim();
+
+      if (!url) {
+        showError(t.errors.empty);
+        return;
+      }
+
+      if (!url.match(/^https?:\/\//)) {
+        url = 'https://' + url;
+        urlInput.value = url;
+      }
+      
+      if (!url.match(/^https?:\/\/.+\..+/)) {
+        showError(t.errors.invalid);
+        return;
+      }
+
+      // Start scanning animation
+      scanBtn.disabled = true;
+      scanBtn.classList.add('scanning');
+      loadingContainer.classList.add('show');
+
+      // Animate through scan steps
+      for (let i = 0; i < t.scanSteps.length; i++) {
+        await new Promise(resolve => setTimeout(resolve, 800));
+        loadingText.textContent = t.scanSteps[i];
+      }
+
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 120000);
+
+        const response = await fetch('/api/scan', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            type: 'url',
+            value: url,
+            mode: 'quick'
+          }),
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || `HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        // Hide loading and show results
+        loadingContainer.classList.remove('show');
+
+        const verdict = data.verdict;
+        const stats = data.stats;
+        const engines = data.engines;
+        const totalEngines = Object.keys(engines).length;
+        const maliciousCount = stats.malicious || 0;
+        const suspiciousCount = stats.suspicious || 0;
+        const harmlessCount = stats.harmless || 0;
+
+        let result, resultClass;
+
+        if (verdict === 'malicious') {
+          result = `${t.results.maliciousSite}\n\n${t.results.analysisResults}\n• ${t.results.threatsDetected} ${maliciousCount}/${totalEngines} engines\n• ${t.results.confirmedMalware}\n• ${t.results.riskLevel} ${t.results.veryHigh}\n\n⚠️ ${t.results.recommendation} ${t.results.avoidCompletely}\n🛡️ ${t.results.protection} ${t.results.accessBlocked}`;
+          resultClass = 'result-danger';
+        } else if (verdict === 'suspicious') {
+          result = `${t.results.suspiciousSite}\n\n${t.results.analysisResults}\n• ${t.results.suspiciousActivity} ${suspiciousCount}/${totalEngines} engines\n• ${t.results.requiresReview}\n• ${t.results.riskLevel} ${t.results.medium}\n\n💡 ${t.results.recommendation} ${t.results.useCaution}\n🔍 ${t.results.verifySource}`;
+          resultClass = 'result-warning';
+        } else {
+          result = `${t.results.safeSite}\n\n${t.results.analysisResults}\n• ${t.results.scannedBy} ${totalEngines} security engines\n• ${harmlessCount} ${t.results.markedClean}\n• ${t.results.noThreats}\n• ${t.results.riskLevel} ${t.results.low}\n\n🎉 ${t.results.recommendation} ${t.results.safeToUse}\n🛡️ ${t.results.status} ${t.results.protected}`;
+          resultClass = 'result-success';
+        }
+
+        results.className = `results ${resultClass} show`;
+        typeWriter(results, result, 25);
+
+      } catch (error) {
+        loadingContainer.classList.remove('show');
+        
+        let errorMsg;
+        if (error.name === 'AbortError') {
+          errorMsg = t.errors.timeout;
+        } else if (error.message.includes('Failed to fetch')) {
+          errorMsg = t.errors.connection;
+        } else if (error.message.includes('timeout')) {
+          errorMsg = currentLang === 'ar' ? 'انتهت مهلة الفحص - قد يكون الموقع بطيء في الاستجابة' : 
+                   currentLang === 'zh' ? '扫描超时 - 网站可能响应缓慢。请重试。' :
+                   currentLang === 'es' ? 'Tiempo de escaneo agotado - el sitio puede ser lento para responder. Intenta de nuevo.' :
+                   currentLang === 'de' ? 'Scan-Timeout - die Seite reagiert möglicherweise langsam. Bitte versuchen Sie es erneut.' :
+                   currentLang === 'fr' ? 'Délai de scan dépassé - le site peut être lent à répondre. Veuillez réessayer.' :
+                   'Scan timeout - the site may be slow to respond. Please try again.';
+        } else {
+          errorMsg = `${currentLang === 'ar' ? 'خطأ في الفحص:' : currentLang === 'zh' ? '扫描错误:' : currentLang === 'es' ? 'Error de escaneo:' : currentLang === 'de' ? 'Scan-Fehler:' : currentLang === 'fr' ? 'Erreur de scan:' : 'Scan error:'} ${error.message}`;
+        }
+        
+        showError(errorMsg);
+      }
+
+      // Reset button
+      scanBtn.disabled = false;
+      scanBtn.classList.remove('scanning');
+    }
+
+    function showError(message) {
+      const errorMessage = document.getElementById('errorMessage');
+      errorMessage.textContent = message;
+      errorMessage.classList.add('show');
+      
+      setTimeout(() => {
+        errorMessage.classList.remove('show');
+      }, 5000);
+    }
+
+    // Event listeners
+    document.getElementById('navToggle').addEventListener('click', toggleMenu);
+    document.getElementById('langBtn').addEventListener('click', toggleLangDropdown);
+
+    // Language option clicks
+    document.querySelectorAll('.lang-option').forEach(option => {
+      option.addEventListener('click', () => {
+        const langCode = option.dataset.lang;
+        const langName = option.dataset.name;
+        changeLanguage(langCode, langName);
+      });
+    });
+
+    // Form submission
+    document.getElementById('scanForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      performScan();
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      const navMenu = document.getElementById('navMenu');
+      const navToggle = document.getElementById('navToggle');
+      
+      if (isMenuOpen && !navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+        toggleMenu();
+      }
+    });
+
+    // Initialize page
+    updatePageContent();
+  </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <title>URL Security Scanner</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    * { 
+      box-sizing: border-box; 
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f1419, #1e2a38, #2a3f54);
+      color: #ffffff;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      touch-action: manipulation;
+    }
+
+    /* Animated background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 30% 20%, rgba(0, 255, 200, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 70% 80%, rgba(0, 168, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(120, 255, 200, 0.1) 0%, transparent 50%);
+      animation: gradientShift 10s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
+      50% { opacity: 0.8; transform: scale(1.1) rotate(5deg); }
+    }
+
+    /* Mobile-first navigation */
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 20, 25, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 1000;
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items
