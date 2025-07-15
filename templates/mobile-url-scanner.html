@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-  <title>Email Security Scanner</title>
+  <title>URL Security Scanner</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
@@ -93,7 +93,7 @@
       top: 60px;
       left: 0;
       right: 0;
-      background: rgba(15, 20, 25, 0.98);
+      background: rgba(26, 26, 46, 0.98);
       backdrop-filter: blur(20px);
       transform: translateY(-100%);
       transition: transform 0.3s ease;
@@ -154,7 +154,7 @@
 
     .lang-options {
       margin-top: 8px;
-      background: rgba(30, 47, 56, 0.95);
+      background: rgba(16, 33, 62, 0.95);
       border-radius: 12px;
       border: 1px solid rgba(255, 255, 255, 0.1);
       overflow: hidden;
@@ -388,7 +388,7 @@
       border-radius: 12px;
       border: none;
       background: linear-gradient(135deg, #00ffc8, #00a8ff);
-      color: #0f1419;
+      color: #ffffff;
       cursor: pointer;
       transition: all 0.3s ease;
       position: relative;
@@ -454,7 +454,7 @@
 
     /* Results section */
     .results {
-      background: rgba(30, 47, 56, 0.8);
+      background: rgba(16, 33, 62, 0.8);
       border-radius: 12px;
       padding: 20px;
       margin-top: 24px;
@@ -580,8 +580,8 @@
 
   <!-- Navigation Menu -->
   <div class="nav-menu" id="navMenu">
-    <a href="/url-scanner" class="active">🌐 URL Scanner</a>
-    <a href="/email-scanner">📧 Email Scanner</a>
+    <a href="/mobile/url-scanner" class="active">🌐 URL Scanner</a>
+    <a href="/mobile/email-scanner">📧 Email Scanner</a>
     
     <div class="lang-selector">
       <button class="lang-btn" id="langBtn">
@@ -619,11 +619,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Privacy Note -->
-    <div class="privacy-note" id="privacyNote">
-      🔒 We won't take your info.
-    </div>
   </div>
 
   <div class="container">
@@ -635,8 +630,10 @@
 
     <!-- Info Section -->
     <div class="info-section">
-      <h3 class="info-title" id="infoTitle">🛡️ What We Check</h3>
-      
+      <h2 class="info-title" id="infoTitle">🛡️ What We Check</h2>
+      <div class="privacy-note" id="privacyNote">
+        🔒 We won't take your info.
+      </div>
       <div class="feature-grid">
         <div class="feature-card">
           <span class="feature-icon">🦠</span>
@@ -823,7 +820,7 @@
       },
       es: {
         title: '🌐 Escáner de Seguridad de URL',
-        subtitle: 'Detección avanzada de malware powered by VirusTotal',
+        subtitle: 'Detección avanzada de malware con VirusTotal',
         infoTitle: '🛡️ Qué Verificamos',
         privacyNote: '🔒 No tomaremos tu información.',
         feature1Title: 'Detección de Malware',
@@ -880,7 +877,7 @@
       },
       de: {
         title: '🌐 URL-Sicherheitsscanner',
-        subtitle: 'Erweiterte Malware-Erkennung powered by VirusTotal',
+        subtitle: 'Erweiterte Malware-Erkennung mit VirusTotal',
         infoTitle: '🛡️ Was Wir Prüfen',
         privacyNote: '🔒 Wir nehmen Ihre Daten nicht.',
         feature1Title: 'Malware-Erkennung',
@@ -937,7 +934,7 @@
       },
       fr: {
         title: '🌐 Scanner de Sécurité URL',
-        subtitle: 'Détection avancée de malware powered by VirusTotal',
+        subtitle: 'Détection avancée de malware avec VirusTotal',
         infoTitle: '🛡️ Ce Que Nous Vérifions',
         privacyNote: '🔒 Nous ne prendrons pas vos informations.',
         feature1Title: 'Détection de Malware',
@@ -1200,7 +1197,7 @@
 
       // Animate through scan steps
       for (let i = 0; i < t.scanSteps.length; i++) {
-        await new Promise(resolve => setTimeout(resolve, 800));
+        await new Promise(resolve => setTimeout(resolve, 600));
         loadingText.textContent = t.scanSteps[i];
       }
 
@@ -1253,7 +1250,7 @@
         }
 
         results.className = `results ${resultClass} show`;
-        typeWriter(results, result, 25);
+        typeWriter(results, result, 20);
 
       } catch (error) {
         loadingContainer.classList.remove('show');
@@ -1263,13 +1260,6 @@
           errorMsg = t.errors.timeout;
         } else if (error.message.includes('Failed to fetch')) {
           errorMsg = t.errors.connection;
-        } else if (error.message.includes('timeout')) {
-          errorMsg = currentLang === 'ar' ? 'انتهت مهلة الفحص - قد يكون الموقع بطيء في الاستجابة' : 
-                   currentLang === 'zh' ? '扫描超时 - 网站可能响应缓慢。请重试。' :
-                   currentLang === 'es' ? 'Tiempo de escaneo agotado - el sitio puede ser lento para responder. Intenta de nuevo.' :
-                   currentLang === 'de' ? 'Scan-Timeout - die Seite reagiert möglicherweise langsam. Bitte versuchen Sie es erneut.' :
-                   currentLang === 'fr' ? 'Délai de scan dépassé - le site peut être lent à répondre. Veuillez réessayer.' :
-                   'Scan timeout - the site may be slow to respond. Please try again.';
         } else {
           errorMsg = `${currentLang === 'ar' ? 'خطأ في الفحص:' : currentLang === 'zh' ? '扫描错误:' : currentLang === 'es' ? 'Error de escaneo:' : currentLang === 'de' ? 'Scan-Fehler:' : currentLang === 'fr' ? 'Erreur de scan:' : 'Scan error:'} ${error.message}`;
         }
@@ -1325,65 +1315,4 @@
     updatePageContent();
   </script>
 </body>
-</html><!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-  <title>URL Security Scanner</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-    * { 
-      box-sizing: border-box; 
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-      background: linear-gradient(135deg, #0f1419, #1e2a38, #2a3f54);
-      color: #ffffff;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      overflow-x: hidden;
-      position: relative;
-      touch-action: manipulation;
-    }
-
-    /* Animated background */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(circle at 30% 20%, rgba(0, 255, 200, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 70% 80%, rgba(0, 168, 255, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 40% 60%, rgba(120, 255, 200, 0.1) 0%, transparent 50%);
-      animation: gradientShift 10s ease-in-out infinite;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    @keyframes gradientShift {
-      0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
-      50% { opacity: 0.8; transform: scale(1.1) rotate(5deg); }
-    }
-
-    /* Mobile-first navigation */
-    .mobile-nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: rgba(15, 20, 25, 0.95);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      z-index: 1000;
-      padding: 8px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items
+</html>
