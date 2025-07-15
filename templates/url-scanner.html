@@ -1,4 +1,359 @@
-<!DOCTYPE html>
+const translations = {
+      en: {
+        title: '🌐 URL Security Scanner',
+        subtitle: 'Advanced malware detection powered by VirusTotal',
+        whatWeCheck: '🛡️ What We Check',
+        feature1Title: 'Malware Detection',
+        feature1Desc: 'Scan for viruses, trojans, and malicious code',
+        feature2Title: 'Security Threats',
+        feature2Desc: 'Identify phishing sites and suspicious content',
+        feature3Title: 'Engine Analysis',
+        feature3Desc: 'Results from 70+ security engines worldwide',
+        feature4Title: 'Risk Assessment',
+        feature4Desc: 'Comprehensive security evaluation and recommendations',
+        quickExamples: 'Quick Examples:',
+        inputLabel: '🎯 Enter URL to analyze:',
+        scanBtn: '🚀 Launch Security Scan',
+        urlScanner: '🌐 URL Scanner',
+        emailScanner: '📧 Email Scanner',
+        scanSteps: [
+          'Initializing scanner...',
+          'Connecting to VirusTotal...',
+          'Analyzing for malware...',
+          'Scanning for threats...',
+          'Compiling results...',
+          'Finalizing analysis...'
+        ],
+        errors: {
+          empty: 'Please enter a URL.',
+          invalid: 'Please enter a valid URL',
+          timeout: 'Scan timeout - please try again',
+          connection: 'Connection error - please check your internet connection'
+        },
+        results: {
+          maliciousSite: '🚨 Malicious Site Detected!',
+          suspiciousSite: '⚠️ Suspicious Site!',
+          safeSite: '✅ Safe Site!',
+          analysisResults: '📊 Analysis Results:',
+          threatsDetected: 'Threats detected by',
+          suspiciousActivity: 'Suspicious activity flagged by',
+          scannedBy: 'Scanned by',
+          confirmedMalware: 'Confirmed malware presence',
+          requiresReview: 'Requires additional review',
+          markedClean: 'engines marked as clean',
+          noThreats: 'No threats detected',
+          riskLevel: 'Risk Level:',
+          veryHigh: 'Very High',
+          medium: 'Medium',
+          low: 'Low',
+          recommendation: 'Recommendation:',
+          avoidCompletely: 'Avoid this site completely',
+          useCaution: 'Use with extreme caution',
+          safeToUse: 'Safe to use',
+          protection: 'Protection:',
+          accessBlocked: 'Access blocked',
+          verifySource: 'Verify the source',
+          protected: 'Protected',
+          status: 'Status:',
+          advice: 'Advice:'
+        }
+      },
+      ar: {
+        title: '🌐 ماسح أمان المواقع',
+        subtitle: 'كشف البرامج الضارة المتقدم بواسطة VirusTotal',
+        whatWeCheck: '🛡️ ما نفحصه',
+        feature1Title: 'كشف البرامج الضارة',
+        feature1Desc: 'فحص الفيروسات وأحصنة طروادة والكود الخبيث',
+        feature2Title: 'التهديدات الأمنية',
+        feature2Desc: 'تحديد مواقع التصيد والمحتوى المشبوه',
+        feature3Title: 'تحليل المحركات',
+        feature3Desc: 'نتائج من أكثر من 70 محرك أمان عالمياً',
+        feature4Title: 'تقييم المخاطر',
+        feature4Desc: 'تقييم أمني شامل وتوصيات',
+        quickExamples: 'أمثلة سريعة:',
+        inputLabel: '🎯 أدخل الرابط للتحليل:',
+        scanBtn: '🚀 بدء فحص الأمان',
+        urlScanner: '🌐 ماسح المواقع',
+        emailScanner: '📧 ماسح البريد',
+        scanSteps: [
+          'تهيئة الماسح الضوئي...',
+          'الاتصال بـ VirusTotal...',
+          'تحليل البرامج الضارة...',
+          'فحص التهديدات...',
+          'تجميع النتائج...',
+          'إنهاء التحليل...'
+        ],
+        errors: {
+          empty: 'يرجى إدخال رابط.',
+          invalid: 'يرجى إدخال رابط صحيح',
+          timeout: 'انتهت مهلة الفحص - يرجى المحاولة مرة أخرى',
+          connection: 'خطأ في الاتصال - تحقق من اتصالك بالإنترنت'
+        },
+        results: {
+          maliciousSite: '🚨 موقع خطير مكتشف!',
+          suspiciousSite: '⚠️ موقع مشبوه!',
+          safeSite: '✅ موقع آمن!',
+          analysisResults: '📊 نتائج التحليل:',
+          threatsDetected: 'تم اكتشاف تهديدات من',
+          suspiciousActivity: 'نشاط مشبوه من',
+          scannedBy: 'تم فحصه بواسطة',
+          confirmedMalware: 'برامج ضارة مؤكدة',
+          requiresReview: 'يحتاج مراجعة إضافية',
+          markedClean: 'محرك صنفه كآمن',
+          noThreats: 'لا توجد تهديدات مكتشفة',
+          riskLevel: 'مستوى الخطر:',
+          veryHigh: 'عالي جداً',
+          medium: 'متوسط',
+          low: 'منخفض',
+          recommendation: 'التوصية:',
+          avoidCompletely: 'تجنب هذا الموقع تماماً',
+          useCaution: 'استخدم بحذر شديد',
+          safeToUse: 'آمن للاستخدام',
+          protection: 'حماية:',
+          accessBlocked: 'تم حظر الوصول',
+          verifySource: 'تحقق من المصدر',
+          protected: 'محمي',
+          status: 'الحالة:',
+          advice: 'نصيحة:'
+        }
+      },
+      es: {
+        title: '🌐 Escáner de Seguridad de URL',
+        subtitle: 'Detección avanzada de malware powered by VirusTotal',
+        whatWeCheck: '🛡️ Qué Verificamos',
+        feature1Title: 'Detección de Malware',
+        feature1Desc: 'Escanea virus, trojanos y código malicioso',
+        feature2Title: 'Amenazas de Seguridad',
+        feature2Desc: 'Identifica sitios de phishing y contenido sospechoso',
+        feature3Title: 'Análisis de Motores',
+        feature3Desc: 'Resultados de más de 70 motores de seguridad mundiales',
+        feature4Title: 'Evaluación de Riesgos',
+        feature4Desc: 'Evaluación de seguridad integral y recomendaciones',
+        quickExamples: 'Ejemplos Rápidos:',
+        inputLabel: '🎯 Ingresa URL para analizar:',
+        scanBtn: '🚀 Lanzar Escaneo de Seguridad',
+        urlScanner: '🌐 Escáner de URL',
+        emailScanner: '📧 Escáner de Email',
+        scanSteps: [
+          'Inicializando escáner...',
+          'Conectando a VirusTotal...',
+          'Analizando por malware...',
+          'Escaneando amenazas...',
+          'Compilando resultados...',
+          'Finalizando análisis...'
+        ],
+        errors: {
+          empty: 'Por favor ingresa una URL.',
+          invalid: 'Por favor ingresa una URL válida',
+          timeout: 'Tiempo de escaneo agotado - intenta de nuevo',
+          connection: 'Error de conexión - verifica tu conexión a internet'
+        },
+        results: {
+          maliciousSite: '🚨 ¡Sitio Malicioso Detectado!',
+          suspiciousSite: '⚠️ ¡Sitio Sospechoso!',
+          safeSite: '✅ ¡Sitio Seguro!',
+          analysisResults: '📊 Resultados del Análisis:',
+          threatsDetected: 'Amenazas detectadas por',
+          suspiciousActivity: 'Actividad sospechosa marcada por',
+          scannedBy: 'Escaneado por',
+          confirmedMalware: 'Presencia de malware confirmada',
+          requiresReview: 'Requiere revisión adicional',
+          markedClean: 'motores marcaron como limpio',
+          noThreats: 'No se detectaron amenazas',
+          riskLevel: 'Nivel de Riesgo:',
+          veryHigh: 'Muy Alto',
+          medium: 'Medio',
+          low: 'Bajo',
+          recommendation: 'Recomendación:',
+          avoidCompletely: 'Evita este sitio completamente',
+          useCaution: 'Usa con extrema precaución',
+          safeToUse: 'Seguro para usar',
+          protection: 'Protección:',
+          accessBlocked: 'Acceso bloqueado',
+          verifySource: 'Verifica la fuente',
+          protected: 'Protegido',
+          status: 'Estado:',
+          advice: 'Consejo:'
+        }
+      },
+      de: {
+        title: '🌐 URL-Sicherheitsscanner',
+        subtitle: 'Erweiterte Malware-Erkennung powered by VirusTotal',
+        whatWeCheck: '🛡️ Was Wir Prüfen',
+        feature1Title: 'Malware-Erkennung',
+        feature1Desc: 'Scannt nach Viren, Trojanern und bösartigem Code',
+        feature2Title: 'Sicherheitsbedrohungen',
+        feature2Desc: 'Identifiziert Phishing-Sites und verdächtige Inhalte',
+        feature3Title: 'Engine-Analyse',
+        feature3Desc: 'Ergebnisse von über 70 Sicherheits-Engines weltweit',
+        feature4Title: 'Risikobewertung',
+        feature4Desc: 'Umfassende Sicherheitsbewertung und Empfehlungen',
+        quickExamples: 'Schnelle Beispiele:',
+        inputLabel: '🎯 URL zur Analyse eingeben:',
+        scanBtn: '🚀 Sicherheitsscan Starten',
+        urlScanner: '🌐 URL-Scanner',
+        emailScanner: '📧 E-Mail-Scanner',
+        scanSteps: [
+          'Scanner wird initialisiert...',
+          'Verbindung zu VirusTotal...',
+          'Malware-Analyse...',
+          'Bedrohungen scannen...',
+          'Ergebnisse zusammenstellen...',
+          'Analyse abschließen...'
+        ],
+        errors: {
+          empty: 'Bitte geben Sie eine URL ein.',
+          invalid: 'Bitte geben Sie eine gültige URL ein',
+          timeout: 'Scan-Timeout - bitte versuchen Sie es erneut',
+          connection: 'Verbindungsfehler - prüfen Sie Ihre Internetverbindung'
+        },
+        results: {
+          maliciousSite: '🚨 Bösartige Seite Erkannt!',
+          suspiciousSite: '⚠️ Verdächtige Seite!',
+          safeSite: '✅ Sichere Seite!',
+          analysisResults: '📊 Analyse-Ergebnisse:',
+          threatsDetected: 'Bedrohungen erkannt von',
+          suspiciousActivity: 'Verdächtige Aktivität markiert von',
+          scannedBy: 'Gescannt von',
+          confirmedMalware: 'Bestätigte Malware-Präsenz',
+          requiresReview: 'Erfordert zusätzliche Überprüfung',
+          markedClean: 'Engines als sauber markiert',
+          noThreats: 'Keine Bedrohungen erkannt',
+          riskLevel: 'Risiko-Level:',
+          veryHigh: 'Sehr Hoch',
+          medium: 'Mittel',
+          low: 'Niedrig',
+          recommendation: 'Empfehlung:',
+          avoidCompletely: 'Diese Seite vollständig meiden',
+          useCaution: 'Mit äußerster Vorsicht verwenden',
+          safeToUse: 'Sicher zu verwenden',
+          protection: 'Schutz:',
+          accessBlocked: 'Zugriff blockiert',
+          verifySource: 'Quelle überprüfen',
+          protected: 'Geschützt',
+          status: 'Status:',
+          advice: 'Rat:'
+        }
+      },
+      fr: {
+        title: '🌐 Scanner de Sécurité URL',
+        subtitle: 'Détection avancée de malware powered by VirusTotal',
+        whatWeCheck: '🛡️ Ce Que Nous Vérifions',
+        feature1Title: 'Détection de Malware',
+        feature1Desc: 'Scanne les virus, trojans et code malveillant',
+        feature2Title: 'Menaces de Sécurité',
+        feature2Desc: 'Identifie les sites de phishing et contenu suspect',
+        feature3Title: 'Analyse des Moteurs',
+        feature3Desc: 'Résultats de plus de 70 moteurs de sécurité mondiaux',
+        feature4Title: 'Évaluation des Risques',
+        feature4Desc: 'Évaluation de sécurité complète et recommandations',
+        quickExamples: 'Exemples Rapides:',
+        inputLabel: '🎯 Entrez l\'URL à analyser:',
+        scanBtn: '🚀 Lancer le Scan de Sécurité',
+        urlScanner: '🌐 Scanner URL',
+        emailScanner: '📧 Scanner Email',
+        scanSteps: [
+          'Initialisation du scanner...',
+          'Connexion à VirusTotal...',
+          'Analyse des malwares...',
+          'Scan des menaces...',
+          'Compilation des résultats...',
+          'Finalisation de l\'analyse...'
+        ],
+        errors: {
+          empty: 'Veuillez entrer une URL.',
+          invalid: 'Veuillez entrer une URL valide',
+          timeout: 'Délai de scan dépassé - veuillez réessayer',
+          connection: 'Erreur de connexion - vérifiez votre connexion internet'
+        },
+        results: {
+          maliciousSite: '🚨 Site Malveillant Détecté!',
+          suspiciousSite: '⚠️ Site Suspect!',
+          safeSite: '✅ Site Sûr!',
+          analysisResults: '📊 Résultats de l\'Analyse:',
+          threatsDetected: 'Menaces détectées par',
+          suspiciousActivity: 'Activité suspecte signalée par',
+          scannedBy: 'Scanné par',
+          confirmedMalware: 'Présence de malware confirmée',
+          requiresReview: 'Nécessite une révision supplémentaire',
+          markedClean: 'moteurs marqués comme propres',
+          noThreats: 'Aucune menace détectée',
+          riskLevel: 'Niveau de Risque:',
+          veryHigh: 'Très Élevé',
+          medium: 'Moyen',
+          low: 'Faible',
+          recommendation: 'Recommandation:',
+          avoidCompletely: 'Évitez complètement ce site',
+          useCaution: 'Utilisez avec une extrême prudence',
+          safeToUse: 'Sûr à utiliser',
+          protection: 'Protection:',
+          accessBlocked: 'Accès bloqué',
+          verifySource: 'Vérifiez la source',
+          protected: 'Protégé',
+          status: 'Statut:',
+          advice: 'Conseil:'
+        }
+      },
+      zh: {
+        title: '🌐 URL安全扫描器',
+        subtitle: '由VirusTotal提供支持的高级恶意软件检测',
+        whatWeCheck: '🛡️ 我们检查什么',
+        feature1Title: '恶意软件检测',
+        feature1Desc: '扫描病毒、木马和恶意代码',
+        feature2Title: '安全威胁',
+        feature2Desc: '识别钓鱼网站和可疑内容',
+        feature3Title: '引擎分析',
+        feature3Desc: '来自全球70+安全引擎的结果',
+        feature4Title: '风险评估',
+        feature4Desc: '全面的安全评估和建议',
+        quickExamples: '快速示例：',
+        inputLabel: '🎯 输入要分析的URL：',
+        scanBtn: '🚀 启动安全扫描',
+        urlScanner: '🌐 URL扫描器',
+        emailScanner: '📧 电子邮件扫描器',
+        scanSteps: [
+          '初始化扫描器...',
+          '连接到VirusTotal...',
+          '分析恶意软件...',
+          '扫描威胁...',
+          '编译结果...',
+          '完成分析...'
+        ],
+        errors: {
+          empty: '请输入URL。',
+          invalid: '请输入有效的URL',
+          timeout: '扫描超时 - 请重试',
+          connection: '连接错误 - 请检查您的网络连接'
+        },
+        results: {
+          maliciousSite: '🚨 检测到恶意网站！',
+          suspiciousSite: '⚠️ 可疑网站！',
+          safeSite: '✅ 安全网站！',
+          analysisResults: '📊 分析结果：',
+          threatsDetected: '威胁检测由',
+          suspiciousActivity: '可疑活动标记由',
+          scannedBy: '扫描由',
+          confirmedMalware: '确认恶意软件存在',
+          requiresReview: '需要额外审查',
+          markedClean: '个引擎标记为干净',
+          noThreats: '未检测到威胁',
+          riskLevel: '风险级别：',
+          veryHigh: '非常高',
+          medium: '中等',
+          low: '低',
+          recommendation: '建议：',
+          avoidCompletely: '完全避免此网站',
+          useCaution: '极其谨慎使用',
+          safeToUse: '可安全使用',
+          protection: '保护：',
+          accessBlocked: '访问已阻止',
+          verifySource: '验证来源',
+          protected: '受保护',
+          status: '状态：',
+          advice: '建议：'
+        }
+      }
+    };<!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
@@ -76,8 +431,8 @@
     .nav-bar {
       position: fixed;
       top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
+      left: 20px;
+      right: 20px;
       background: rgba(30, 41, 59, 0.9);
       border-radius: 25px;
       padding: 10px 20px;
@@ -85,6 +440,13 @@
       border: 1px solid rgba(255, 255, 255, 0.1);
       z-index: 1000;
       animation: slideInUp 0.5s ease-out;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .nav-left {
       display: flex;
       align-items: center;
       gap: 15px;
@@ -420,29 +782,107 @@
       animation: bounce 0.5s ease-out;
     }
 
+    /* Language Button in Navigation */
+    .language-selector {
+      position: relative;
+    }
+
     .lang-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: linear-gradient(45deg, #00ffc8, #00a8ff);
-      color: #0f2027;
-      border: none;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      font-weight: bold;
+      background: rgba(0, 255, 200, 0.2);
+      color: #00ffc8;
+      border: 1px solid rgba(0, 255, 200, 0.3);
+      border-radius: 15px;
+      padding: 8px 12px;
+      font-weight: 500;
       font-size: 0.9rem;
       cursor: pointer;
-      z-index: 999;
-      box-shadow: 0 4px 15px rgba(0, 255, 200, 0.4);
       transition: all 0.3s ease;
-      animation: glow 3s ease-in-out infinite;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 100px;
+      justify-content: center;
     }
 
     .lang-btn:hover {
-      transform: scale(1.1) rotate(360deg);
-      box-shadow: 0 6px 20px rgba(0, 255, 200, 0.6);
+      background: rgba(0, 255, 200, 0.3);
+      border-color: rgba(0, 255, 200, 0.5);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(0, 255, 200, 0.2);
     }
+
+    .lang-btn .flag {
+      width: 18px;
+      height: 13px;
+      border-radius: 2px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .lang-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: rgba(30, 41, 59, 0.95);
+      border-radius: 15px;
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(0, 255, 200, 0.2);
+      min-width: 180px;
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      margin-top: 5px;
+      z-index: 2000;
+    }
+
+    .lang-dropdown.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .lang-option {
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #a0d8ef;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .lang-option:hover {
+      background: rgba(0, 255, 200, 0.1);
+      color: #00ffc8;
+    }
+
+    .lang-option.active {
+      background: rgba(0, 255, 200, 0.2);
+      color: #00ffc8;
+      font-weight: 600;
+    }
+
+    .lang-option .flag {
+      width: 20px;
+      height: 15px;
+      border-radius: 3px;
+      background-size: cover;
+      background-position: center;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Flag backgrounds */
+    .flag-en { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="%23012169"/><path d="M0 0v30h60V0z" fill="%23012169"/><path d="M0 0l60 30M60 0L0 30" stroke="%23fff" stroke-width="6"/><path d="M0 0l60 30M60 0L0 30" stroke="%23C8102E" stroke-width="4"/><path d="M30 0v30M0 15h60" stroke="%23fff" stroke-width="10"/><path d="M30 0v30M0 15h60" stroke="%23C8102E" stroke-width="6"/></svg>'); }
+    .flag-ar { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="%23006C35"/><polygon points="0,0 20,15 0,30" fill="%23FFFFFF"/><polygon points="0,0 20,15 0,30" fill="%23CE1126"/></svg>'); }
+    .flag-es { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="%23C60B1E"/><rect y="7.5" width="60" height="15" fill="%23FFC400"/></svg>'); }
+    .flag-de { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="10" fill="%23000"/><rect y="10" width="60" height="10" fill="%23D00"/><rect y="20" width="60" height="10" fill="%23FFCE00"/></svg>'); }
+    .flag-fr { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="20" height="30" fill="%23002395"/><rect x="20" width="20" height="30" fill="%23fff"/><rect x="40" width="20" height="30" fill="%23ED2939"/></svg>'); }
+    .flag-zh { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="%23DE2910"/><polygon points="12,6 9.51,13.76 1.24,13.76 7.87,18.48 5.38,26.24 12,21.52 18.62,26.24 16.13,18.48 22.76,13.76 14.49,13.76" fill="%23FFDE00"/></svg>'); }
 
     .loading-dots {
       display: inline-block;
@@ -482,10 +922,15 @@
       .nav-bar {
         left: 10px;
         right: 10px;
-        transform: none;
         padding: 8px 15px;
         flex-direction: column;
         gap: 8px;
+      }
+
+      .nav-left {
+        flex-direction: column;
+        gap: 8px;
+        align-items: center;
       }
       
       .logo-image {
@@ -510,16 +955,59 @@
       h1 {
         font-size: 2.2rem;
       }
+
+      .lang-dropdown {
+        right: auto;
+        left: 0;
+      }
     }
   </style>
 </head>
 <body>
   <!-- Navigation -->
   <nav class="nav-bar">
-    <img src="/static/Virus.png" alt="Virus Scanner Logo" class="logo-image" />
-    <div class="nav-links">
-      <a href="/url-scanner" class="active">🌐 URL Scanner</a>
-      <a href="/email-scanner">📧 Email Scanner</a>
+    <div class="nav-left">
+      <img src="/static/Virus.png" alt="Virus Scanner Logo" class="logo-image" />
+      <div class="nav-links">
+        <a href="/url-scanner" class="active">🌐 URL Scanner</a>
+        <a href="/email-scanner">📧 Email Scanner</a>
+      </div>
+    </div>
+    
+    <!-- Language Selector in Navigation -->
+    <div class="language-selector">
+      <button class="lang-btn" onclick="toggleLanguageDropdown()">
+        <span class="flag flag-en" id="current-flag"></span>
+        <span id="current-lang">English</span>
+        <span id="arrow" style="transform: rotate(0deg); transition: transform 0.3s ease;">▼</span>
+      </button>
+      
+      <div class="lang-dropdown" id="langDropdown">
+        <div class="lang-option active" onclick="changeLanguage('en', 'English')">
+          <span class="flag flag-en"></span>
+          <span>English</span>
+        </div>
+        <div class="lang-option" onclick="changeLanguage('ar', 'العربية')">
+          <span class="flag flag-ar"></span>
+          <span>العربية</span>
+        </div>
+        <div class="lang-option" onclick="changeLanguage('es', 'Español')">
+          <span class="flag flag-es"></span>
+          <span>Español</span>
+        </div>
+        <div class="lang-option" onclick="changeLanguage('de', 'Deutsch')">
+          <span class="flag flag-de"></span>
+          <span>Deutsch</span>
+        </div>
+        <div class="lang-option" onclick="changeLanguage('fr', 'Français')">
+          <span class="flag flag-fr"></span>
+          <span>Français</span>
+        </div>
+        <div class="lang-option" onclick="changeLanguage('zh', '中文')">
+          <span class="flag flag-zh"></span>
+          <span>中文</span>
+        </div>
+      </div>
     </div>
   </nav>
 
@@ -534,33 +1022,33 @@
     <p class="subtitle" id="subtitle">Advanced malware detection powered by VirusTotal</p>
     
     <div class="url-info">
-      <h3>🛡️ What We Check</h3>
+      <h3 id="what-we-check">🛡️ What We Check</h3>
       <div class="info-grid">
         <div class="info-item">
           <span class="icon">🦠</span>
-          <div class="title">Malware Detection</div>
-          <div class="desc">Scan for viruses, trojans, and malicious code</div>
+          <div class="title" id="feature1-title">Malware Detection</div>
+          <div class="desc" id="feature1-desc">Scan for viruses, trojans, and malicious code</div>
         </div>
         <div class="info-item">
           <span class="icon">🔒</span>
-          <div class="title">Security Threats</div>
-          <div class="desc">Identify phishing sites and suspicious content</div>
+          <div class="title" id="feature2-title">Security Threats</div>
+          <div class="desc" id="feature2-desc">Identify phishing sites and suspicious content</div>
         </div>
         <div class="info-item">
           <span class="icon">📊</span>
-          <div class="title">Engine Analysis</div>
-          <div class="desc">Results from 70+ security engines worldwide</div>
+          <div class="title" id="feature3-title">Engine Analysis</div>
+          <div class="desc" id="feature3-desc">Results from 70+ security engines worldwide</div>
         </div>
         <div class="info-item">
           <span class="icon">🎯</span>
-          <div class="title">Risk Assessment</div>
-          <div class="desc">Comprehensive security evaluation and recommendations</div>
+          <div class="title" id="feature4-title">Risk Assessment</div>
+          <div class="desc" id="feature4-desc">Comprehensive security evaluation and recommendations</div>
         </div>
       </div>
     </div>
     
     <div class="url-examples">
-      <h3>Quick Examples:</h3>
+      <h3 id="quick-examples">Quick Examples:</h3>
       <span class="example" onclick="setExample('google.com')">google.com</span>
       <span class="example" onclick="setExample('github.com')">github.com</span>
       <span class="example" onclick="setExample('stackoverflow.com')">stackoverflow.com</span>
@@ -586,18 +1074,289 @@
     <div class="error" id="error-msg"></div>
   </div>
 
-  <button class="lang-btn" id="toggle-lang">AR</button>
+  <!-- Enhanced Language Selector -->
+  <div class="language-selector">
+    <button class="lang-btn" onclick="toggleLanguageDropdown()">
+      <span class="flag flag-en" id="current-flag"></span>
+      <span id="arrow" style="transform: rotate(0deg); transition: transform 0.3s ease;">▼</span>
+    </button>
+    
+    <div class="lang-dropdown" id="langDropdown">
+      <div class="lang-option active" onclick="changeLanguage('en', 'English')">
+        <span class="flag flag-en"></span>
+        <span>English</span>
+      </div>
+      <div class="lang-option" onclick="changeLanguage('ar', 'العربية')">
+        <span class="flag flag-ar"></span>
+        <span>العربية</span>
+      </div>
+      <div class="lang-option" onclick="changeLanguage('zh', '中文')">
+        <span class="flag flag-zh"></span>
+        <span>中文</span>
+      </div>
+    </div>
+  </div>
 
   <script>
     let currentLang = 'en';
     let scanMode = 'quick';
+    let isDropdownOpen = false;
+
+    const translations = {
+      en: {
+        title: '🌐 URL Security Scanner',
+        subtitle: 'Advanced malware detection powered by VirusTotal',
+        whatWeCheck: '🛡️ What We Check',
+        feature1Title: 'Malware Detection',
+        feature1Desc: 'Scan for viruses, trojans, and malicious code',
+        feature2Title: 'Security Threats',
+        feature2Desc: 'Identify phishing sites and suspicious content',
+        feature3Title: 'Engine Analysis',
+        feature3Desc: 'Results from 70+ security engines worldwide',
+        feature4Title: 'Risk Assessment',
+        feature4Desc: 'Comprehensive security evaluation and recommendations',
+        quickExamples: 'Quick Examples:',
+        inputLabel: '🎯 Enter URL to analyze:',
+        scanBtn: '🚀 Launch Security Scan',
+        urlScanner: '🌐 URL Scanner',
+        emailScanner: '📧 Email Scanner',
+        scanSteps: [
+          'Initializing scanner...',
+          'Connecting to VirusTotal...',
+          'Analyzing for malware...',
+          'Scanning for threats...',
+          'Compiling results...',
+          'Finalizing analysis...'
+        ],
+        errors: {
+          empty: 'Please enter a URL.',
+          invalid: 'Please enter a valid URL',
+          timeout: 'Scan timeout - please try again',
+          connection: 'Connection error - please check your internet connection'
+        },
+        results: {
+          maliciousSite: '🚨 Malicious Site Detected!',
+          suspiciousSite: '⚠️ Suspicious Site!',
+          safeSite: '✅ Safe Site!',
+          analysisResults: '📊 Analysis Results:',
+          threatsDetected: 'Threats detected by',
+          suspiciousActivity: 'Suspicious activity flagged by',
+          scannedBy: 'Scanned by',
+          confirmedMalware: 'Confirmed malware presence',
+          requiresReview: 'Requires additional review',
+          markedClean: 'engines marked as clean',
+          noThreats: 'No threats detected',
+          riskLevel: 'Risk Level:',
+          veryHigh: 'Very High',
+          medium: 'Medium',
+          low: 'Low',
+          recommendation: 'Recommendation:',
+          avoidCompletely: 'Avoid this site completely',
+          useCaution: 'Use with extreme caution',
+          safeToUse: 'Safe to use',
+          protection: 'Protection:',
+          accessBlocked: 'Access blocked',
+          verifySource: 'Verify the source',
+          protected: 'Protected',
+          status: 'Status:',
+          advice: 'Advice:'
+        }
+      },
+      ar: {
+        title: '🌐 ماسح أمان المواقع',
+        subtitle: 'كشف البرامج الضارة المتقدم بواسطة VirusTotal',
+        whatWeCheck: '🛡️ ما نفحصه',
+        feature1Title: 'كشف البرامج الضارة',
+        feature1Desc: 'فحص الفيروسات وأحصنة طروادة والكود الخبيث',
+        feature2Title: 'التهديدات الأمنية',
+        feature2Desc: 'تحديد مواقع التصيد والمحتوى المشبوه',
+        feature3Title: 'تحليل المحركات',
+        feature3Desc: 'نتائج من أكثر من 70 محرك أمان عالمياً',
+        feature4Title: 'تقييم المخاطر',
+        feature4Desc: 'تقييم أمني شامل وتوصيات',
+        quickExamples: 'أمثلة سريعة:',
+        inputLabel: '🎯 أدخل الرابط للتحليل:',
+        scanBtn: '🚀 بدء فحص الأمان',
+        urlScanner: '🌐 ماسح المواقع',
+        emailScanner: '📧 ماسح البريد',
+        scanSteps: [
+          'تهيئة الماسح الضوئي...',
+          'الاتصال بـ VirusTotal...',
+          'تحليل البرامج الضارة...',
+          'فحص التهديدات...',
+          'تجميع النتائج...',
+          'إنهاء التحليل...'
+        ],
+        errors: {
+          empty: 'يرجى إدخال رابط.',
+          invalid: 'يرجى إدخال رابط صحيح',
+          timeout: 'انتهت مهلة الفحص - يرجى المحاولة مرة أخرى',
+          connection: 'خطأ في الاتصال - تحقق من اتصالك بالإنترنت'
+        },
+        results: {
+          maliciousSite: '🚨 موقع خطير مكتشف!',
+          suspiciousSite: '⚠️ موقع مشبوه!',
+          safeSite: '✅ موقع آمن!',
+          analysisResults: '📊 نتائج التحليل:',
+          threatsDetected: 'تم اكتشاف تهديدات من',
+          suspiciousActivity: 'نشاط مشبوه من',
+          scannedBy: 'تم فحصه بواسطة',
+          confirmedMalware: 'برامج ضارة مؤكدة',
+          requiresReview: 'يحتاج مراجعة إضافية',
+          markedClean: 'محرك صنفه كآمن',
+          noThreats: 'لا توجد تهديدات مكتشفة',
+          riskLevel: 'مستوى الخطر:',
+          veryHigh: 'عالي جداً',
+          medium: 'متوسط',
+          low: 'منخفض',
+          recommendation: 'التوصية:',
+          avoidCompletely: 'تجنب هذا الموقع تماماً',
+          useCaution: 'استخدم بحذر شديد',
+          safeToUse: 'آمن للاستخدام',
+          protection: 'حماية:',
+          accessBlocked: 'تم حظر الوصول',
+          verifySource: 'تحقق من المصدر',
+          protected: 'محمي',
+          status: 'الحالة:',
+          advice: 'نصيحة:'
+        }
+      },
+      zh: {
+        title: '🌐 URL安全扫描器',
+        subtitle: '由VirusTotal提供支持的高级恶意软件检测',
+        whatWeCheck: '🛡️ 我们检查什么',
+        feature1Title: '恶意软件检测',
+        feature1Desc: '扫描病毒、木马和恶意代码',
+        feature2Title: '安全威胁',
+        feature2Desc: '识别钓鱼网站和可疑内容',
+        feature3Title: '引擎分析',
+        feature3Desc: '来自全球70+安全引擎的结果',
+        feature4Title: '风险评估',
+        feature4Desc: '全面的安全评估和建议',
+        quickExamples: '快速示例：',
+        inputLabel: '🎯 输入要分析的URL：',
+        scanBtn: '🚀 启动安全扫描',
+        urlScanner: '🌐 URL扫描器',
+        emailScanner: '📧 电子邮件扫描器',
+        scanSteps: [
+          '初始化扫描器...',
+          '连接到VirusTotal...',
+          '分析恶意软件...',
+          '扫描威胁...',
+          '编译结果...',
+          '完成分析...'
+        ],
+        errors: {
+          empty: '请输入URL。',
+          invalid: '请输入有效的URL',
+          timeout: '扫描超时 - 请重试',
+          connection: '连接错误 - 请检查您的网络连接'
+        },
+        results: {
+          maliciousSite: '🚨 检测到恶意网站！',
+          suspiciousSite: '⚠️ 可疑网站！',
+          safeSite: '✅ 安全网站！',
+          analysisResults: '📊 分析结果：',
+          threatsDetected: '威胁检测由',
+          suspiciousActivity: '可疑活动标记由',
+          scannedBy: '扫描由',
+          confirmedMalware: '确认恶意软件存在',
+          requiresReview: '需要额外审查',
+          markedClean: '个引擎标记为干净',
+          noThreats: '未检测到威胁',
+          riskLevel: '风险级别：',
+          veryHigh: '非常高',
+          medium: '中等',
+          low: '低',
+          recommendation: '建议：',
+          avoidCompletely: '完全避免此网站',
+          useCaution: '极其谨慎使用',
+          safeToUse: '可安全使用',
+          protection: '保护：',
+          accessBlocked: '访问已阻止',
+          verifySource: '验证来源',
+          protected: '受保护',
+          status: '状态：',
+          advice: '建议：'
+        }
+      }
+    };
 
     function setExample(url) {
       document.getElementById('url-input').value = url;
       document.getElementById('url-input').focus();
     }
 
-    const urlInput = document.getElementById('url-input');
+    function toggleLanguageDropdown() {
+      const dropdown = document.getElementById('langDropdown');
+      const arrow = document.getElementById('arrow');
+      
+      isDropdownOpen = !isDropdownOpen;
+      
+      if (isDropdownOpen) {
+        dropdown.classList.add('show');
+        arrow.style.transform = 'rotate(180deg)';
+      } else {
+        dropdown.classList.remove('show');
+        arrow.style.transform = 'rotate(0deg)';
+      }
+    }
+
+    function changeLanguage(langCode, langName) {
+      currentLang = langCode;
+      
+      // Update flag
+      const currentFlag = document.getElementById('current-flag');
+      currentFlag.className = `flag flag-${langCode}`;
+      
+      // Update current language text
+      document.getElementById('current-lang').textContent = langName;
+      
+      // Update active state in dropdown
+      document.querySelectorAll('.lang-option').forEach(option => {
+        option.classList.remove('active');
+      });
+      event.target.closest('.lang-option').classList.add('active');
+      
+      // Update page content
+      updatePageContent();
+      
+      // Close dropdown
+      toggleLanguageDropdown();
+      
+      // Update document direction for RTL languages
+      if (langCode === 'ar') {
+        document.documentElement.setAttribute('dir', 'rtl');
+        document.documentElement.setAttribute('lang', 'ar');
+      } else {
+        document.documentElement.setAttribute('dir', 'ltr');
+        document.documentElement.setAttribute('lang', langCode);
+      }
+    }
+
+    function updatePageContent() {
+      const t = translations[currentLang];
+      
+      document.getElementById('title').textContent = t.title;
+      document.getElementById('subtitle').textContent = t.subtitle;
+      document.getElementById('what-we-check').textContent = t.whatWeCheck;
+      document.getElementById('feature1-title').textContent = t.feature1Title;
+      document.getElementById('feature1-desc').textContent = t.feature1Desc;
+      document.getElementById('feature2-title').textContent = t.feature2Title;
+      document.getElementById('feature2-desc').textContent = t.feature2Desc;
+      document.getElementById('feature3-title').textContent = t.feature3Title;
+      document.getElementById('feature3-desc').textContent = t.feature3Desc;
+      document.getElementById('feature4-title').textContent = t.feature4Title;
+      document.getElementById('feature4-desc').textContent = t.feature4Desc;
+      document.getElementById('quick-examples').textContent = t.quickExamples;
+      document.getElementById('input-label').textContent = t.inputLabel;
+      document.getElementById('scan-btn').textContent = t.scanBtn;
+      
+      // Update navigation
+      const navLinks = document.querySelectorAll('.nav-links a');
+      navLinks[0].textContent = t.urlScanner;
+      navLinks[1].textContent = t.emailScanner;
+    }
 
     function typeWriter(element, text, speed = 50) {
       element.innerHTML = '';
@@ -612,70 +1371,13 @@
       }, speed);
     }
 
-    function setLanguage(lang) {
-      currentLang = lang;
-      document.documentElement.lang = lang;
-      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-
-      const navLinks = document.querySelectorAll('.nav-links a');
-      
-      if (lang === 'ar') {
-        document.getElementById('title').textContent = '🌐 ماسح أمان المواقع';
-        document.getElementById('subtitle').textContent = 'كشف البرامج الضارة المتقدم بواسطة VirusTotal';
-        document.getElementById('input-label').textContent = '🎯 أدخل الرابط للتحليل:';
-        document.getElementById('scan-btn').textContent = '🚀 بدء فحص الأمان';
-        document.getElementById('toggle-lang').textContent = 'EN';
-        urlInput.placeholder = 'example.com';
-        
-        navLinks[0].textContent = '🌐 ماسح المواقع';
-        navLinks[1].textContent = '📧 ماسح البريد';
-        
-        document.querySelector('.url-info h3').textContent = '🛡️ ما نفحصه';
-        document.querySelectorAll('.info-item .title')[0].textContent = 'كشف البرامج الضارة';
-        document.querySelectorAll('.info-item .desc')[0].textContent = 'فحص الفيروسات وأحصنة طروادة والكود الخبيث';
-        document.querySelectorAll('.info-item .title')[1].textContent = 'التهديدات الأمنية';
-        document.querySelectorAll('.info-item .desc')[1].textContent = 'تحديد مواقع التصيد والمحتوى المشبوه';
-        document.querySelectorAll('.info-item .title')[2].textContent = 'تحليل المحركات';
-        document.querySelectorAll('.info-item .desc')[2].textContent = 'نتائج من أكثر من 70 محرك أمان عالمياً';
-        document.querySelectorAll('.info-item .title')[3].textContent = 'تقييم المخاطر';
-        document.querySelectorAll('.info-item .desc')[3].textContent = 'تقييم أمني شامل وتوصيات';
-        
-        document.querySelector('.url-examples h3').textContent = 'أمثلة سريعة:';
-        
-      } else {
-        document.getElementById('title').textContent = '🌐 URL Security Scanner';
-        document.getElementById('subtitle').textContent = 'Advanced malware detection powered by VirusTotal';
-        document.getElementById('input-label').textContent = '🎯 Enter URL to analyze:';
-        document.getElementById('scan-btn').textContent = '🚀 Launch Security Scan';
-        document.getElementById('toggle-lang').textContent = 'AR';
-        urlInput.placeholder = 'example.com';
-        
-        navLinks[0].textContent = '🌐 URL Scanner';
-        navLinks[1].textContent = '📧 Email Scanner';
-        
-        document.querySelector('.url-info h3').textContent = '🛡️ What We Check';
-        document.querySelectorAll('.info-item .title')[0].textContent = 'Malware Detection';
-        document.querySelectorAll('.info-item .desc')[0].textContent = 'Scan for viruses, trojans, and malicious code';
-        document.querySelectorAll('.info-item .title')[1].textContent = 'Security Threats';
-        document.querySelectorAll('.info-item .desc')[1].textContent = 'Identify phishing sites and suspicious content';
-        document.querySelectorAll('.info-item .title')[2].textContent = 'Engine Analysis';
-        document.querySelectorAll('.info-item .desc')[2].textContent = 'Results from 70+ security engines worldwide';
-        document.querySelectorAll('.info-item .title')[3].textContent = 'Risk Assessment';
-        document.querySelectorAll('.info-item .desc')[3].textContent = 'Comprehensive security evaluation and recommendations';
-        
-        document.querySelector('.url-examples h3').textContent = 'Quick Examples:';
-      }
-    }
-
-    document.getElementById('toggle-lang').addEventListener('click', () => {
-      setLanguage(currentLang === 'ar' ? 'en' : 'ar');
-    });
-
     async function fetchScan() {
       const errorDiv = document.getElementById('error-msg');
       const resultDiv = document.getElementById('result');
       const submitBtn = document.getElementById('scan-btn');
       const scanProgress = document.getElementById('scan-progress');
+      const urlInput = document.getElementById('url-input');
+      const t = translations[currentLang];
 
       errorDiv.textContent = '';
       resultDiv.textContent = '';
@@ -686,7 +1388,7 @@
       let value = urlInput.value.trim();
 
       if (!value) {
-        errorDiv.textContent = currentLang === 'ar' ? 'يرجى إدخال رابط.' : 'Please enter a URL.';
+        errorDiv.textContent = t.errors.empty;
         submitBtn.disabled = false;
         submitBtn.classList.remove('scanning-button');
         return;
@@ -698,30 +1400,15 @@
       }
       
       if (!value.match(/^https?:\/\/.+\..+/)) {
-        errorDiv.textContent = currentLang === 'ar' ? 'يرجى إدخال رابط صحيح' : 'Please enter a valid URL';
+        errorDiv.textContent = t.errors.invalid;
         submitBtn.disabled = false;
         submitBtn.classList.remove('scanning-button');
         return;
       }
 
       scanProgress.style.display = 'block';
-      const scanSteps = currentLang === 'ar' ? [
-        'تهيئة الماسح الضوئي...',
-        'الاتصال بـ VirusTotal...',
-        'تحليل البرامج الضارة...',
-        'فحص التهديدات...',
-        'تجميع النتائج...',
-        'إنهاء التحليل...'
-      ] : [
-        'Initializing scanner...',
-        'Connecting to VirusTotal...',
-        'Analyzing for malware...',
-        'Scanning for threats...',
-        'Compiling results...',
-        'Finalizing analysis...'
-      ];
 
-      for (let i = 0; i < scanSteps.length; i++) {
+      for (let i = 0; i < t.scanSteps.length; i++) {
         await new Promise(resolve => setTimeout(resolve, 600));
         resultDiv.innerHTML = `
           <div style="text-align: center;">
@@ -730,7 +1417,7 @@
               <div></div>
               <div></div>
             </div>
-            <p>${scanSteps[i]}</p>
+            <p>${t.scanSteps[i]}</p>
           </div>
         `;
       }
@@ -772,19 +1459,13 @@
         let result, resultClass;
 
         if (verdict === 'malicious') {
-          result = currentLang === 'ar' ? 
-            `🚨 موقع خطير مكتشف!\n\n📊 نتائج التحليل:\n• تم اكتشاف تهديدات من ${maliciousCount}/${totalEngines} محرك\n• برامج ضارة مؤكدة\n• مستوى الخطر: عالي جداً\n\n⚠️ التوصية: تجنب هذا الموقع تماماً\n🛡️ حماية: تم حظر الوصول` :
-            `🚨 Malicious Site Detected!\n\n📊 Analysis Results:\n• Threats detected by ${maliciousCount}/${totalEngines} engines\n• Confirmed malware presence\n• Risk Level: Very High\n\n⚠️ Recommendation: Avoid this site completely\n🛡️ Protection: Access blocked`;
+          result = `${t.results.maliciousSite}\n\n${t.results.analysisResults}\n• ${t.results.threatsDetected} ${maliciousCount}/${totalEngines} engines\n• ${t.results.confirmedMalware}\n• ${t.results.riskLevel} ${t.results.veryHigh}\n\n⚠️ ${t.results.recommendation} ${t.results.avoidCompletely}\n🛡️ ${t.results.protection} ${t.results.accessBlocked}`;
           resultClass = 'result-danger';
         } else if (verdict === 'suspicious') {
-          result = currentLang === 'ar' ?
-            `⚠️ موقع مشبوه!\n\n📊 نتائج التحليل:\n• نشاط مشبوه من ${suspiciousCount}/${totalEngines} محرك\n• يحتاج مراجعة إضافية\n• مستوى الخطر: متوسط\n\n💡 التوصية: استخدم بحذر شديد\n🔍 نصيحة: تحقق من المصدر` :
-            `⚠️ Suspicious Site!\n\n📊 Analysis Results:\n• Suspicious activity flagged by ${suspiciousCount}/${totalEngines} engines\n• Requires additional review\n• Risk Level: Medium\n\n💡 Recommendation: Use with extreme caution\n🔍 Advice: Verify the source`;
+          result = `${t.results.suspiciousSite}\n\n${t.results.analysisResults}\n• ${t.results.suspiciousActivity} ${suspiciousCount}/${totalEngines} engines\n• ${t.results.requiresReview}\n• ${t.results.riskLevel} ${t.results.medium}\n\n💡 ${t.results.recommendation} ${t.results.useCaution}\n🔍 ${t.results.advice} ${t.results.verifySource}`;
           resultClass = 'result-warning';
         } else {
-          result = currentLang === 'ar' ? 
-            `✅ موقع آمن!\n\n📊 نتائج التحليل:\n• تم فحصه بواسطة ${totalEngines} محرك أمان\n• ${harmlessCount} محرك صنفه كآمن\n• لا توجد تهديدات مكتشفة\n• مستوى الخطر: منخفض\n\n🎉 التوصية: آمن للاستخدام\n🛡️ الحالة: محمي` :
-            `✅ Safe Site!\n\n📊 Analysis Results:\n• Scanned by ${totalEngines} security engines\n• ${harmlessCount} engines marked as clean\n• No threats detected\n• Risk Level: Low\n\n🎉 Recommendation: Safe to use\n🛡️ Status: Protected`;
+          result = `${t.results.safeSite}\n\n${t.results.analysisResults}\n• ${t.results.scannedBy} ${totalEngines} security engines\n• ${harmlessCount} ${t.results.markedClean}\n• ${t.results.noThreats}\n• ${t.results.riskLevel} ${t.results.low}\n\n🎉 ${t.results.recommendation} ${t.results.safeToUse}\n🛡️ ${t.results.status} ${t.results.protected}`;
           resultClass = 'result-success';
         }
 
@@ -796,21 +1477,15 @@
         
         let errorMessage;
         if (error.name === 'AbortError') {
-          errorMessage = currentLang === 'ar' ? 
-            'انتهت مهلة الفحص - يرجى المحاولة مرة أخرى' : 
-            'Scan timeout - please try again';
+          errorMessage = t.errors.timeout;
         } else if (error.message.includes('Failed to fetch')) {
-          errorMessage = currentLang === 'ar' ? 
-            'خطأ في الاتصال - تأكد من تشغيل الخادم' : 
-            'Connection error - please check your internet connection';
+          errorMessage = t.errors.connection;
         } else if (error.message.includes('timeout')) {
-          errorMessage = currentLang === 'ar' ? 
-            'انتهت مهلة الفحص - قد يكون الموقع بطيء في الاستجابة' : 
-            'Scan timeout - the site may be slow to respond. Please try again.';
+          errorMessage = currentLang === 'ar' ? 'انتهت مهلة الفحص - قد يكون الموقع بطيء في الاستجابة' : 
+                       currentLang === 'zh' ? '扫描超时 - 网站可能响应缓慢。请重试。' :
+                       'Scan timeout - the site may be slow to respond. Please try again.';
         } else {
-          errorMessage = currentLang === 'ar' ? 
-            `خطأ في الفحص: ${error.message}` : 
-            `Scan error: ${error.message}`;
+          errorMessage = `${currentLang === 'ar' ? 'خطأ في الفحص:' : currentLang === 'zh' ? '扫描错误:' : 'Scan error:'} ${error.message}`;
         }
         
         console.error('Scan error:', error);
@@ -822,10 +1497,26 @@
       submitBtn.classList.remove('scanning-button');
     }
 
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+      const languageSelector = document.querySelector('.language-selector');
+      if (!languageSelector.contains(event.target) && isDropdownOpen) {
+        toggleLanguageDropdown();
+      }
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape' && isDropdownOpen) {
+        toggleLanguageDropdown();
+      }
+    });
+
     document.getElementById('scan-form').addEventListener('submit', fetchScan);
     document.getElementById('scan-btn').addEventListener('click', fetchScan);
 
-    setLanguage('en');
+    // Initialize page
+    updatePageContent();
   </script>
 </body>
 </html>
