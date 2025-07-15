@@ -76,8 +76,8 @@
     .nav-bar {
       position: fixed;
       top: 20px;
-      left: 20px;
-      right: 20px;
+      left: 50%;
+      transform: translateX(-50%);
       background: rgba(30, 41, 59, 0.9);
       border-radius: 25px;
       padding: 10px 20px;
@@ -89,6 +89,8 @@
       align-items: center;
       justify-content: space-between;
       gap: 15px;
+      max-width: 800px;
+      width: auto;
     }
 
     .nav-left {
@@ -309,6 +311,18 @@
       gap: 10px;
     }
 
+    .privacy-note {
+      background: rgba(56, 239, 125, 0.1);
+      color: #38ef7d;
+      padding: 10px 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-align: center;
+      border: 1px solid rgba(56, 239, 125, 0.2);
+    }
+
     .info-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -462,13 +476,26 @@
     }
 
     .scan-progress {
-      width: 100%;
-      height: 6px;
-      background: rgba(56, 239, 125, 0.1);
-      border-radius: 3px;
-      overflow: hidden;
-      margin-top: 15px;
       display: none;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .loading-circle {
+      width: 60px;
+      height: 60px;
+      border: 4px solid rgba(56, 239, 125, 0.2);
+      border-top: 4px solid #38ef7d;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      box-shadow: 0 0 20px rgba(56, 239, 125, 0.3);
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     .scan-progress-bar {
@@ -565,11 +592,12 @@
       }
       
       .nav-bar {
-        left: 10px;
-        right: 10px;
+        left: 50%;
+        transform: translateX(-50%);
         padding: 8px 15px;
         flex-direction: column;
         gap: 8px;
+        max-width: 90%;
       }
 
       .nav-left {
@@ -668,6 +696,9 @@
     
     <div class="email-info">
       <h3 id="what-we-check">🛡️ What We Check</h3>
+      <div class="privacy-note" id="privacy-note">
+        🔒 We won't save your Info.
+      </div>
       <div class="info-grid">
         <div class="info-item">
           <span class="icon">💀</span>
@@ -710,7 +741,7 @@
       </button>
       
       <div class="scan-progress" id="scan-progress">
-        <div class="scan-progress-bar"></div>
+        <div class="loading-circle"></div>
       </div>
     </form>
     
@@ -728,6 +759,7 @@
         title: '📧 Email Security Scanner',
         subtitle: 'Check if your email has been compromised in data breaches',
         whatWeCheck: '🛡️ What We Check',
+        privacyNote: '🔒 We won\'t save your Info.',
         feature1Title: 'Data Breaches',
         feature1Desc: 'Known security incidents where your data was exposed',
         feature2Title: 'Password Leaks',
@@ -760,6 +792,7 @@
         title: '📧 ماسح أمان البريد الإلكتروني',
         subtitle: 'تحقق من تعرض بريدك الإلكتروني للاختراق في تسريبات البيانات',
         whatWeCheck: '🛡️ ما نفحصه',
+        privacyNote: '🔒 لن نحفظ معلوماتك.',
         feature1Title: 'تسريبات البيانات',
         feature1Desc: 'الحوادث الأمنية المعروفة حيث تم تعريض بياناتك',
         feature2Title: 'تسريبات كلمات المرور',
@@ -792,6 +825,7 @@
         title: '📧 Escáner de Seguridad de Email',
         subtitle: 'Verifica si tu email ha sido comprometido en filtraciones de datos',
         whatWeCheck: '🛡️ Qué Verificamos',
+        privacyNote: '🔒 No guardaremos tu información.',
         feature1Title: 'Filtraciones de Datos',
         feature1Desc: 'Incidentes de seguridad conocidos donde tus datos fueron expuestos',
         feature2Title: 'Filtraciones de Contraseñas',
@@ -824,6 +858,7 @@
         title: '📧 E-Mail-Sicherheitsscanner',
         subtitle: 'Überprüfen Sie, ob Ihre E-Mail bei Datenschutzverletzungen kompromittiert wurde',
         whatWeCheck: '🛡️ Was Wir Prüfen',
+        privacyNote: '🔒 Wir speichern Ihre Daten nicht.',
         feature1Title: 'Datenschutzverletzungen',
         feature1Desc: 'Bekannte Sicherheitsvorfälle, bei denen Ihre Daten preisgegeben wurden',
         feature2Title: 'Passwort-Leaks',
@@ -856,6 +891,7 @@
         title: '📧 Scanner de Sécurité Email',
         subtitle: 'Vérifiez si votre email a été compromis dans des fuites de données',
         whatWeCheck: '🛡️ Ce Que Nous Vérifions',
+        privacyNote: '🔒 Nous ne sauvegarderons pas vos informations.',
         feature1Title: 'Fuites de Données',
         feature1Desc: 'Incidents de sécurité connus où vos données ont été exposées',
         feature2Title: 'Fuites de Mots de Passe',
@@ -888,6 +924,7 @@
         title: '📧 电子邮件安全扫描器',
         subtitle: '检查您的电子邮件是否在数据泄露中遭到泄露',
         whatWeCheck: '🛡️ 我们检查什么',
+        privacyNote: '🔒 我们不会保存您的信息。',
         feature1Title: '数据泄露',
         feature1Desc: '已知的安全事件，您的数据被泄露',
         feature2Title: '密码泄露',
@@ -1036,6 +1073,7 @@
       document.getElementById('title').textContent = t.title;
       document.getElementById('subtitle').textContent = t.subtitle;
       document.getElementById('what-we-check').textContent = t.whatWeCheck;
+      document.getElementById('privacy-note').textContent = t.privacyNote;
       document.getElementById('feature1-title').textContent = t.feature1Title;
       document.getElementById('feature1-desc').textContent = t.feature1Desc;
       document.getElementById('feature2-title').textContent = t.feature2Title;
@@ -1097,7 +1135,7 @@
         return;
       }
 
-      scanProgress.style.display = 'block';
+      scanProgress.style.display = 'flex';
 
       for (let i = 0; i < t.scanSteps.length; i++) {
         await new Promise(resolve => setTimeout(resolve, 400));
