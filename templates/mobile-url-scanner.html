@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#38ef7d" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <title>Mobile URL Security Scanner</title>
+  <title>Mobile Email Security Scanner</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
@@ -350,7 +350,7 @@
       margin-bottom: 20px;
     }
 
-    .url-input {
+    .email-input {
       width: 100%;
       padding: 16px 20px;
       font-size: 1rem;
@@ -364,7 +364,7 @@
       appearance: none;
     }
 
-    .url-input:focus {
+    .email-input:focus {
       outline: none;
       border-color: #38ef7d;
       box-shadow: 0 0 0 3px rgba(56, 239, 125, 0.2);
@@ -538,7 +538,7 @@
         gap: 10px;
       }
 
-      .url-input {
+      .email-input {
         padding: 14px 16px;
         font-size: 16px; /* Prevents zoom on iOS */
       }
@@ -551,7 +551,7 @@
 
     /* iOS Specific Fixes */
     @supports (-webkit-touch-callout: none) {
-      .url-input {
+      .email-input {
         font-size: 16px; /* Prevents zoom */
       }
     }
@@ -562,16 +562,16 @@
     <!-- Mobile Navigation -->
     <nav class="mobile-nav">
       <div class="nav-header">
-        <div class="logo">🌐 Virus Scanner</div>
+        <div class="logo">📧 Email Scanner</div>
         <button class="menu-toggle" onclick="toggleMenu()">☰</button>
       </div>
       
       <div class="nav-menu" id="navMenu">
-        <a href="/url-scanner" class="nav-link active">
+        <a href="/url-scanner" class="nav-link">
           <span>🌐</span>
           <span id="nav-url-scanner">URL Scanner</span>
         </a>
-        <a href="/email-scanner" class="nav-link">
+        <a href="/email-scanner" class="nav-link active">
           <span>📧</span>
           <span id="nav-email-scanner">Email Scanner</span>
         </a>
@@ -619,8 +619,8 @@
     <!-- Main Content -->
     <div class="content">
       <div class="card">
-        <h1 class="title" id="title">🌐 URL Security Scanner</h1>
-        <p class="subtitle" id="subtitle">Advanced malware detection powered by VirusTotal</p>
+        <h1 class="title" id="title">📧 Email Security Scanner</h1>
+        <p class="subtitle" id="subtitle">Check if your email has been compromised in data breaches</p>
         
         <div class="info-section">
           <h3 id="what-we-check">🛡️ What We Check</h3>
@@ -629,59 +629,58 @@
           </div>
           <div class="feature-grid">
             <div class="feature-item">
-              <span class="icon">🦠</span>
-              <div class="title" id="feature1-title">Malware Detection</div>
-              <div class="desc" id="feature1-desc">Scan for viruses, trojans, and malicious code</div>
+              <span class="icon">💀</span>
+              <div class="title" id="feature1-title">Data Breaches</div>
+              <div class="desc" id="feature1-desc">Known security incidents where your data was exposed</div>
             </div>
             <div class="feature-item">
-              <span class="icon">🔒</span>
-              <div class="title" id="feature2-title">Security Threats</div>
-              <div class="desc" id="feature2-desc">Identify phishing sites and suspicious content</div>
+              <span class="icon">🔓</span>
+              <div class="title" id="feature2-title">Password Leaks</div>
+              <div class="desc" id="feature2-desc">Whether your passwords have been compromised</div>
             </div>
             <div class="feature-item">
               <span class="icon">📊</span>
-              <div class="title" id="feature3-title">Engine Analysis</div>
-              <div class="desc" id="feature3-desc">Results from 70+ security engines worldwide</div>
+              <div class="title" id="feature3-title">Breach Details</div>
+              <div class="desc" id="feature3-desc">Which services were affected and when</div>
             </div>
             <div class="feature-item">
               <span class="icon">🎯</span>
               <div class="title" id="feature4-title">Risk Assessment</div>
-              <div class="desc" id="feature4-desc">Comprehensive security evaluation and recommendations</div>
+              <div class="desc" id="feature4-desc">Severity analysis and security recommendations</div>
             </div>
           </div>
         </div>
         
         <div class="examples-section">
-          <h3 id="quick-examples">Quick Examples:</h3>
-          <span class="example-tag" onclick="setExample('google.com')">google.com</span>
-          <span class="example-tag" onclick="setExample('github.com')">github.com</span>
-          <span class="example-tag" onclick="setExample('stackoverflow.com')">stackoverflow.com</span>
-          <span class="example-tag" onclick="setExample('facebook.com')">facebook.com</span>
+          <h3 id="test-examples">Test Examples:</h3>
+          <span class="example-tag" onclick="setExample('test@gmail.com')">test@gmail.com</span>
+          <span class="example-tag" onclick="setExample('example@yahoo.com')">example@yahoo.com</span>
+          <span class="example-tag" onclick="setExample('user@hotmail.com')">user@hotmail.com</span>
         </div>
         
         <form class="scan-form" id="scan-form" onsubmit="return false;">
-          <label class="form-label" id="input-label" for="url-input">🎯 Enter URL to analyze:</label>
+          <label class="form-label" id="input-label" for="email-input">🎯 Enter email address to check:</label>
           <div class="input-group">
-            <input type="text" 
-                   id="url-input" 
-                   name="url-input" 
-                   class="url-input"
-                   placeholder="example.com" 
+            <input type="email" 
+                   id="email-input" 
+                   name="email-input" 
+                   class="email-input"
+                   placeholder="your.email@example.com" 
                    required 
-                   autocomplete="off"
+                   autocomplete="email"
                    autocorrect="off"
                    autocapitalize="off"
                    spellcheck="false" />
           </div>
           
           <button type="submit" id="scan-btn" class="scan-button">
-            🚀 Launch Security Scan
+            🔍 Check Email Security
           </button>
         </form>
         
         <div class="loading-container" id="loading-container">
           <div class="loading-circle"></div>
-          <div class="loading-text" id="loading-text">Initializing scanner...</div>
+          <div class="loading-text" id="loading-text">Initializing email scanner...</div>
           <div class="loading-dots">
             <div></div>
             <div></div>
@@ -703,366 +702,264 @@
 
     const translations = {
       en: {
-        title: '🌐 URL Security Scanner',
-        subtitle: 'Advanced malware detection powered by VirusTotal',
+        title: '📧 Email Security Scanner',
+        subtitle: 'Check if your email has been compromised in data breaches',
         whatWeCheck: '🛡️ What We Check',
         privacyNote: '🔒 We won\'t store your Info.',
-        feature1Title: 'Malware Detection',
-        feature1Desc: 'Scan for viruses, trojans, and malicious code',
-        feature2Title: 'Security Threats',
-        feature2Desc: 'Identify phishing sites and suspicious content',
-        feature3Title: 'Engine Analysis',
-        feature3Desc: 'Results from 70+ security engines worldwide',
+        feature1Title: 'Data Breaches',
+        feature1Desc: 'Known security incidents where your data was exposed',
+        feature2Title: 'Password Leaks',
+        feature2Desc: 'Whether your passwords have been compromised',
+        feature3Title: 'Breach Details',
+        feature3Desc: 'Which services were affected and when',
         feature4Title: 'Risk Assessment',
-        feature4Desc: 'Comprehensive security evaluation and recommendations',
-        quickExamples: 'Quick Examples:',
-        inputLabel: '🎯 Enter URL to analyze:',
-        scanBtn: '🚀 Launch Security Scan',
+        feature4Desc: 'Severity analysis and security recommendations',
+        testExamples: 'Test Examples:',
+        inputLabel: '🎯 Enter email address to check:',
+        scanBtn: '🔍 Check Email Security',
         navUrlScanner: 'URL Scanner',
         navEmailScanner: 'Email Scanner',
         scanSteps: [
-          'Initializing scanner...',
-          'Connecting to VirusTotal...',
-          'Analyzing for malware...',
-          'Scanning for threats...',
-          'Compiling results...',
-          'Finalizing analysis...'
+          'Initializing email scanner...',
+          'Connecting to HaveIBeenPwned database...',
+          'Searching breach records...',
+          'Analyzing security threats...',
+          'Assessing risk level...',
+          'Preparing final report...'
         ],
         errors: {
-          empty: 'Please enter a URL.',
-          invalid: 'Please enter a valid URL',
+          empty: 'Please enter an email address.',
+          invalid: 'Please enter a valid email address',
           timeout: 'Scan timeout - please try again',
-          connection: 'Connection error - please check your internet connection'
-        },
-        results: {
-          maliciousSite: '🚨 Malicious Site Detected!',
-          suspiciousSite: '⚠️ Suspicious Site!',
-          safeSite: '✅ Safe Site!',
-          analysisResults: '📊 Analysis Results:',
-          threatsDetected: 'Threats detected by',
-          suspiciousActivity: 'Suspicious activity flagged by',
-          scannedBy: 'Scanned by',
-          confirmedMalware: 'Confirmed malware presence',
-          requiresReview: 'Requires additional review',
-          markedClean: 'engines marked as clean',
-          noThreats: 'No threats detected',
-          riskLevel: 'Risk Level:',
-          veryHigh: 'Very High',
-          medium: 'Medium',
-          low: 'Low',
-          recommendation: 'Recommendation:',
-          avoidCompletely: 'Avoid this site completely',
-          useCaution: 'Use with extreme caution',
-          safeToUse: 'Safe to use',
-          protection: 'Protection:',
-          accessBlocked: 'Access blocked',
-          verifySource: 'Verify the source',
-          protected: 'Protected',
-          status: 'Status:',
-          advice: 'Advice:'
+          connection: 'Connection error - make sure server is running'
         }
       },
       ar: {
-        title: '🌐 ماسح أمان المواقع',
-        subtitle: 'كشف البرامج الضارة المتقدم بواسطة VirusTotal',
+        title: '📧 ماسح أمان البريد الإلكتروني',
+        subtitle: 'تحقق من تعرض بريدك الإلكتروني للاختراق في تسريبات البيانات',
         whatWeCheck: '🛡️ ما نفحصه',
         privacyNote: '🔒 لن نحفظ معلوماتك.',
-        feature1Title: 'كشف البرامج الضارة',
-        feature1Desc: 'فحص الفيروسات وأحصنة طروادة والكود الخبيث',
-        feature2Title: 'التهديدات الأمنية',
-        feature2Desc: 'تحديد مواقع التصيد والمحتوى المشبوه',
-        feature3Title: 'تحليل المحركات',
-        feature3Desc: 'نتائج من أكثر من 70 محرك أمان عالمياً',
+        feature1Title: 'تسريبات البيانات',
+        feature1Desc: 'الحوادث الأمنية المعروفة حيث تم تعريض بياناتك',
+        feature2Title: 'تسريبات كلمات المرور',
+        feature2Desc: 'ما إذا كانت كلمات المرور الخاصة بك قد تم اختراقها',
+        feature3Title: 'تفاصيل التسريبات',
+        feature3Desc: 'أي الخدمات تأثرت ومتى حدث ذلك',
         feature4Title: 'تقييم المخاطر',
-        feature4Desc: 'تقييم أمني شامل وتوصيات',
-        quickExamples: 'أمثلة سريعة:',
-        inputLabel: '🎯 أدخل الرابط للتحليل:',
-        scanBtn: '🚀 بدء فحص الأمان',
+        feature4Desc: 'تحليل الخطورة وتوصيات الأمان',
+        testExamples: 'أمثلة للاختبار:',
+        inputLabel: '🎯 أدخل عنوان البريد الإلكتروني للفحص:',
+        scanBtn: '🔍 فحص أمان البريد',
         navUrlScanner: 'ماسح المواقع',
         navEmailScanner: 'ماسح البريد',
         scanSteps: [
-          'تهيئة الماسح الضوئي...',
-          'الاتصال بـ VirusTotal...',
-          'تحليل البرامج الضارة...',
-          'فحص التهديدات...',
-          'تجميع النتائج...',
-          'إنهاء التحليل...'
+          'تهيئة ماسح البريد الإلكتروني...',
+          'الاتصال بقاعدة بيانات HaveIBeenPwned...',
+          'البحث في سجلات التسريبات...',
+          'تحليل التهديدات الأمنية...',
+          'تقييم مستوى المخاطر...',
+          'إعداد التقرير النهائي...'
         ],
         errors: {
-          empty: 'يرجى إدخال رابط.',
-          invalid: 'يرجى إدخال رابط صحيح',
+          empty: 'يرجى إدخال عنوان بريد إلكتروني.',
+          invalid: 'يرجى إدخال عنوان بريد إلكتروني صحيح',
           timeout: 'انتهت مهلة الفحص - يرجى المحاولة مرة أخرى',
-          connection: 'خطأ في الاتصال - تحقق من اتصالك بالإنترنت'
-        },
-        results: {
-          maliciousSite: '🚨 موقع خطير مكتشف!',
-          suspiciousSite: '⚠️ موقع مشبوه!',
-          safeSite: '✅ موقع آمن!',
-          analysisResults: '📊 نتائج التحليل:',
-          threatsDetected: 'تم اكتشاف تهديدات من',
-          suspiciousActivity: 'نشاط مشبوه من',
-          scannedBy: 'تم فحصه بواسطة',
-          confirmedMalware: 'برامج ضارة مؤكدة',
-          requiresReview: 'يحتاج مراجعة إضافية',
-          markedClean: 'محرك صنفه كآمن',
-          noThreats: 'لا توجد تهديدات مكتشفة',
-          riskLevel: 'مستوى الخطر:',
-          veryHigh: 'عالي جداً',
-          medium: 'متوسط',
-          low: 'منخفض',
-          recommendation: 'التوصية:',
-          avoidCompletely: 'تجنب هذا الموقع تماماً',
-          useCaution: 'استخدم بحذر شديد',
-          safeToUse: 'آمن للاستخدام',
-          protection: 'حماية:',
-          accessBlocked: 'تم حظر الوصول',
-          verifySource: 'تحقق من المصدر',
-          protected: 'محمي',
-          status: 'الحالة:',
-          advice: 'نصيحة:'
+          connection: 'خطأ في الاتصال - تأكد من تشغيل الخادم'
         }
       },
       es: {
-        title: '🌐 Escáner de Seguridad de URL',
-        subtitle: 'Detección avanzada de malware powered by VirusTotal',
+        title: '📧 Escáner de Seguridad de Email',
+        subtitle: 'Verifica si tu email ha sido comprometido en filtraciones de datos',
         whatWeCheck: '🛡️ Qué Verificamos',
         privacyNote: '🔒 No almacenaremos tu información.',
-        feature1Title: 'Detección de Malware',
-        feature1Desc: 'Escanea virus, trojanos y código malicioso',
-        feature2Title: 'Amenazas de Seguridad',
-        feature2Desc: 'Identifica sitios de phishing y contenido sospechoso',
-        feature3Title: 'Análisis de Motores',
-        feature3Desc: 'Resultados de más de 70 motores de seguridad mundiales',
+        feature1Title: 'Filtraciones de Datos',
+        feature1Desc: 'Incidentes de seguridad conocidos donde tus datos fueron expuestos',
+        feature2Title: 'Filtraciones de Contraseñas',
+        feature2Desc: 'Si tus contraseñas han sido comprometidas',
+        feature3Title: 'Detalles de Filtración',
+        feature3Desc: 'Qué servicios fueron afectados y cuándo',
         feature4Title: 'Evaluación de Riesgos',
-        feature4Desc: 'Evaluación de seguridad integral y recomendaciones',
-        quickExamples: 'Ejemplos Rápidos:',
-        inputLabel: '🎯 Ingresa URL para analizar:',
-        scanBtn: '🚀 Lanzar Escaneo de Seguridad',
+        feature4Desc: 'Análisis de gravedad y recomendaciones de seguridad',
+        testExamples: 'Ejemplos de Prueba:',
+        inputLabel: '🎯 Ingresa dirección de email para verificar:',
+        scanBtn: '🔍 Verificar Seguridad del Email',
         navUrlScanner: 'Escáner de URL',
         navEmailScanner: 'Escáner de Email',
         scanSteps: [
-          'Inicializando escáner...',
-          'Conectando a VirusTotal...',
-          'Analizando por malware...',
-          'Escaneando amenazas...',
-          'Compilando resultados...',
-          'Finalizando análisis...'
+          'Inicializando escáner de email...',
+          'Conectando a base de datos HaveIBeenPwned...',
+          'Buscando registros de filtraciones...',
+          'Analizando amenazas de seguridad...',
+          'Evaluando nivel de riesgo...',
+          'Preparando reporte final...'
         ],
         errors: {
-          empty: 'Por favor ingresa una URL.',
-          invalid: 'Por favor ingresa una URL válida',
+          empty: 'Por favor ingresa una dirección de email.',
+          invalid: 'Por favor ingresa una dirección de email válida',
           timeout: 'Tiempo de escaneo agotado - intenta de nuevo',
-          connection: 'Error de conexión - verifica tu conexión a internet'
-        },
-        results: {
-          maliciousSite: '🚨 ¡Sitio Malicioso Detectado!',
-          suspiciousSite: '⚠️ ¡Sitio Sospechoso!',
-          safeSite: '✅ ¡Sitio Seguro!',
-          analysisResults: '📊 Resultados del Análisis:',
-          threatsDetected: 'Amenazas detectadas por',
-          suspiciousActivity: 'Actividad sospechosa marcada por',
-          scannedBy: 'Escaneado por',
-          confirmedMalware: 'Presencia de malware confirmada',
-          requiresReview: 'Requiere revisión adicional',
-          markedClean: 'motores marcaron como limpio',
-          noThreats: 'No se detectaron amenazas',
-          riskLevel: 'Nivel de Riesgo:',
-          veryHigh: 'Muy Alto',
-          medium: 'Medio',
-          low: 'Bajo',
-          recommendation: 'Recomendación:',
-          avoidCompletely: 'Evita este sitio completamente',
-          useCaution: 'Usa con extrema precaución',
-          safeToUse: 'Seguro para usar',
-          protection: 'Protección:',
-          accessBlocked: 'Acceso bloqueado',
-          verifySource: 'Verifica la fuente',
-          protected: 'Protegido',
-          status: 'Estado:',
-          advice: 'Consejo:'
+          connection: 'Error de conexión - asegúrate de que el servidor esté funcionando'
         }
       },
       de: {
-        title: '🌐 URL-Sicherheitsscanner',
-        subtitle: 'Erweiterte Malware-Erkennung powered by VirusTotal',
+        title: '📧 E-Mail-Sicherheitsscanner',
+        subtitle: 'Überprüfen Sie, ob Ihre E-Mail bei Datenschutzverletzungen kompromittiert wurde',
         whatWeCheck: '🛡️ Was Wir Prüfen',
         privacyNote: '🔒 Wir speichern Ihre Daten nicht.',
-        feature1Title: 'Malware-Erkennung',
-        feature1Desc: 'Scannt nach Viren, Trojanern und bösartigem Code',
-        feature2Title: 'Sicherheitsbedrohungen',
-        feature2Desc: 'Identifiziert Phishing-Sites und verdächtige Inhalte',
-        feature3Title: 'Engine-Analyse',
-        feature3Desc: 'Ergebnisse von über 70 Sicherheits-Engines weltweit',
+        feature1Title: 'Datenschutzverletzungen',
+        feature1Desc: 'Bekannte Sicherheitsvorfälle, bei denen Ihre Daten preisgegeben wurden',
+        feature2Title: 'Passwort-Leaks',
+        feature2Desc: 'Ob Ihre Passwörter kompromittiert wurden',
+        feature3Title: 'Verletzungsdetails',
+        feature3Desc: 'Welche Dienste betroffen waren und wann',
         feature4Title: 'Risikobewertung',
-        feature4Desc: 'Umfassende Sicherheitsbewertung und Empfehlungen',
-        quickExamples: 'Schnelle Beispiele:',
-        inputLabel: '🎯 URL zur Analyse eingeben:',
-        scanBtn: '🚀 Sicherheitsscan Starten',
+        feature4Desc: 'Schweregrad-Analyse und Sicherheitsempfehlungen',
+        testExamples: 'Testbeispiele:',
+        inputLabel: '🎯 E-Mail-Adresse zur Überprüfung eingeben:',
+        scanBtn: '🔍 E-Mail-Sicherheit Prüfen',
         navUrlScanner: 'URL-Scanner',
         navEmailScanner: 'E-Mail-Scanner',
         scanSteps: [
-          'Scanner wird initialisiert...',
-          'Verbindung zu VirusTotal...',
-          'Malware-Analyse...',
-          'Bedrohungen scannen...',
-          'Ergebnisse zusammenstellen...',
-          'Analyse abschließen...'
+          'E-Mail-Scanner wird initialisiert...',
+          'Verbindung zu HaveIBeenPwned-Datenbank...',
+          'Suche nach Verletzungsaufzeichnungen...',
+          'Analyse von Sicherheitsbedrohungen...',
+          'Bewertung des Risikolevels...',
+          'Abschlussbericht wird vorbereitet...'
         ],
         errors: {
-          empty: 'Bitte geben Sie eine URL ein.',
-          invalid: 'Bitte geben Sie eine gültige URL ein',
+          empty: 'Bitte geben Sie eine E-Mail-Adresse ein.',
+          invalid: 'Bitte geben Sie eine gültige E-Mail-Adresse ein',
           timeout: 'Scan-Timeout - bitte versuchen Sie es erneut',
-          connection: 'Verbindungsfehler - prüfen Sie Ihre Internetverbindung'
-        },
-        results: {
-          maliciousSite: '🚨 Bösartige Seite Erkannt!',
-          suspiciousSite: '⚠️ Verdächtige Seite!',
-          safeSite: '✅ Sichere Seite!',
-          analysisResults: '📊 Analyse-Ergebnisse:',
-          threatsDetected: 'Bedrohungen erkannt von',
-          suspiciousActivity: 'Verdächtige Aktivität markiert von',
-          scannedBy: 'Gescannt von',
-          confirmedMalware: 'Bestätigte Malware-Präsenz',
-          requiresReview: 'Erfordert zusätzliche Überprüfung',
-          markedClean: 'Engines als sauber markiert',
-          noThreats: 'Keine Bedrohungen erkannt',
-          riskLevel: 'Risiko-Level:',
-          veryHigh: 'Sehr Hoch',
-          medium: 'Mittel',
-          low: 'Niedrig',
-          recommendation: 'Empfehlung:',
-          avoidCompletely: 'Diese Seite vollständig meiden',
-          useCaution: 'Mit äußerster Vorsicht verwenden',
-          safeToUse: 'Sicher zu verwenden',
-          protection: 'Schutz:',
-          accessBlocked: 'Zugriff blockiert',
-          verifySource: 'Quelle überprüfen',
-          protected: 'Geschützt',
-          status: 'Status:',
-          advice: 'Rat:'
+          connection: 'Verbindungsfehler - stellen Sie sicher, dass der Server läuft'
         }
       },
       fr: {
-        title: '🌐 Scanner de Sécurité URL',
-        subtitle: 'Détection avancée de malware powered by VirusTotal',
+        title: '📧 Scanner de Sécurité Email',
+        subtitle: 'Vérifiez si votre email a été compromis dans des fuites de données',
         whatWeCheck: '🛡️ Ce Que Nous Vérifions',
         privacyNote: '🔒 Nous ne sauvegarderons pas vos informations.',
-        feature1Title: 'Détection de Malware',
-        feature1Desc: 'Scanne les virus, trojans et code malveillant',
-        feature2Title: 'Menaces de Sécurité',
-        feature2Desc: 'Identifie les sites de phishing et contenu suspect',
-        feature3Title: 'Analyse des Moteurs',
-        feature3Desc: 'Résultats de plus de 70 moteurs de sécurité mondiaux',
+        feature1Title: 'Fuites de Données',
+        feature1Desc: 'Incidents de sécurité connus où vos données ont été exposées',
+        feature2Title: 'Fuites de Mots de Passe',
+        feature2Desc: 'Si vos mots de passe ont été compromis',
+        feature3Title: 'Détails de Fuite',
+        feature3Desc: 'Quels services ont été affectés et quand',
         feature4Title: 'Évaluation des Risques',
-        feature4Desc: 'Évaluation de sécurité complète et recommandations',
-        quickExamples: 'Exemples Rapides:',
-        inputLabel: '🎯 Entrez l\'URL à analyser:',
-        scanBtn: '🚀 Lancer le Scan de Sécurité',
+        feature4Desc: 'Analyse de gravité et recommandations de sécurité',
+        testExamples: 'Exemples de Test:',
+        inputLabel: '🎯 Entrez l\'adresse email à vérifier:',
+        scanBtn: '🔍 Vérifier la Sécurité Email',
         navUrlScanner: 'Scanner URL',
         navEmailScanner: 'Scanner Email',
         scanSteps: [
-          'Initialisation du scanner...',
-          'Connexion à VirusTotal...',
-          'Analyse des malwares...',
-          'Scan des menaces...',
-          'Compilation des résultats...',
-          'Finalisation de l\'analyse...'
+          'Initialisation du scanner email...',
+          'Connexion à la base de données HaveIBeenPwned...',
+          'Recherche des enregistrements de fuites...',
+          'Analyse des menaces de sécurité...',
+          'Évaluation du niveau de risque...',
+          'Préparation du rapport final...'
         ],
         errors: {
-          empty: 'Veuillez entrer une URL.',
-          invalid: 'Veuillez entrer une URL valide',
+          empty: 'Veuillez entrer une adresse email.',
+          invalid: 'Veuillez entrer une adresse email valide',
           timeout: 'Délai de scan dépassé - veuillez réessayer',
-          connection: 'Erreur de connexion - vérifiez votre connexion internet'
-        },
-        results: {
-          maliciousSite: '🚨 Site Malveillant Détecté!',
-          suspiciousSite: '⚠️ Site Suspect!',
-          safeSite: '✅ Site Sûr!',
-          analysisResults: '📊 Résultats de l\'Analyse:',
-          threatsDetected: 'Menaces détectées par',
-          suspiciousActivity: 'Activité suspecte signalée par',
-          scannedBy: 'Scanné par',
-          confirmedMalware: 'Présence de malware confirmée',
-          requiresReview: 'Nécessite une révision supplémentaire',
-          markedClean: 'moteurs marqués comme propres',
-          noThreats: 'Aucune menace détectée',
-          riskLevel: 'Niveau de Risque:',
-          veryHigh: 'Très Élevé',
-          medium: 'Moyen',
-          low: 'Faible',
-          recommendation: 'Recommandation:',
-          avoidCompletely: 'Évitez complètement ce site',
-          useCaution: 'Utilisez avec une extrême prudence',
-          safeToUse: 'Sûr à utiliser',
-          protection: 'Protection:',
-          accessBlocked: 'Accès bloqué',
-          verifySource: 'Vérifiez la source',
-          protected: 'Protégé',
-          status: 'Statut:',
-          advice: 'Conseil:'
+          connection: 'Erreur de connexion - assurez-vous que le serveur fonctionne'
         }
       },
       zh: {
-        title: '🌐 URL安全扫描器',
-        subtitle: '由VirusTotal提供支持的高级恶意软件检测',
+        title: '📧 电子邮件安全扫描器',
+        subtitle: '检查您的电子邮件是否在数据泄露中遭到泄露',
         whatWeCheck: '🛡️ 我们检查什么',
         privacyNote: '🔒 我们不会存储您的信息。',
-        feature1Title: '恶意软件检测',
-        feature1Desc: '扫描病毒、木马和恶意代码',
-        feature2Title: '安全威胁',
-        feature2Desc: '识别钓鱼网站和可疑内容',
-        feature3Title: '引擎分析',
-        feature3Desc: '来自全球70+安全引擎的结果',
+        feature1Title: '数据泄露',
+        feature1Desc: '已知的安全事件，您的数据被泄露',
+        feature2Title: '密码泄露',
+        feature2Desc: '您的密码是否已被泄露',
+        feature3Title: '泄露详情',
+        feature3Desc: '哪些服务受到影响以及何时发生',
         feature4Title: '风险评估',
-        feature4Desc: '全面的安全评估和建议',
-        quickExamples: '快速示例：',
-        inputLabel: '🎯 输入要分析的URL：',
-        scanBtn: '🚀 启动安全扫描',
+        feature4Desc: '严重性分析和安全建议',
+        testExamples: '测试示例：',
+        inputLabel: '🎯 输入要检查的电子邮件地址：',
+        scanBtn: '🔍 检查电子邮件安全',
         navUrlScanner: 'URL扫描器',
         navEmailScanner: '电子邮件扫描器',
         scanSteps: [
-          '初始化扫描器...',
-          '连接到VirusTotal...',
-          '分析恶意软件...',
-          '扫描威胁...',
-          '编译结果...',
-          '完成分析...'
+          '初始化电子邮件扫描器...',
+          '连接到HaveIBeenPwned数据库...',
+          '搜索泄露记录...',
+          '分析安全威胁...',
+          '评估风险级别...',
+          '准备最终报告...'
         ],
         errors: {
-          empty: '请输入URL。',
-          invalid: '请输入有效的URL',
+          empty: '请输入电子邮件地址。',
+          invalid: '请输入有效的电子邮件地址',
           timeout: '扫描超时 - 请重试',
-          connection: '连接错误 - 请检查您的网络连接'
-        },
-        results: {
-          maliciousSite: '🚨 检测到恶意网站！',
-          suspiciousSite: '⚠️ 可疑网站！',
-          safeSite: '✅ 安全网站！',
-          analysisResults: '📊 分析结果：',
-          threatsDetected: '威胁检测由',
-          suspiciousActivity: '可疑活动标记由',
-          scannedBy: '扫描由',
-          confirmedMalware: '确认恶意软件存在',
-          requiresReview: '需要额外审查',
-          markedClean: '个引擎标记为干净',
-          noThreats: '未检测到威胁',
-          riskLevel: '风险级别：',
-          veryHigh: '非常高',
-          medium: '中等',
-          low: '低',
-          recommendation: '建议：',
-          avoidCompletely: '完全避免此网站',
-          useCaution: '极其谨慎使用',
-          safeToUse: '可安全使用',
-          protection: '保护：',
-          accessBlocked: '访问已阻止',
-          verifySource: '验证来源',
-          protected: '受保护',
-          status: '状态：',
-          advice: '建议：'
+          connection: '连接错误 - 确保服务器正在运行'
         }
       }
     };
+
+    function translateDataClass(dataClass) {
+      if (currentLang === 'ar') {
+        const map = {
+          "passwords": "كلمات المرور",
+          "email addresses": "عناوين البريد الإلكتروني",
+          "usernames": "أسماء المستخدمين",
+          "names": "الأسماء",
+          "phone numbers": "أرقام الهواتف",
+          "dates of birth": "تواريخ الميلاد",
+          "physical addresses": "العناوين الفعلية"
+        };
+        return map[dataClass.toLowerCase()] || dataClass;
+      } else if (currentLang === 'zh') {
+        const map = {
+          "passwords": "密码",
+          "email addresses": "电子邮件地址",
+          "usernames": "用户名",
+          "names": "姓名",
+          "phone numbers": "电话号码",
+          "dates of birth": "出生日期",
+          "physical addresses": "实际地址"
+        };
+        return map[dataClass.toLowerCase()] || dataClass;
+      } else if (currentLang === 'es') {
+        const map = {
+          "passwords": "contraseñas",
+          "email addresses": "direcciones de email",
+          "usernames": "nombres de usuario",
+          "names": "nombres",
+          "phone numbers": "números de teléfono",
+          "dates of birth": "fechas de nacimiento",
+          "physical addresses": "direcciones físicas"
+        };
+        return map[dataClass.toLowerCase()] || dataClass;
+      } else if (currentLang === 'de') {
+        const map = {
+          "passwords": "Passwörter",
+          "email addresses": "E-Mail-Adressen",
+          "usernames": "Benutzernamen",
+          "names": "Namen",
+          "phone numbers": "Telefonnummern",
+          "dates of birth": "Geburtsdaten",
+          "physical addresses": "Physische Adressen"
+        };
+        return map[dataClass.toLowerCase()] || dataClass;
+      } else if (currentLang === 'fr') {
+        const map = {
+          "passwords": "mots de passe",
+          "email addresses": "adresses email",
+          "usernames": "noms d'utilisateur",
+          "names": "noms",
+          "phone numbers": "numéros de téléphone",
+          "dates of birth": "dates de naissance",
+          "physical addresses": "adresses physiques"
+        };
+        return map[dataClass.toLowerCase()] || dataClass;
+      }
+      return dataClass;
+    }
 
     function toggleMenu() {
       const navMenu = document.getElementById('navMenu');
@@ -1142,16 +1039,16 @@
       document.getElementById('feature3-desc').textContent = t.feature3Desc;
       document.getElementById('feature4-title').textContent = t.feature4Title;
       document.getElementById('feature4-desc').textContent = t.feature4Desc;
-      document.getElementById('quick-examples').textContent = t.quickExamples;
+      document.getElementById('test-examples').textContent = t.testExamples;
       document.getElementById('input-label').textContent = t.inputLabel;
       document.getElementById('scan-btn').textContent = t.scanBtn;
       document.getElementById('nav-url-scanner').textContent = t.navUrlScanner;
       document.getElementById('nav-email-scanner').textContent = t.navEmailScanner;
     }
 
-    function setExample(url) {
-      document.getElementById('url-input').value = url;
-      document.getElementById('url-input').focus();
+    function setExample(email) {
+      document.getElementById('email-input').value = email;
+      document.getElementById('email-input').focus();
     }
 
     function typeWriter(element, text, speed = 30) {
@@ -1175,7 +1072,7 @@
       const submitBtn = document.getElementById('scan-btn');
       const loadingContainer = document.getElementById('loading-container');
       const loadingText = document.getElementById('loading-text');
-      const urlInput = document.getElementById('url-input');
+      const emailInput = document.getElementById('email-input');
       const t = translations[currentLang] || translations.en;
 
       errorDiv.style.display = 'none';
@@ -1186,20 +1083,15 @@
       submitBtn.classList.add('scanning');
       submitBtn.textContent = '🔄 Scanning...';
       
-      let value = urlInput.value.trim();
+      const value = emailInput.value.trim();
 
       if (!value) {
-        showError(t.errors?.empty || 'Please enter a URL.');
+        showError(t.errors?.empty || 'Please enter an email address.');
         return;
       }
 
-      if (!value.match(/^https?:\/\//)) {
-        value = 'https://' + value;
-        urlInput.value = value;
-      }
-      
-      if (!value.match(/^https?:\/\/.+\..+/)) {
-        showError(t.errors?.invalid || 'Please enter a valid URL');
+      if (!value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+        showError(t.errors?.invalid || 'Please enter a valid email address');
         return;
       }
 
@@ -1207,22 +1099,22 @@
 
       // Show scanning steps
       const scanSteps = t.scanSteps || [
-        'Initializing scanner...',
-        'Connecting to VirusTotal...',
-        'Analyzing for malware...',
-        'Scanning for threats...',
-        'Compiling results...',
-        'Finalizing analysis...'
+        'Initializing email scanner...',
+        'Connecting to HaveIBeenPwned database...',
+        'Searching breach records...',
+        'Analyzing security threats...',
+        'Assessing risk level...',
+        'Preparing final report...'
       ];
 
       for (let i = 0; i < scanSteps.length; i++) {
-        await new Promise(resolve => setTimeout(resolve, 800));
+        await new Promise(resolve => setTimeout(resolve, 600));
         loadingText.textContent = scanSteps[i];
       }
 
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 120000);
+        const timeoutId = setTimeout(() => controller.abort(), 30000);
 
         const response = await fetch('/api/scan', {
           method: 'POST',
@@ -1230,9 +1122,9 @@
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            type: 'url',
+            type: 'email',
             value: value,
-            mode: 'quick'
+            mode: 'basic'
           }),
           signal: controller.signal
         });
@@ -1246,31 +1138,69 @@
 
         loadingContainer.style.display = 'none';
 
-        const verdict = data.verdict;
-        const stats = data.stats;
-        const engines = data.engines;
-        const totalEngines = Object.keys(engines).length;
-        const maliciousCount = stats.malicious || 0;
-        const suspiciousCount = stats.suspicious || 0;
-        const harmlessCount = stats.harmless || 0;
+        const breachCount = data.breaches;
+        const breachDetails = data.details;
 
         let result, resultClass;
-        const results = t.results || translations.en.results;
 
-        if (verdict === 'malicious') {
-          result = `${results.maliciousSite}\n\n${results.analysisResults}\n• ${results.threatsDetected} ${maliciousCount}/${totalEngines} engines\n• ${results.confirmedMalware}\n• ${results.riskLevel} ${results.veryHigh}\n\n⚠️ ${results.recommendation} ${results.avoidCompletely}\n🛡️ ${results.protection} ${results.accessBlocked}`;
-          resultClass = 'result-container result-danger';
-        } else if (verdict === 'suspicious') {
-          result = `${results.suspiciousSite}\n\n${results.analysisResults}\n• ${results.suspiciousActivity} ${suspiciousCount}/${totalEngines} engines\n• ${results.requiresReview}\n• ${results.riskLevel} ${results.medium}\n\n💡 ${results.recommendation} ${results.useCaution}\n🔍 ${results.advice} ${results.verifySource}`;
-          resultClass = 'result-container result-warning';
-        } else {
-          result = `${results.safeSite}\n\n${results.analysisResults}\n• ${results.scannedBy} ${totalEngines} security engines\n• ${harmlessCount} ${results.markedClean}\n• ${results.noThreats}\n• ${results.riskLevel} ${results.low}\n\n🎉 ${results.recommendation} ${results.safeToUse}\n🛡️ ${results.status} ${results.protected}`;
+        if (breachCount === 0) {
+          if (currentLang === 'ar') {
+            result = `✅ بريد إلكتروني آمن!\n\n📊 نتائج الفحص:\n• لم يتم العثور على تسريبات\n• البريد غير مكشوف في قواعد البيانات\n• مستوى المخاطر: منخفض\n\n🎉 التوصية: البريد آمن للاستخدام\n🛡️ الحالة: محمي`;
+          } else if (currentLang === 'zh') {
+            result = `✅ 电子邮件安全！\n\n📊 扫描结果:\n• 未发现泄露\n• 电子邮件未在数据库中暴露\n• 风险级别: 低\n\n🎉 建议: 电子邮件可安全使用\n🛡️ 状态: 受保护`;
+          } else if (currentLang === 'es') {
+            result = `✅ ¡Email Seguro!\n\n📊 Resultados del Escaneo:\n• No se encontraron filtraciones\n• Email no expuesto en bases de datos\n• Nivel de Riesgo: Bajo\n\n🎉 Recomendación: Email seguro para usar\n🛡️ Estado: Protegido`;
+          } else if (currentLang === 'de') {
+            result = `✅ E-Mail ist Sicher!\n\n📊 Scan-Ergebnisse:\n• Keine Verletzungen gefunden\n• E-Mail nicht in Datenbanken preisgegeben\n• Risiko-Level: Niedrig\n\n🎉 Empfehlung: E-Mail ist sicher zu verwenden\n🛡️ Status: Geschützt`;
+          } else if (currentLang === 'fr') {
+            result = `✅ Email Sécurisé!\n\n📊 Résultats du Scan:\n• Aucune fuite trouvée\n• Email non exposé dans les bases de données\n• Niveau de Risque: Faible\n\n🎉 Recommandation: Email sûr à utiliser\n🛡️ Statut: Protégé`;
+          } else {
+            result = `✅ Email is Safe!\n\n📊 Scan Results:\n• No breaches found\n• Email not exposed in databases\n• Risk Level: Low\n\n🎉 Recommendation: Email is safe to use\n🛡️ Status: Protected`;
+          }
           resultClass = 'result-container result-success';
+        } else {
+          let breachList = '';
+          const displayBreaches = breachDetails.slice(0, 6);
+          
+          displayBreaches.forEach((breach, index) => {
+            const dataClasses = breach.DataClasses.slice(0, 3).map(dc => translateDataClass(dc)).join(', ');
+            
+            const exposedDataLabel = currentLang === 'ar' ? 'البيانات المكشوفة:' : 
+                                   currentLang === 'zh' ? '暴露数据:' : 
+                                   currentLang === 'es' ? 'Datos Expuestos:' :
+                                   currentLang === 'de' ? 'Freigegebene Daten:' :
+                                   currentLang === 'fr' ? 'Données Exposées:' :
+                                   'Exposed Data:';
+            breachList += `\n${index + 1}. ${breach.Name} (${breach.BreachDate})\n   ${exposedDataLabel} ${dataClasses}`;
+          });
+
+          if (breachCount > 10) {
+            if (currentLang === 'ar') {
+              result = `🚨 خطر عالي - تسريبات متعددة!\n\n📊 نتائج الفحص:\n• تم العثور على ${breachCount} تسريب\n• بيانات حساسة مكشوفة\n• مستوى المخاطر: عالي جداً\n\n🔥 التسريبات الرئيسية:${breachList}\n\n⚠️ العمل المطلوب:\n• غير كلمات المرور فوراً\n• فعل المصادقة الثنائية\n• راقب الحسابات المالية\n• احذر من رسائل التصيد`;
+            } else if (currentLang === 'zh') {
+              result = `🚨 高风险 - 多次泄露！\n\n📊 扫描结果:\n• 发现 ${breachCount} 次泄露\n• 敏感数据暴露\n• 风险级别: 非常高\n\n🔥 主要泄露:${breachList}\n\n⚠️ 必需行动:\n• 立即更改密码\n• 启用双因素认证\n• 监控金融账户\n• 小心钓鱼攻击`;
+            } else if (currentLang === 'es') {
+              result = `🚨 ¡Alto Riesgo - Múltiples Filtraciones!\n\n📊 Resultados del Escaneo:\n• Encontrado en ${breachCount} filtraciones\n• Datos sensibles expuestos\n• Nivel de Riesgo: Muy Alto\n\n🔥 Filtraciones Principales:${breachList}\n\n⚠️ Acciones Requeridas:\n• Cambiar contraseñas inmediatamente\n• Habilitar autenticación de dos factores\n• Monitorear cuentas financieras\n• Cuidado con intentos de phishing`;
+            } else if (currentLang === 'de') {
+              result = `🚨 Hohes Risiko - Mehrere Verletzungen!\n\n📊 Scan-Ergebnisse:\n• In ${breachCount} Verletzungen gefunden\n• Sensible Daten preisgegeben\n• Risiko-Level: Sehr Hoch\n\n🔥 Hauptverletzungen:${breachList}\n\n⚠️ Erforderliche Maßnahmen:\n• Passwörter sofort ändern\n• Zwei-Faktor-Authentifizierung aktivieren\n• Finanzkonten überwachen\n• Vor Phishing-Versuchen hüten`;
+            } else if (currentLang === 'fr') {
+              result = `🚨 Risque Élevé - Fuites Multiples!\n\n📊 Résultats du Scan:\n• Trouvé dans ${breachCount} fuites\n• Données sensibles exposées\n• Niveau de Risque: Très Élevé\n\n🔥 Fuites Principales:${breachList}\n\n⚠️ Actions Requises:\n• Changer les mots de passe immédiatement\n• Activer l'authentification à deux facteurs\n• Surveiller les comptes financiers\n• Attention aux tentatives de phishing`;
+            } else {
+              result = `🚨 High Risk - Multiple Breaches!\n\n📊 Scan Results:\n• Found in ${breachCount} breaches\n• Sensitive data exposed\n• Risk Level: Very High\n\n🔥 Major Breaches:${breachList}\n\n⚠️ Required Actions:\n• Change passwords immediately\n• Enable two-factor authentication\n• Monitor financial accounts\n• Watch for phishing attempts`;
+            }
+            resultClass = 'result-container result-danger';
+          } else if (breachCount > 3) {
+            result = `⚠️ Medium Risk - Breaches Detected\n\n📊 Scan Results:\n• Found in ${breachCount} breaches\n• Some data exposed\n• Risk Level: Medium\n\n📋 Detected Breaches:${breachList}\n\n💡 Recommendations:\n• Review and update passwords\n• Enable security alerts\n• Monitor suspicious activity`;
+            resultClass = 'result-container result-warning';
+          } else {
+            result = `⚠️ Low Risk - Few Breaches\n\n📊 Scan Results:\n• Found in ${breachCount} breaches\n• Limited exposure\n• Risk Level: Low\n\n📋 Breaches:${breachList}\n\n✅ Recommendations:\n• Update passwords as precaution\n• Stay updated on security practices`;
+            resultClass = 'result-container result-warning';
+          }
         }
 
         resultDiv.className = resultClass;
         resultDiv.style.display = 'block';
-        typeWriter(resultDiv, result, 20);
+        typeWriter(resultDiv, result, 15);
 
       } catch (error) {
         loadingContainer.style.display = 'none';
@@ -1279,7 +1209,7 @@
         if (error.name === 'AbortError') {
           errorMessage = t.errors?.timeout || 'Scan timeout - please try again';
         } else if (error.message.includes('Failed to fetch')) {
-          errorMessage = t.errors?.connection || 'Connection error - please check your internet connection';
+          errorMessage = t.errors?.connection || 'Connection error - make sure server is running';
         } else {
           errorMessage = `Scan error: ${error.message}`;
         }
@@ -1305,7 +1235,7 @@
       isScanning = false;
       submitBtn.disabled = false;
       submitBtn.classList.remove('scanning');
-      submitBtn.textContent = t.scanBtn || '🚀 Launch Security Scan';
+      submitBtn.textContent = t.scanBtn || '🔍 Check Email Security';
     }
 
     // Event Listeners
@@ -1341,7 +1271,6 @@
 
     // Handle viewport changes
     function handleViewportChange() {
-      // Recalculate heights if needed
       const vh = window.innerHeight * 0.01;
       document.documentElement.style.setProperty('--vh', `${vh}px`);
     }
