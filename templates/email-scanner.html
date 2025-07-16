@@ -1934,7 +1934,7 @@ async function fetchScan() {
     const breachResponse = await fetch(`https://haveibeenpwned.com/api/v3/breachedaccount/${encodeURIComponent(value)}`, {
       method: 'GET',
       headers: {
-        'hibp-api-key': 'YOUR_API_KEY_HERE', // You need to get this from HaveIBeenPwned
+        'hibp-api-key': 'f698b0efaeca4167a5e98e7786870eb8', // You need to get this from HaveIBeenPwned
         'user-agent': 'YourAppName'
       }
     });
