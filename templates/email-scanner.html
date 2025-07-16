@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RASED راصد</title>
+  <title>Email Security Scanner</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
@@ -641,8 +641,8 @@
   <nav class="nav-bar">
     <div class="nav-left">
       <div class="nav-links">
-        <a href="#url-scanner">🌐 URL Scanner</a>
-        <a href="#email-scanner" class="active">📧 Email Scanner</a>
+        <a href="/url-scanner">🌐 URL Scanner</a>
+        <a href="/email-scanner" class="active">📧 Email Scanner</a>
       </div>
     </div>
     
@@ -695,6 +695,9 @@
     
     <div class="email-info">
       <h3 id="what-we-check">🛡️ What We Check</h3>
+      <div class="privacy-note" id="privacy-note">
+        🔒 We won't save your Info.
+      </div>
       <div class="info-grid">
         <div class="info-item">
           <span class="icon">💀</span>
@@ -718,9 +721,7 @@
         </div>
       </div>
     </div>
-<div class="privacy-note" id="privacy-note">
-        🔒 We won't store your Info.
-      </div>
+
     <div class="email-examples">
       <h3 id="test-examples">Test Examples:</h3>
       <span class="example" onclick="setExample('test@gmail.com')">test@gmail.com</span>
@@ -734,7 +735,7 @@
         <input type="email" id="email-input" name="email-input" placeholder="your.email@example.com" required />
       </div>
       
-      <button type="submit" id="scan-btn" onclick="fetchScan()">
+      <button type="submit" id="scan-btn">
         🔍 Check Email Security
       </button>
       
@@ -757,7 +758,7 @@
         title: '📧 Email Security Scanner',
         subtitle: 'Check if your email has been compromised in data breaches',
         whatWeCheck: '🛡️ What We Check',
-        privacyNote: '🔒 We won\'t store your Info.',
+        privacyNote: '🔒 We won\'t save your Info.',
         feature1Title: 'Data Breaches',
         feature1Desc: 'Known security incidents where your data was exposed',
         feature2Title: 'Password Leaks',
@@ -784,18 +785,13 @@
           invalid: 'Please enter a valid email address',
           timeout: 'Scan timeout - please try again',
           connection: 'Connection error - make sure server is running'
-        },
-        results: {
-          safe: '✅ Safe Email!\n\n📊 Security Analysis Complete\n\nYour email address was not found in any known data breaches. This means your account appears to be secure from publicly known security incidents.\n\n🔐 Security Recommendations:\n• Use unique, strong passwords\n• Enable two-factor authentication\n• Monitor your accounts regularly\n• Be cautious of phishing emails',
-          breached: '⚠️ Email Found in Data Breaches!\n\n📊 Breach Analysis:\nYour email was found in {count} data breach(es).\n\n🚨 Affected Services:\n{details}\n\n🔐 Immediate Actions Required:\n• Change passwords for affected accounts\n• Enable two-factor authentication\n• Monitor your accounts for suspicious activity\n• Consider using a password manager',
-          error: '❌ Scan Failed\n\nUnable to complete the security scan. Please try again later or check your internet connection.'
         }
       },
       ar: {
         title: '📧 ماسح أمان البريد الإلكتروني',
         subtitle: 'تحقق من تعرض بريدك الإلكتروني للاختراق في تسريبات البيانات',
         whatWeCheck: '🛡️ ما نفحصه',
-        privacyNote: '🔒 لن نخزن معلوماتك.',
+        privacyNote: '🔒 لن نحفظ معلوماتك.',
         feature1Title: 'تسريبات البيانات',
         feature1Desc: 'الحوادث الأمنية المعروفة حيث تم تعريض بياناتك',
         feature2Title: 'تسريبات كلمات المرور',
@@ -822,18 +818,13 @@
           invalid: 'يرجى إدخال عنوان بريد إلكتروني صحيح',
           timeout: 'انتهت مهلة الفحص - يرجى المحاولة مرة أخرى',
           connection: 'خطأ في الاتصال - تأكد من تشغيل الخادم'
-        },
-        results: {
-          safe: '✅ بريد إلكتروني آمن!\n\n📊 اكتمل تحليل الأمان\n\nلم يتم العثور على عنوان بريدك الإلكتروني في أي تسريبات بيانات معروفة. هذا يعني أن حسابك يبدو آمناً من الحوادث الأمنية المعروفة علناً.\n\n🔐 توصيات الأمان:\n• استخدم كلمات مرور قوية وفريدة\n• فعّل المصادقة الثنائية\n• راقب حساباتك بانتظام\n• كن حذراً من رسائل التصيد الاحتيالي',
-          breached: '⚠️ تم العثور على البريد في تسريبات البيانات!\n\n📊 تحليل التسريب:\nتم العثور على بريدك الإلكتروني في {count} تسريب(ات) بيانات.\n\n🚨 الخدمات المتأثرة:\n{details}\n\n🔐 الإجراءات المطلوبة فوراً:\n• غيّر كلمات المرور للحسابات المتأثرة\n• فعّل المصادقة الثنائية\n• راقب حساباتك للأنشطة المشبوهة\n• فكر في استخدام مدير كلمات المرور',
-          error: '❌ فشل الفحص\n\nتعذر إكمال فحص الأمان. يرجى المحاولة مرة أخرى لاحقاً أو تحقق من اتصال الإنترنت.'
         }
       },
       es: {
         title: '📧 Escáner de Seguridad de Email',
         subtitle: 'Verifica si tu email ha sido comprometido en filtraciones de datos',
         whatWeCheck: '🛡️ Qué Verificamos',
-        privacyNote: '🔒 No almacenaremos tu información.',
+        privacyNote: '🔒 No guardaremos tu información.',
         feature1Title: 'Filtraciones de Datos',
         feature1Desc: 'Incidentes de seguridad conocidos donde tus datos fueron expuestos',
         feature2Title: 'Filtraciones de Contraseñas',
@@ -860,11 +851,6 @@
           invalid: 'Por favor ingresa una dirección de email válida',
           timeout: 'Tiempo de escaneo agotado - intenta de nuevo',
           connection: 'Error de conexión - asegúrate de que el servidor esté funcionando'
-        },
-        results: {
-          safe: '✅ ¡Email Seguro!\n\n📊 Análisis de Seguridad Completo\n\nTu dirección de email no fue encontrada en ninguna filtración de datos conocida. Esto significa que tu cuenta parece estar segura de incidentes de seguridad públicamente conocidos.\n\n🔐 Recomendaciones de Seguridad:\n• Usa contraseñas únicas y fuertes\n• Habilita autenticación de dos factores\n• Monitorea tus cuentas regularmente\n• Ten cuidado con emails de phishing',
-          breached: '⚠️ ¡Email Encontrado en Filtraciones de Datos!\n\n📊 Análisis de Filtración:\nTu email fue encontrado en {count} filtración(es) de datos.\n\n🚨 Servicios Afectados:\n{details}\n\n🔐 Acciones Inmediatas Requeridas:\n• Cambia contraseñas para cuentas afectadas\n• Habilita autenticación de dos factores\n• Monitorea tus cuentas por actividad sospechosa\n• Considera usar un gestor de contraseñas',
-          error: '❌ Escaneo Fallido\n\nNo se pudo completar el escaneo de seguridad. Por favor intenta de nuevo más tarde o verifica tu conexión a internet.'
         }
       },
       de: {
@@ -898,18 +884,13 @@
           invalid: 'Bitte geben Sie eine gültige E-Mail-Adresse ein',
           timeout: 'Scan-Timeout - bitte versuchen Sie es erneut',
           connection: 'Verbindungsfehler - stellen Sie sicher, dass der Server läuft'
-        },
-        results: {
-          safe: '✅ Sichere E-Mail!\n\n📊 Sicherheitsanalyse Abgeschlossen\n\nIhre E-Mail-Adresse wurde in keinen bekannten Datenschutzverletzungen gefunden. Das bedeutet, Ihr Konto scheint sicher vor öffentlich bekannten Sicherheitsvorfällen zu sein.\n\n🔐 Sicherheitsempfehlungen:\n• Verwenden Sie einzigartige, starke Passwörter\n• Aktivieren Sie Zwei-Faktor-Authentifizierung\n• Überwachen Sie Ihre Konten regelmäßig\n• Seien Sie vorsichtig bei Phishing-E-Mails',
-          breached: '⚠️ E-Mail in Datenschutzverletzungen Gefunden!\n\n📊 Verletzungsanalyse:\nIhre E-Mail wurde in {count} Datenschutzverletzung(en) gefunden.\n\n🚨 Betroffene Dienste:\n{details}\n\n🔐 Sofortige Maßnahmen Erforderlich:\n• Ändern Sie Passwörter für betroffene Konten\n• Aktivieren Sie Zwei-Faktor-Authentifizierung\n• Überwachen Sie Ihre Konten auf verdächtige Aktivitäten\n• Erwägen Sie die Verwendung eines Passwort-Managers',
-          error: '❌ Scan Fehlgeschlagen\n\nDer Sicherheitsscan konnte nicht abgeschlossen werden. Bitte versuchen Sie es später erneut oder überprüfen Sie Ihre Internetverbindung.'
         }
       },
       fr: {
         title: '📧 Scanner de Sécurité Email',
         subtitle: 'Vérifiez si votre email a été compromis dans des fuites de données',
         whatWeCheck: '🛡️ Ce Que Nous Vérifions',
-        privacyNote: '🔒 Nous ne conserverons pas vos données..',
+        privacyNote: '🔒 Nous ne sauvegarderons pas vos informations.',
         feature1Title: 'Fuites de Données',
         feature1Desc: 'Incidents de sécurité connus où vos données ont été exposées',
         feature2Title: 'Fuites de Mots de Passe',
@@ -936,18 +917,13 @@
           invalid: 'Veuillez entrer une adresse email valide',
           timeout: 'Délai de scan dépassé - veuillez réessayer',
           connection: 'Erreur de connexion - assurez-vous que le serveur fonctionne'
-        },
-        results: {
-          safe: '✅ Email Sécurisé!\n\n📊 Analyse de Sécurité Terminée\n\nVotre adresse email n\'a été trouvée dans aucune fuite de données connue. Cela signifie que votre compte semble être sécurisé contre les incidents de sécurité publiquement connus.\n\n🔐 Recommandations de Sécurité:\n• Utilisez des mots de passe uniques et forts\n• Activez l\'authentification à deux facteurs\n• Surveillez vos comptes régulièrement\n• Méfiez-vous des emails de phishing',
-          breached: '⚠️ Email Trouvé dans des Fuites de Données!\n\n📊 Analyse de Fuite:\nVotre email a été trouvé dans {count} fuite(s) de données.\n\n🚨 Services Affectés:\n{details}\n\n🔐 Actions Immédiates Requises:\n• Changez les mots de passe pour les comptes affectés\n• Activez l\'authentification à deux facteurs\n• Surveillez vos comptes pour une activité suspecte\n• Considérez utiliser un gestionnaire de mots de passe',
-          error: '❌ Scan Échoué\n\nImpossible de terminer le scan de sécurité. Veuillez réessayer plus tard ou vérifiez votre connexion internet.'
         }
       },
       zh: {
         title: '📧 电子邮件安全扫描器',
         subtitle: '检查您的电子邮件是否在数据泄露中遭到泄露',
         whatWeCheck: '🛡️ 我们检查什么',
-        privacyNote: '🔒 我们不会存储您的信息。',
+        privacyNote: '🔒 我们不会保存您的信息。',
         feature1Title: '数据泄露',
         feature1Desc: '已知的安全事件，您的数据被泄露',
         feature2Title: '密码泄露',
@@ -974,18 +950,13 @@
           invalid: '请输入有效的电子邮件地址',
           timeout: '扫描超时 - 请重试',
           connection: '连接错误 - 确保服务器正在运行'
-        },
-        results: {
-          safe: '✅ 安全的电子邮件！\n\n📊 安全分析完成\n\n您的电子邮件地址未在任何已知数据泄露中发现。这意味着您的账户似乎免受公开已知的安全事件影响。\n\n🔐 安全建议：\n• 使用独特的强密码\n• 启用双重身份验证\n• 定期监控您的账户\n• 小心钓鱼邮件',
-          breached: '⚠️ 在数据泄露中发现电子邮件！\n\n📊 泄露分析：\n您的电子邮件在{count}次数据泄露中被发现。\n\n🚨 受影响的服务：\n{details}\n\n🔐 需要立即采取的行动：\n• 更改受影响账户的密码\n• 启用双重身份验证\n• 监控您的账户是否有可疑活动\n• 考虑使用密码管理器',
-          error: '❌ 扫描失败\n\n无法完成安全扫描。请稍后重试或检查您的互联网连接。'
         }
       }
     };
 
     function translateDataClass(dataClass) {
-      const translations = {
-        ar: {
+      if (currentLang === 'ar') {
+        const map = {
           "account balances": "أرصدة الحسابات",
           "address book contacts": "جهات اتصال دفتر العناوين",
           "age groups": "الفئات العمرية",
@@ -1136,626 +1107,626 @@
           "website activity": "نشاط الموقع",
           "work habits": "عادات العمل",
           "years of professional experience": "سنوات الخبرة المهنية"
-        },
-     es: {
-  "account balances": "saldos de cuenta",
-  "address book contacts": "contactos de libreta de direcciones",
-  "age groups": "grupos de edad",
-  "ages": "edades",
-  "appointments": "citas",
-  "apps installed on devices": "aplicaciones instaladas en dispositivos",
-  "astrological signs": "signos astrológicos",
-  "audio recordings": "grabaciones de audio",
-  "auth tokens": "tokens de autenticación",
-  "avatars": "avatares",
-  "bank account numbers": "números de cuenta bancaria",
-  "beauty ratings": "calificaciones de belleza",
-  "biometric data": "datos biométricos",
-  "bios": "biografías",
-  "browser user agent details": "detalles del agente de usuario del navegador",
-  "browsing histories": "historiales de navegación",
-  "buying preferences": "preferencias de compra",
-  "car ownership statuses": "estados de propiedad de automóviles",
-  "career levels": "niveles de carrera",
-  "cellular network names": "nombres de redes celulares",
-  "charitable donations": "donaciones benéficas",
-  "chat logs": "registros de chat",
-  "citizenship statuses": "estados de ciudadanía",
-  "clothing sizes": "tallas de ropa",
-  "comments": "comentarios",
-  "company names": "nombres de empresas",
-  "credit card cvv": "CVV de tarjeta de crédito",
-  "credit cards": "tarjetas de crédito",
-  "credit status information": "información de estado crediticio",
-  "cryptocurrency wallet addresses": "direcciones de billeteras de criptomonedas",
-  "customer feedback": "comentarios de clientes",
-  "customer interactions": "interacciones con clientes",
-  "dates of birth": "fechas de nacimiento",
-  "deceased date": "fecha de fallecimiento",
-  "deceased statuses": "estados de fallecimiento",
-  "delivery instructions": "instrucciones de entrega",
-  "device information": "información del dispositivo",
-  "device serial numbers": "números de serie del dispositivo",
-  "device usage tracking data": "datos de seguimiento de uso del dispositivo",
-  "drinking habits": "hábitos de consumo de alcohol",
-  "driver's licenses": "licencias de conducir",
-  "drug habits": "hábitos de consumo de drogas",
-  "earnings": "ganancias",
-  "eating habits": "hábitos alimentarios",
-  "education levels": "niveles de educación",
-  "email addresses": "direcciones de email",
-  "email messages": "mensajes de email",
-  "employers": "empleadores",
-  "employment statuses": "estados de empleo",
-  "encrypted keys": "claves encriptadas",
-  "ethnicities": "etnias",
-  "family members' names": "nombres de miembros de la familia",
-  "family plans": "planes familiares",
-  "family structure": "estructura familiar",
-  "financial investments": "inversiones financieras",
-  "financial transactions": "transacciones financieras",
-  "fitness levels": "niveles de acondicionamiento físico",
-  "flights taken": "vuelos tomados",
-  "genders": "géneros",
-  "geographic locations": "ubicaciones geográficas",
-  "government issued ids": "identificaciones emitidas por el gobierno",
-  "health insurance information": "información de seguro de salud",
-  "historical passwords": "contraseñas históricas",
-  "hiv statuses": "estados de VIH",
-  "home ownership statuses": "estados de propiedad de vivienda",
-  "homepage urls": "URLs de páginas principales",
-  "imei numbers": "números IMEI",
-  "imsi numbers": "números IMSI",
-  "income levels": "niveles de ingresos",
-  "instant messenger identities": "identidades de mensajería instantánea",
-  "ip addresses": "direcciones IP",
-  "job applications": "solicitudes de empleo",
-  "job titles": "títulos de trabajo",
-  "licence plates": "placas de matrícula",
-  "living costs": "costos de vida",
-  "loan information": "información de préstamos",
-  "login histories": "historiales de inicio de sesión",
-  "loyalty program details": "detalles del programa de lealtad",
-  "mac addresses": "direcciones MAC",
-  "marital statuses": "estados civiles",
-  "military service": "servicio militar",
-  "mnemonic phrases": "frases mnemotécnicas",
-  "mothers maiden names": "nombres de soltera de las madres",
-  "names": "nombres",
-  "nationalities": "nacionalidades",
-  "net worths": "patrimonios netos",
-  "nicknames": "apodos",
-  "occupations": "ocupaciones",
-  "parenting plans": "planes de crianza",
-  "partial credit card data": "datos parciales de tarjeta de crédito",
-  "partial dates of birth": "fechas de nacimiento parciales",
-  "partial phone numbers": "números de teléfono parciales",
-  "passport numbers": "números de pasaporte",
-  "password hints": "pistas de contraseña",
-  "password strengths": "fortalezas de contraseña",
-  "passwords": "contraseñas",
-  "payment histories": "historiales de pagos",
-  "payment methods": "métodos de pago",
-  "personal descriptions": "descripciones personales",
-  "personal health data": "datos de salud personal",
-  "personal interests": "intereses personales",
-  "phone numbers": "números de teléfono",
-  "photos": "fotos",
-  "physical addresses": "direcciones físicas",
-  "physical attributes": "atributos físicos",
-  "pins": "códigos PIN",
-  "places of birth": "lugares de nacimiento",
-  "political donations": "donaciones políticas",
-  "political views": "opiniones políticas",
-  "private messages": "mensajes privados",
-  "professional skills": "habilidades profesionales",
-  "profile photos": "fotos de perfil",
-  "purchases": "compras",
-  "purchasing habits": "hábitos de compra",
-  "races": "razas",
-  "recovery email addresses": "direcciones de email de recuperación",
-  "relationship statuses": "estados de relación",
-  "religions": "religiones",
-  "reward program balances": "saldos de programas de recompensas",
-  "salutations": "saludos",
-  "school grades (class levels)": "calificaciones escolares (niveles de clase)",
-  "security questions and answers": "preguntas y respuestas de seguridad",
-  "sexual fetishes": "fetiches sexuales",
-  "sexual orientations": "orientaciones sexuales",
-  "shipment tracking numbers": "números de seguimiento de envíos",
-  "smoking habits": "hábitos de fumar",
-  "sms messages": "mensajes SMS",
-  "social connections": "conexiones sociales",
-  "social media profiles": "perfiles de redes sociales",
-  "social security numbers": "números de seguridad social",
-  "spoken languages": "idiomas hablados",
-  "spouses names": "nombres de cónyuges",
-  "support tickets": "tickets de soporte",
-  "survey results": "resultados de encuestas",
-  "tattoo status": "estado de tatuajes",
-  "taxation records": "registros fiscales",
-  "telecommunications carrier": "proveedor de telecomunicaciones",
-  "time zones": "zonas horarias",
-  "travel habits": "hábitos de viaje",
-  "travel plans": "planes de viaje",
-  "user statuses": "estados de usuario",
-  "user website urls": "URLs de sitios web de usuario",
-  "usernames": "nombres de usuario",
-  "utility bills": "facturas de servicios públicos",
-  "vehicle details": "detalles del vehículo",
-  "vehicle identification numbers (vins)": "números de identificación del vehículo (VIN)",
-  "warranty claims": "reclamaciones de garantía",
-  "website activity": "actividad del sitio web",
-  "work habits": "hábitos de trabajo",
-  "years of professional experience": "años de experiencia profesional"
-        },
-        de: {
-  "account balances": "Kontostände",
-  "address book contacts": "Adressbuch-Kontakte",
-  "age groups": "Altersgruppen",
-  "ages": "Alter",
-  "appointments": "Termine",
-  "apps installed on devices": "auf Geräten installierte Apps",
-  "astrological signs": "Sternzeichen",
-  "audio recordings": "Audioaufnahmen",
-  "auth tokens": "Authentifizierungs-Token",
-  "avatars": "Avatare",
-  "bank account numbers": "Bankkontonummern",
-  "beauty ratings": "Schönheitsbewertungen",
-  "biometric data": "biometrische Daten",
-  "bios": "Biografien",
-  "browser user agent details": "Browser-User-Agent-Details",
-  "browsing histories": "Browsing-Verläufe",
-  "buying preferences": "Kaufpräferenzen",
-  "car ownership statuses": "Autobesitzstatus",
-  "career levels": "Karrierestufen",
-  "cellular network names": "Mobilfunknetz-Namen",
-  "charitable donations": "Wohltätigkeitsspenden",
-  "chat logs": "Chat-Protokolle",
-  "citizenship statuses": "Staatsbürgerschaftsstatus",
-  "clothing sizes": "Kleidungsgrößen",
-  "comments": "Kommentare",
-  "company names": "Firmennamen",
-  "credit card cvv": "Kreditkarten-CVV",
-  "credit cards": "Kreditkarten",
-  "credit status information": "Kreditstatus-Informationen",
-  "cryptocurrency wallet addresses": "Kryptowährungs-Wallet-Adressen",
-  "customer feedback": "Kundenfeedback",
-  "customer interactions": "Kundeninteraktionen",
-  "dates of birth": "Geburtsdaten",
-  "deceased date": "Sterbedatum",
-  "deceased statuses": "Verstorben-Status",
-  "delivery instructions": "Lieferanweisungen",
-  "device information": "Geräteinformationen",
-  "device serial numbers": "Geräte-Seriennummern",
-  "device usage tracking data": "Gerätenutzungs-Tracking-Daten",
-  "drinking habits": "Trinkgewohnheiten",
-  "driver's licenses": "Führerscheine",
-  "drug habits": "Drogengewohnheiten",
-  "earnings": "Einkommen",
-  "eating habits": "Essgewohnheiten",
-  "education levels": "Bildungsniveaus",
-  "email addresses": "E-Mail-Adressen",
-  "email messages": "E-Mail-Nachrichten",
-  "employers": "Arbeitgeber",
-  "employment statuses": "Beschäftigungsstatus",
-  "encrypted keys": "verschlüsselte Schlüssel",
-  "ethnicities": "Ethnien",
-  "family members' names": "Namen von Familienmitgliedern",
-  "family plans": "Familienpläne",
-  "family structure": "Familienstruktur",
-  "financial investments": "Finanzinvestitionen",
-  "financial transactions": "Finanztransaktionen",
-  "fitness levels": "Fitnesslevel",
-  "flights taken": "genommene Flüge",
-  "genders": "Geschlechter",
-  "geographic locations": "geografische Standorte",
-  "government issued ids": "staatlich ausgestellte Ausweise",
-  "health insurance information": "Krankenversicherungsinformationen",
-  "historical passwords": "historische Passwörter",
-  "hiv statuses": "HIV-Status",
-  "home ownership statuses": "Hausbesitzstatus",
-  "homepage urls": "Homepage-URLs",
-  "imei numbers": "IMEI-Nummern",
-  "imsi numbers": "IMSI-Nummern",
-  "income levels": "Einkommensniveaus",
-  "instant messenger identities": "Instant-Messenger-Identitäten",
-  "ip addresses": "IP-Adressen",
-  "job applications": "Stellenbewerbungen",
-  "job titles": "Berufsbezeichnungen",
-  "licence plates": "Kennzeichen",
-  "living costs": "Lebenshaltungskosten",
-  "loan information": "Kreditinformationen",
-  "login histories": "Anmeldehistorien",
-  "loyalty program details": "Treueprogramm-Details",
-  "mac addresses": "MAC-Adressen",
-  "marital statuses": "Familienstand",
-  "military service": "Militärdienst",
-  "mnemonic phrases": "mnemonische Phrasen",
-  "mothers maiden names": "Mädchennamen der Mütter",
-  "names": "Namen",
-  "nationalities": "Nationalitäten",
-  "net worths": "Nettovermögen",
-  "nicknames": "Spitznamen",
-  "occupations": "Berufe",
-  "parenting plans": "Erziehungspläne",
-  "partial credit card data": "teilweise Kreditkartendaten",
-  "partial dates of birth": "teilweise Geburtsdaten",
-  "partial phone numbers": "teilweise Telefonnummern",
-  "passport numbers": "Reisepassnummern",
-  "password hints": "Passwort-Hinweise",
-  "password strengths": "Passwort-Stärken",
-  "passwords": "Passwörter",
-  "payment histories": "Zahlungshistorien",
-  "payment methods": "Zahlungsmethoden",
-  "personal descriptions": "persönliche Beschreibungen",
-  "personal health data": "persönliche Gesundheitsdaten",
-  "personal interests": "persönliche Interessen",
-  "phone numbers": "Telefonnummern",
-  "photos": "Fotos",
-  "physical addresses": "physische Adressen",
-  "physical attributes": "körperliche Eigenschaften",
-  "pins": "PINs",
-  "places of birth": "Geburtsorte",
-  "political donations": "politische Spenden",
-  "political views": "politische Ansichten",
-  "private messages": "private Nachrichten",
-  "professional skills": "berufliche Fähigkeiten",
-  "profile photos": "Profilfotos",
-  "purchases": "Käufe",
-  "purchasing habits": "Kaufgewohnheiten",
-  "races": "Rassen",
-  "recovery email addresses": "Wiederherstellungs-E-Mail-Adressen",
-  "relationship statuses": "Beziehungsstatus",
-  "religions": "Religionen",
-  "reward program balances": "Belohnungsprogramm-Guthaben",
-  "salutations": "Anreden",
-  "school grades (class levels)": "Schulnoten (Klassenstufen)",
-  "security questions and answers": "Sicherheitsfragen und -antworten",
-  "sexual fetishes": "sexuelle Fetische",
-  "sexual orientations": "sexuelle Orientierungen",
-  "shipment tracking numbers": "Sendungsverfolgungsnummern",
-  "smoking habits": "Rauchgewohnheiten",
-  "sms messages": "SMS-Nachrichten",
-  "social connections": "soziale Verbindungen",
-  "social media profiles": "Social-Media-Profile",
-  "social security numbers": "Sozialversicherungsnummern",
-  "spoken languages": "gesprochene Sprachen",
-  "spouses names": "Namen der Ehepartner",
-  "support tickets": "Support-Tickets",
-  "survey results": "Umfrageergebnisse",
-  "tattoo status": "Tattoo-Status",
-  "taxation records": "Steuerunterlagen",
-  "telecommunications carrier": "Telekommunikationsanbieter",
-  "time zones": "Zeitzonen",
-  "travel habits": "Reisegewohnheiten",
-  "travel plans": "Reisepläne",
-  "user statuses": "Benutzerstatus",
-  "user website urls": "Benutzer-Website-URLs",
-  "usernames": "Benutzernamen",
-  "utility bills": "Stromrechnungen",
-  "vehicle details": "Fahrzeugdetails",
-  "vehicle identification numbers (vins)": "Fahrzeugidentifikationsnummern (FINs)",
-  "warranty claims": "Garantieansprüche",
-  "website activity": "Website-Aktivität",
-  "work habits": "Arbeitsgewohnheiten",
-  "years of professional experience": "Jahre Berufserfahrung"
-},
-        fr: {
-  "account balances": "soldes de comptes",
-  "address book contacts": "contacts du carnet d'adresses",
-  "age groups": "groupes d'âge",
-  "ages": "âges",
-  "appointments": "rendez-vous",
-  "apps installed on devices": "applications installées sur les appareils",
-  "astrological signs": "signes astrologiques",
-  "audio recordings": "enregistrements audio",
-  "auth tokens": "jetons d'authentification",
-  "avatars": "avatars",
-  "bank account numbers": "numéros de comptes bancaires",
-  "beauty ratings": "notes de beauté",
-  "biometric data": "données biométriques",
-  "bios": "biographies",
-  "browser user agent details": "détails de l'agent utilisateur du navigateur",
-  "browsing histories": "historiques de navigation",
-  "buying preferences": "préférences d'achat",
-  "car ownership statuses": "statuts de propriété de voiture",
-  "career levels": "niveaux de carrière",
-  "cellular network names": "noms des réseaux cellulaires",
-  "charitable donations": "dons de charité",
-  "chat logs": "journaux de chat",
-  "citizenship statuses": "statuts de citoyenneté",
-  "clothing sizes": "tailles de vêtements",
-  "comments": "commentaires",
-  "company names": "noms d'entreprises",
-  "credit card cvv": "CVV de carte de crédit",
-  "credit cards": "cartes de crédit",
-  "credit status information": "informations sur le statut de crédit",
-  "cryptocurrency wallet addresses": "adresses de portefeuilles de cryptomonnaies",
-  "customer feedback": "commentaires des clients",
-  "customer interactions": "interactions avec les clients",
-  "dates of birth": "dates de naissance",
-  "deceased date": "date de décès",
-  "deceased statuses": "statuts de décès",
-  "delivery instructions": "instructions de livraison",
-  "device information": "informations sur l'appareil",
-  "device serial numbers": "numéros de série des appareils",
-  "device usage tracking data": "données de suivi d'utilisation des appareils",
-  "drinking habits": "habitudes de consommation d'alcool",
-  "driver's licenses": "permis de conduire",
-  "drug habits": "habitudes de consommation de drogues",
-  "earnings": "revenus",
-  "eating habits": "habitudes alimentaires",
-  "education levels": "niveaux d'éducation",
-  "email addresses": "adresses email",
-  "email messages": "messages email",
-  "employers": "employeurs",
-  "employment statuses": "statuts d'emploi",
-  "encrypted keys": "clés chiffrées",
-  "ethnicities": "ethnies",
-  "family members' names": "noms des membres de la famille",
-  "family plans": "plans familiaux",
-  "family structure": "structure familiale",
-  "financial investments": "investissements financiers",
-  "financial transactions": "transactions financières",
-  "fitness levels": "niveaux de forme physique",
-  "flights taken": "vols pris",
-  "genders": "genres",
-  "geographic locations": "emplacements géographiques",
-  "government issued ids": "pièces d'identité émises par le gouvernement",
-  "health insurance information": "informations d'assurance santé",
-  "historical passwords": "mots de passe historiques",
-  "hiv statuses": "statuts VIH",
-  "home ownership statuses": "statuts de propriété immobilière",
-  "homepage urls": "URLs de pages d'accueil",
-  "imei numbers": "numéros IMEI",
-  "imsi numbers": "numéros IMSI",
-  "income levels": "niveaux de revenus",
-  "instant messenger identities": "identités de messagerie instantanée",
-  "ip addresses": "adresses IP",
-  "job applications": "candidatures d'emploi",
-  "job titles": "titres de poste",
-  "licence plates": "plaques d'immatriculation",
-  "living costs": "coûts de la vie",
-  "loan information": "informations sur les prêts",
-  "login histories": "historiques de connexion",
-  "loyalty program details": "détails du programme de fidélité",
-  "mac addresses": "adresses MAC",
-  "marital statuses": "statuts matrimoniaux",
-  "military service": "service militaire",
-  "mnemonic phrases": "phrases mnémotechniques",
-  "mothers maiden names": "noms de jeune fille des mères",
-  "names": "noms",
-  "nationalities": "nationalités",
-  "net worths": "valeurs nettes",
-  "nicknames": "surnoms",
-  "occupations": "professions",
-  "parenting plans": "plans parentaux",
-  "partial credit card data": "données partielles de carte de crédit",
-  "partial dates of birth": "dates de naissance partielles",
-  "partial phone numbers": "numéros de téléphone partiels",
-  "passport numbers": "numéros de passeport",
-  "password hints": "indices de mot de passe",
-  "password strengths": "forces des mots de passe",
-  "passwords": "mots de passe",
-  "payment histories": "historiques de paiements",
-  "payment methods": "méthodes de paiement",
-  "personal descriptions": "descriptions personnelles",
-  "personal health data": "données de santé personnelles",
-  "personal interests": "intérêts personnels",
-  "phone numbers": "numéros de téléphone",
-  "photos": "photos",
-  "physical addresses": "adresses physiques",
-  "physical attributes": "attributs physiques",
-  "pins": "codes PIN",
-  "places of birth": "lieux de naissance",
-  "political donations": "dons politiques",
-  "political views": "opinions politiques",
-  "private messages": "messages privés",
-  "professional skills": "compétences professionnelles",
-  "profile photos": "photos de profil",
-  "purchases": "achats",
-  "purchasing habits": "habitudes d'achat",
-  "races": "races",
-  "recovery email addresses": "adresses email de récupération",
-  "relationship statuses": "statuts de relation",
-  "religions": "religions",
-  "reward program balances": "soldes des programmes de récompenses",
-  "salutations": "salutations",
-  "school grades (class levels)": "notes scolaires (niveaux de classe)",
-  "security questions and answers": "questions et réponses de sécurité",
-  "sexual fetishes": "fétiches sexuels",
-  "sexual orientations": "orientations sexuelles",
-  "shipment tracking numbers": "numéros de suivi d'expédition",
-  "smoking habits": "habitudes de tabagisme",
-  "sms messages": "messages SMS",
-  "social connections": "connexions sociales",
-  "social media profiles": "profils de médias sociaux",
-  "social security numbers": "numéros de sécurité sociale",
-  "spoken languages": "langues parlées",
-  "spouses names": "noms des conjoints",
-  "support tickets": "tickets de support",
-  "survey results": "résultats d'enquêtes",
-  "tattoo status": "statut de tatouage",
-  "taxation records": "dossiers fiscaux",
-  "telecommunications carrier": "opérateur de télécommunications",
-  "time zones": "fuseaux horaires",
-  "travel habits": "habitudes de voyage",
-  "travel plans": "plans de voyage",
-  "user statuses": "statuts des utilisateurs",
-  "user website urls": "URLs de sites web des utilisateurs",
-  "usernames": "noms d'utilisateur",
-  "utility bills": "factures de services publics",
-  "vehicle details": "détails du véhicule",
-  "vehicle identification numbers (vins)": "numéros d'identification des véhicules (NIV)",
-  "warranty claims": "réclamations de garantie",
-  "website activity": "activité du site web",
-  "work habits": "habitudes de travail",
-  "years of professional experience": "années d'expérience professionnelle"
-},
-       zh: {
-  "account balances": "账户余额",
-  "address book contacts": "通讯录联系人",
-  "age groups": "年龄组",
-  "ages": "年龄",
-  "appointments": "预约",
-  "apps installed on devices": "设备上安装的应用",
-  "astrological signs": "星座",
-  "audio recordings": "录音",
-  "auth tokens": "认证令牌",
-  "avatars": "头像",
-  "bank account numbers": "银行账号",
-  "beauty ratings": "美貌评分",
-  "biometric data": "生物识别数据",
-  "bios": "个人简介",
-  "browser user agent details": "浏览器用户代理详情",
-  "browsing histories": "浏览历史",
-  "buying preferences": "购买偏好",
-  "car ownership statuses": "汽车拥有状态",
-  "career levels": "职业水平",
-  "cellular network names": "蜂窝网络名称",
-  "charitable donations": "慈善捐款",
-  "chat logs": "聊天记录",
-  "citizenship statuses": "公民身份状态",
-  "clothing sizes": "服装尺寸",
-  "comments": "评论",
-  "company names": "公司名称",
-  "credit card cvv": "信用卡CVV",
-  "credit cards": "信用卡",
-  "credit status information": "信用状态信息",
-  "cryptocurrency wallet addresses": "加密货币钱包地址",
-  "customer feedback": "客户反馈",
-  "customer interactions": "客户互动",
-  "dates of birth": "出生日期",
-  "deceased date": "死亡日期",
-  "deceased statuses": "死亡状态",
-  "delivery instructions": "配送说明",
-  "device information": "设备信息",
-  "device serial numbers": "设备序列号",
-  "device usage tracking data": "设备使用跟踪数据",
-  "drinking habits": "饮酒习惯",
-  "driver's licenses": "驾驶执照",
-  "drug habits": "吸毒习惯",
-  "earnings": "收入",
-  "eating habits": "饮食习惯",
-  "education levels": "教育水平",
-  "email addresses": "电子邮件地址",
-  "email messages": "电子邮件消息",
-  "employers": "雇主",
-  "employment statuses": "就业状态",
-  "encrypted keys": "加密密钥",
-  "ethnicities": "种族",
-  "family members' names": "家庭成员姓名",
-  "family plans": "家庭计划",
-  "family structure": "家庭结构",
-  "financial investments": "金融投资",
-  "financial transactions": "金融交易",
-  "fitness levels": "健身水平",
-  "flights taken": "乘坐的航班",
-  "genders": "性别",
-  "geographic locations": "地理位置",
-  "government issued ids": "政府颁发的身份证件",
-  "health insurance information": "健康保险信息",
-  "historical passwords": "历史密码",
-  "hiv statuses": "HIV状态",
-  "home ownership statuses": "房屋拥有状态",
-  "homepage urls": "主页URL",
-  "imei numbers": "IMEI号码",
-  "imsi numbers": "IMSI号码",
-  "income levels": "收入水平",
-  "instant messenger identities": "即时通讯身份",
-  "ip addresses": "IP地址",
-  "job applications": "求职申请",
-  "job titles": "职位",
-  "licence plates": "车牌号",
-  "living costs": "生活费用",
-  "loan information": "贷款信息",
-  "login histories": "登录历史",
-  "loyalty program details": "忠诚度计划详情",
-  "mac addresses": "MAC地址",
-  "marital statuses": "婚姻状况",
-  "military service": "兵役",
-  "mnemonic phrases": "助记词",
-  "mothers maiden names": "母亲娘家姓",
-  "names": "姓名",
-  "nationalities": "国籍",
-  "net worths": "净资产",
-  "nicknames": "昵称",
-  "occupations": "职业",
-  "parenting plans": "育儿计划",
-  "partial credit card data": "部分信用卡数据",
-  "partial dates of birth": "部分出生日期",
-  "partial phone numbers": "部分电话号码",
-  "passport numbers": "护照号码",
-  "password hints": "密码提示",
-  "password strengths": "密码强度",
-  "passwords": "密码",
-  "payment histories": "付款历史",
-  "payment methods": "付款方式",
-  "personal descriptions": "个人描述",
-  "personal health data": "个人健康数据",
-  "personal interests": "个人兴趣",
-  "phone numbers": "电话号码",
-  "photos": "照片",
-  "physical addresses": "实际地址",
-  "physical attributes": "身体特征",
-  "pins": "PIN码",
-  "places of birth": "出生地",
-  "political donations": "政治捐款",
-  "political views": "政治观点",
-  "private messages": "私人消息",
-  "professional skills": "专业技能",
-  "profile photos": "个人资料照片",
-  "purchases": "购买记录",
-  "purchasing habits": "购买习惯",
-  "races": "种族",
-  "recovery email addresses": "恢复邮箱地址",
-  "relationship statuses": "关系状态",
-  "religions": "宗教信仰",
-  "reward program balances": "奖励计划余额",
-  "salutations": "称呼",
-  "school grades (class levels)": "学校年级（班级水平）",
-  "security questions and answers": "安全问题和答案",
-  "sexual fetishes": "性癖好",
-  "sexual orientations": "性取向",
-  "shipment tracking numbers": "货运跟踪号",
-  "smoking habits": "吸烟习惯",
-  "sms messages": "短信",
-  "social connections": "社交关系",
-  "social media profiles": "社交媒体档案",
-  "social security numbers": "社会保障号",
-  "spoken languages": "使用语言",
-  "spouses names": "配偶姓名",
-  "support tickets": "支持工单",
-  "survey results": "调查结果",
-  "tattoo status": "纹身状态",
-  "taxation records": "税务记录",
-  "telecommunications carrier": "电信运营商",
-  "time zones": "时区",
-  "travel habits": "旅行习惯",
-  "travel plans": "旅行计划",
-  "user statuses": "用户状态",
-  "user website urls": "用户网站URL",
-  "usernames": "用户名",
-  "utility bills": "水电费账单",
-  "vehicle details": "车辆详情",
-  "vehicle identification numbers (vins)": "车辆识别号（VIN）",
-  "warranty claims": "保修索赔",
-  "website activity": "网站活动",
-  "work habits": "工作习惯",
-  "years of professional experience": "专业经验年数"
-}
-      };
-
-      const langCode = currentLang || 'en';
-      const langTranslations = translations[langCode];
-      
-      if (!langTranslations) {
-        return dataClass;
+        };
+        return map[dataClass.toLowerCase()] || dataClass;
+      } else if (currentLang === 'zh') {
+        const map = {
+        "account balances": "账户余额",
+        "address book contacts": "通讯录联系人",
+        "age groups": "年龄组",
+        "ages": "年龄",
+        "appointments": "预约",
+        "apps installed on devices": "设备上安装的应用",
+        "astrological signs": "星座",
+        "audio recordings": "录音",
+        "auth tokens": "认证令牌",
+        "avatars": "头像",
+        "bank account numbers": "银行账号",
+        "beauty ratings": "美貌评分",
+        "biometric data": "生物识别数据",
+        "bios": "个人简介",
+        "browser user agent details": "浏览器用户代理详情",
+        "browsing histories": "浏览历史",
+        "buying preferences": "购买偏好",
+        "car ownership statuses": "汽车拥有状态",
+        "career levels": "职业水平",
+        "cellular network names": "蜂窝网络名称",
+        "charitable donations": "慈善捐款",
+        "chat logs": "聊天记录",
+        "citizenship statuses": "公民身份状态",
+        "clothing sizes": "服装尺寸",
+        "comments": "评论",
+        "company names": "公司名称",
+        "credit card cvv": "信用卡CVV",
+        "credit cards": "信用卡",
+        "credit status information": "信用状态信息",
+        "cryptocurrency wallet addresses": "加密货币钱包地址",
+        "customer feedback": "客户反馈",
+        "customer interactions": "客户互动",
+        "dates of birth": "出生日期",
+        "deceased date": "死亡日期",
+        "deceased statuses": "死亡状态",
+        "delivery instructions": "配送说明",
+        "device information": "设备信息",
+        "device serial numbers": "设备序列号",
+        "device usage tracking data": "设备使用跟踪数据",
+        "drinking habits": "饮酒习惯",
+        "driver's licenses": "驾驶执照",
+        "drug habits": "吸毒习惯",
+        "earnings": "收入",
+        "eating habits": "饮食习惯",
+        "education levels": "教育水平",
+        "email addresses": "电子邮件地址",
+        "email messages": "电子邮件消息",
+        "employers": "雇主",
+        "employment statuses": "就业状态",
+        "encrypted keys": "加密密钥",
+        "ethnicities": "种族",
+        "family members' names": "家庭成员姓名",
+        "family plans": "家庭计划",
+        "family structure": "家庭结构",
+        "financial investments": "金融投资",
+        "financial transactions": "金融交易",
+        "fitness levels": "健身水平",
+        "flights taken": "乘坐的航班",
+        "genders": "性别",
+        "geographic locations": "地理位置",
+        "government issued ids": "政府颁发的身份证件",
+        "health insurance information": "健康保险信息",
+        "historical passwords": "历史密码",
+        "hiv statuses": "HIV状态",
+        "home ownership statuses": "房屋拥有状态",
+        "homepage urls": "主页URL",
+        "imei numbers": "IMEI号码",
+        "imsi numbers": "IMSI号码",
+        "income levels": "收入水平",
+        "instant messenger identities": "即时通讯身份",
+        "ip addresses": "IP地址",
+        "job applications": "求职申请",
+        "job titles": "职位",
+        "licence plates": "车牌号",
+        "living costs": "生活费用",
+        "loan information": "贷款信息",
+        "login histories": "登录历史",
+        "loyalty program details": "忠诚度计划详情",
+        "mac addresses": "MAC地址",
+        "marital statuses": "婚姻状况",
+        "military service": "兵役",
+        "mnemonic phrases": "助记词",
+        "mothers maiden names": "母亲娘家姓",
+        "names": "姓名",
+        "nationalities": "国籍",
+        "net worths": "净资产",
+        "nicknames": "昵称",
+        "occupations": "职业",
+        "parenting plans": "育儿计划",
+        "partial credit card data": "部分信用卡数据",
+        "partial dates of birth": "部分出生日期",
+        "partial phone numbers": "部分电话号码",
+        "passport numbers": "护照号码",
+        "password hints": "密码提示",
+        "password strengths": "密码强度",
+        "passwords": "密码",
+        "payment histories": "付款历史",
+        "payment methods": "付款方式",
+        "personal descriptions": "个人描述",
+        "personal health data": "个人健康数据",
+        "personal interests": "个人兴趣",
+        "phone numbers": "电话号码",
+        "photos": "照片",
+        "physical addresses": "实际地址",
+        "physical attributes": "身体特征",
+        "pins": "PIN码",
+        "places of birth": "出生地",
+        "political donations": "政治捐款",
+        "political views": "政治观点",
+        "private messages": "私人消息",
+        "professional skills": "专业技能",
+        "profile photos": "个人资料照片",
+        "purchases": "购买记录",
+        "purchasing habits": "购买习惯",
+        "races": "种族",
+        "recovery email addresses": "恢复邮箱地址",
+        "relationship statuses": "关系状态",
+        "religions": "宗教信仰",
+        "reward program balances": "奖励计划余额",
+        "salutations": "称呼",
+        "school grades (class levels)": "学校年级（班级水平）",
+        "security questions and answers": "安全问题和答案",
+        "sexual fetishes": "性癖好",
+        "sexual orientations": "性取向",
+        "shipment tracking numbers": "货运跟踪号",
+        "smoking habits": "吸烟习惯",
+        "sms messages": "短信",
+        "social connections": "社交关系",
+        "social media profiles": "社交媒体档案",
+        "social security numbers": "社会保障号",
+        "spoken languages": "使用语言",
+        "spouses names": "配偶姓名",
+        "support tickets": "支持工单",
+        "survey results": "调查结果",
+        "tattoo status": "纹身状态",
+        "taxation records": "税务记录",
+        "telecommunications carrier": "电信运营商",
+        "time zones": "时区",
+        "travel habits": "旅行习惯",
+        "travel plans": "旅行计划",
+        "user statuses": "用户状态",
+        "user website urls": "用户网站URL",
+        "usernames": "用户名",
+        "utility bills": "水电费账单",
+        "vehicle details": "车辆详情",
+        "vehicle identification numbers (vins)": "车辆识别号（VIN）",
+        "warranty claims": "保修索赔",
+        "website activity": "网站活动",
+        "work habits": "工作习惯",
+        "years of professional experience": "专业经验年数"
+        };
+        return map[dataClass.toLowerCase()] || dataClass;
+      } else if (currentLang === 'es') {
+        const map = {
+        "account balances": "saldos de cuenta",
+        "address book contacts": "contactos de libreta de direcciones",
+        "age groups": "grupos de edad",
+        "ages": "edades",
+        "appointments": "citas",
+        "apps installed on devices": "aplicaciones instaladas en dispositivos",
+        "astrological signs": "signos astrológicos",
+        "audio recordings": "grabaciones de audio",
+        "auth tokens": "tokens de autenticación",
+        "avatars": "avatares",
+        "bank account numbers": "números de cuenta bancaria",
+        "beauty ratings": "calificaciones de belleza",
+        "biometric data": "datos biométricos",
+        "bios": "biografías",
+        "browser user agent details": "detalles del agente de usuario del navegador",
+        "browsing histories": "historiales de navegación",
+        "buying preferences": "preferencias de compra",
+        "car ownership statuses": "estados de propiedad de automóviles",
+        "career levels": "niveles de carrera",
+        "cellular network names": "nombres de redes celulares",
+        "charitable donations": "donaciones benéficas",
+        "chat logs": "registros de chat",
+        "citizenship statuses": "estados de ciudadanía",
+        "clothing sizes": "tallas de ropa",
+        "comments": "comentarios",
+        "company names": "nombres de empresas",
+        "credit card cvv": "CVV de tarjeta de crédito",
+        "credit cards": "tarjetas de crédito",
+        "credit status information": "información de estado crediticio",
+        "cryptocurrency wallet addresses": "direcciones de billeteras de criptomonedas",
+        "customer feedback": "comentarios de clientes",
+        "customer interactions": "interacciones con clientes",
+        "dates of birth": "fechas de nacimiento",
+        "deceased date": "fecha de fallecimiento",
+        "deceased statuses": "estados de fallecimiento",
+        "delivery instructions": "instrucciones de entrega",
+        "device information": "información del dispositivo",
+        "device serial numbers": "números de serie del dispositivo",
+        "device usage tracking data": "datos de seguimiento de uso del dispositivo",
+        "drinking habits": "hábitos de consumo de alcohol",
+        "driver's licenses": "licencias de conducir",
+        "drug habits": "hábitos de consumo de drogas",
+        "earnings": "ganancias",
+        "eating habits": "hábitos alimentarios",
+        "education levels": "niveles de educación",
+        "email addresses": "direcciones de email",
+        "email messages": "mensajes de email",
+        "employers": "empleadores",
+        "employment statuses": "estados de empleo",
+        "encrypted keys": "claves encriptadas",
+        "ethnicities": "etnias",
+        "family members' names": "nombres de miembros de la familia",
+        "family plans": "planes familiares",
+        "family structure": "estructura familiar",
+        "financial investments": "inversiones financieras",
+        "financial transactions": "transacciones financieras",
+        "fitness levels": "niveles de acondicionamiento físico",
+        "flights taken": "vuelos tomados",
+        "genders": "géneros",
+        "geographic locations": "ubicaciones geográficas",
+        "government issued ids": "identificaciones emitidas por el gobierno",
+        "health insurance information": "información de seguro de salud",
+        "historical passwords": "contraseñas históricas",
+        "hiv statuses": "estados de VIH",
+        "home ownership statuses": "estados de propiedad de vivienda",
+        "homepage urls": "URLs de páginas principales",
+        "imei numbers": "números IMEI",
+        "imsi numbers": "números IMSI",
+        "income levels": "niveles de ingresos",
+        "instant messenger identities": "identidades de mensajería instantánea",
+        "ip addresses": "direcciones IP",
+        "job applications": "solicitudes de empleo",
+        "job titles": "títulos de trabajo",
+        "licence plates": "placas de matrícula",
+        "living costs": "costos de vida",
+        "loan information": "información de préstamos",
+        "login histories": "historiales de inicio de sesión",
+        "loyalty program details": "detalles del programa de lealtad",
+        "mac addresses": "direcciones MAC",
+        "marital statuses": "estados civiles",
+        "military service": "servicio militar",
+        "mnemonic phrases": "frases mnemotécnicas",
+        "mothers maiden names": "nombres de soltera de las madres",
+        "names": "nombres",
+        "nationalities": "nacionalidades",
+        "net worths": "patrimonios netos",
+        "nicknames": "apodos",
+        "occupations": "ocupaciones",
+        "parenting plans": "planes de crianza",
+        "partial credit card data": "datos parciales de tarjeta de crédito",
+        "partial dates of birth": "fechas de nacimiento parciales",
+        "partial phone numbers": "números de teléfono parciales",
+        "passport numbers": "números de pasaporte",
+        "password hints": "pistas de contraseña",
+        "password strengths": "fortalezas de contraseña",
+        "passwords": "contraseñas",
+        "payment histories": "historiales de pagos",
+        "payment methods": "métodos de pago",
+        "personal descriptions": "descripciones personales",
+        "personal health data": "datos de salud personal",
+        "personal interests": "intereses personales",
+        "phone numbers": "números de teléfono",
+        "photos": "fotos",
+        "physical addresses": "direcciones físicas",
+        "physical attributes": "atributos físicos",
+        "pins": "códigos PIN",
+        "places of birth": "lugares de nacimiento",
+        "political donations": "donaciones políticas",
+        "political views": "opiniones políticas",
+        "private messages": "mensajes privados",
+        "professional skills": "habilidades profesionales",
+        "profile photos": "fotos de perfil",
+        "purchases": "compras",
+        "purchasing habits": "hábitos de compra",
+        "races": "razas",
+        "recovery email addresses": "direcciones de email de recuperación",
+        "relationship statuses": "estados de relación",
+        "religions": "religiones",
+        "reward program balances": "saldos de programas de recompensas",
+        "salutations": "saludos",
+        "school grades (class levels)": "calificaciones escolares (niveles de clase)",
+        "security questions and answers": "preguntas y respuestas de seguridad",
+        "sexual fetishes": "fetiches sexuales",
+        "sexual orientations": "orientaciones sexuales",
+        "shipment tracking numbers": "números de seguimiento de envíos",
+        "smoking habits": "hábitos de fumar",
+        "sms messages": "mensajes SMS",
+        "social connections": "conexiones sociales",
+        "social media profiles": "perfiles de redes sociales",
+        "social security numbers": "números de seguridad social",
+        "spoken languages": "idiomas hablados",
+        "spouses names": "nombres de cónyuges",
+        "support tickets": "tickets de soporte",
+        "survey results": "resultados de encuestas",
+        "tattoo status": "estado de tatuajes",
+        "taxation records": "registros fiscales",
+        "telecommunications carrier": "proveedor de telecomunicaciones",
+        "time zones": "zonas horarias",
+        "travel habits": "hábitos de viaje",
+        "travel plans": "planes de viaje",
+        "user statuses": "estados de usuario",
+        "user website urls": "URLs de sitios web de usuario",
+        "usernames": "nombres de usuario",
+        "utility bills": "facturas de servicios públicos",
+        "vehicle details": "detalles del vehículo",
+        "vehicle identification numbers (vins)": "números de identificación del vehículo (VIN)",
+        "warranty claims": "reclamaciones de garantía",
+        "website activity": "actividad del sitio web",
+        "work habits": "hábitos de trabajo",
+        "years of professional experience": "años de experiencia profesional"
+        };
+        return map[dataClass.toLowerCase()] || dataClass;
+      } else if (currentLang === 'de') {
+        const map = {
+        "account balances": "Kontostände",
+        "address book contacts": "Adressbuch-Kontakte",
+        "age groups": "Altersgruppen",
+        "ages": "Alter",
+        "appointments": "Termine",
+        "apps installed on devices": "auf Geräten installierte Apps",
+        "astrological signs": "Sternzeichen",
+        "audio recordings": "Audioaufnahmen",
+        "auth tokens": "Authentifizierungs-Token",
+        "avatars": "Avatare",
+        "bank account numbers": "Bankkontonummern",
+        "beauty ratings": "Schönheitsbewertungen",
+        "biometric data": "biometrische Daten",
+        "bios": "Biografien",
+        "browser user agent details": "Browser-User-Agent-Details",
+        "browsing histories": "Browsing-Verläufe",
+        "buying preferences": "Kaufpräferenzen",
+        "car ownership statuses": "Autobesitzstatus",
+        "career levels": "Karrierestufen",
+        "cellular network names": "Mobilfunknetz-Namen",
+        "charitable donations": "Wohltätigkeitsspenden",
+        "chat logs": "Chat-Protokolle",
+        "citizenship statuses": "Staatsbürgerschaftsstatus",
+        "clothing sizes": "Kleidungsgrößen",
+        "comments": "Kommentare",
+        "company names": "Firmennamen",
+        "credit card cvv": "Kreditkarten-CVV",
+        "credit cards": "Kreditkarten",
+        "credit status information": "Kreditstatus-Informationen",
+        "cryptocurrency wallet addresses": "Kryptowährungs-Wallet-Adressen",
+        "customer feedback": "Kundenfeedback",
+        "customer interactions": "Kundeninteraktionen",
+        "dates of birth": "Geburtsdaten",
+        "deceased date": "Sterbedatum",
+        "deceased statuses": "Verstorben-Status",
+        "delivery instructions": "Lieferanweisungen",
+        "device information": "Geräteinformationen",
+        "device serial numbers": "Geräte-Seriennummern",
+        "device usage tracking data": "Gerätenutzungs-Tracking-Daten",
+        "drinking habits": "Trinkgewohnheiten",
+        "driver's licenses": "Führerscheine",
+        "drug habits": "Drogengewohnheiten",
+        "earnings": "Einkommen",
+        "eating habits": "Essgewohnheiten",
+        "education levels": "Bildungsniveaus",
+        "email addresses": "E-Mail-Adressen",
+        "email messages": "E-Mail-Nachrichten",
+        "employers": "Arbeitgeber",
+        "employment statuses": "Beschäftigungsstatus",
+        "encrypted keys": "verschlüsselte Schlüssel",
+        "ethnicities": "Ethnien",
+        "family members' names": "Namen von Familienmitgliedern",
+        "family plans": "Familienpläne",
+        "family structure": "Familienstruktur",
+        "financial investments": "Finanzinvestitionen",
+        "financial transactions": "Finanztransaktionen",
+        "fitness levels": "Fitnesslevel",
+        "flights taken": "genommene Flüge",
+        "genders": "Geschlechter",
+        "geographic locations": "geografische Standorte",
+        "government issued ids": "staatlich ausgestellte Ausweise",
+        "health insurance information": "Krankenversicherungsinformationen",
+        "historical passwords": "historische Passwörter",
+        "hiv statuses": "HIV-Status",
+        "home ownership statuses": "Hausbesitzstatus",
+        "homepage urls": "Homepage-URLs",
+        "imei numbers": "IMEI-Nummern",
+        "imsi numbers": "IMSI-Nummern",
+        "income levels": "Einkommensniveaus",
+        "instant messenger identities": "Instant-Messenger-Identitäten",
+        "ip addresses": "IP-Adressen",
+        "job applications": "Stellenbewerbungen",
+        "job titles": "Berufsbezeichnungen",
+        "licence plates": "Kennzeichen",
+        "living costs": "Lebenshaltungskosten",
+        "loan information": "Kreditinformationen",
+        "login histories": "Anmeldehistorien",
+        "loyalty program details": "Treueprogramm-Details",
+        "mac addresses": "MAC-Adressen",
+        "marital statuses": "Familienstand",
+        "military service": "Militärdienst",
+        "mnemonic phrases": "mnemonische Phrasen",
+        "mothers maiden names": "Mädchennamen der Mütter",
+        "names": "Namen",
+        "nationalities": "Nationalitäten",
+        "net worths": "Nettovermögen",
+        "nicknames": "Spitznamen",
+        "occupations": "Berufe",
+        "parenting plans": "Erziehungspläne",
+        "partial credit card data": "teilweise Kreditkartendaten",
+        "partial dates of birth": "teilweise Geburtsdaten",
+        "partial phone numbers": "teilweise Telefonnummern",
+        "passport numbers": "Reisepassnummern",
+        "password hints": "Passwort-Hinweise",
+        "password strengths": "Passwort-Stärken",
+        "passwords": "Passwörter",
+        "payment histories": "Zahlungshistorien",
+        "payment methods": "Zahlungsmethoden",
+        "personal descriptions": "persönliche Beschreibungen",
+        "personal health data": "persönliche Gesundheitsdaten",
+        "personal interests": "persönliche Interessen",
+        "phone numbers": "Telefonnummern",
+        "photos": "Fotos",
+        "physical addresses": "physische Adressen",
+        "physical attributes": "körperliche Eigenschaften",
+        "pins": "PINs",
+        "places of birth": "Geburtsorte",
+        "political donations": "politische Spenden",
+        "political views": "politische Ansichten",
+        "private messages": "private Nachrichten",
+        "professional skills": "berufliche Fähigkeiten",
+        "profile photos": "Profilfotos",
+        "purchases": "Käufe",
+        "purchasing habits": "Kaufgewohnheiten",
+        "races": "Rassen",
+        "recovery email addresses": "Wiederherstellungs-E-Mail-Adressen",
+        "relationship statuses": "Beziehungsstatus",
+        "religions": "Religionen",
+        "reward program balances": "Belohnungsprogramm-Guthaben",
+        "salutations": "Anreden",
+        "school grades (class levels)": "Schulnoten (Klassenstufen)",
+        "security questions and answers": "Sicherheitsfragen und -antworten",
+        "sexual fetishes": "sexuelle Fetische",
+        "sexual orientations": "sexuelle Orientierungen",
+        "shipment tracking numbers": "Sendungsverfolgungsnummern",
+        "smoking habits": "Rauchgewohnheiten",
+        "sms messages": "SMS-Nachrichten",
+        "social connections": "soziale Verbindungen",
+        "social media profiles": "Social-Media-Profile",
+        "social security numbers": "Sozialversicherungsnummern",
+        "spoken languages": "gesprochene Sprachen",
+        "spouses names": "Namen der Ehepartner",
+        "support tickets": "Support-Tickets",
+        "survey results": "Umfrageergebnisse",
+        "tattoo status": "Tattoo-Status",
+        "taxation records": "Steuerunterlagen",
+        "telecommunications carrier": "Telekommunikationsanbieter",
+        "time zones": "Zeitzonen",
+        "travel habits": "Reisegewohnheiten",
+        "travel plans": "Reisepläne",
+        "user statuses": "Benutzerstatus",
+        "user website urls": "Benutzer-Website-URLs",
+        "usernames": "Benutzernamen",
+        "utility bills": "Stromrechnungen",
+        "vehicle details": "Fahrzeugdetails",
+        "vehicle identification numbers (vins)": "Fahrzeugidentifikationsnummern (FINs)",
+        "warranty claims": "Garantieansprüche",
+        "website activity": "Website-Aktivität",
+        "work habits": "Arbeitsgewohnheiten",
+        "years of professional experience": "Jahre Berufserfahrung"
+        };
+        return map[dataClass.toLowerCase()] || dataClass;
+      } else if (currentLang === 'fr') {
+        const map = {
+        "account balances": "soldes de comptes",
+        "address book contacts": "contacts du carnet d'adresses",
+        "age groups": "groupes d'âge",
+        "ages": "âges",
+        "appointments": "rendez-vous",
+        "apps installed on devices": "applications installées sur les appareils",
+        "astrological signs": "signes astrologiques",
+        "audio recordings": "enregistrements audio",
+        "auth tokens": "jetons d'authentification",
+        "avatars": "avatars",
+        "bank account numbers": "numéros de comptes bancaires",
+        "beauty ratings": "notes de beauté",
+        "biometric data": "données biométriques",
+        "bios": "biographies",
+        "browser user agent details": "détails de l'agent utilisateur du navigateur",
+        "browsing histories": "historiques de navigation",
+        "buying preferences": "préférences d'achat",
+        "car ownership statuses": "statuts de propriété de voiture",
+        "career levels": "niveaux de carrière",
+        "cellular network names": "noms des réseaux cellulaires",
+        "charitable donations": "dons de charité",
+        "chat logs": "journaux de chat",
+        "citizenship statuses": "statuts de citoyenneté",
+        "clothing sizes": "tailles de vêtements",
+        "comments": "commentaires",
+        "company names": "noms d'entreprises",
+        "credit card cvv": "CVV de carte de crédit",
+        "credit cards": "cartes de crédit",
+        "credit status information": "informations sur le statut de crédit",
+        "cryptocurrency wallet addresses": "adresses de portefeuilles de cryptomonnaies",
+        "customer feedback": "commentaires des clients",
+        "customer interactions": "interactions avec les clients",
+        "dates of birth": "dates de naissance",
+        "deceased date": "date de décès",
+        "deceased statuses": "statuts de décès",
+        "delivery instructions": "instructions de livraison",
+        "device information": "informations sur l'appareil",
+        "device serial numbers": "numéros de série des appareils",
+        "device usage tracking data": "données de suivi d'utilisation des appareils",
+        "drinking habits": "habitudes de consommation d'alcool",
+        "driver's licenses": "permis de conduire",
+        "drug habits": "habitudes de consommation de drogues",
+        "earnings": "revenus",
+        "eating habits": "habitudes alimentaires",
+        "education levels": "niveaux d'éducation",
+        "email addresses": "adresses email",
+        "email messages": "messages email",
+        "employers": "employeurs",
+        "employment statuses": "statuts d'emploi",
+        "encrypted keys": "clés chiffrées",
+        "ethnicities": "ethnies",
+        "family members' names": "noms des membres de la famille",
+        "family plans": "plans familiaux",
+        "family structure": "structure familiale",
+        "financial investments": "investissements financiers",
+        "financial transactions": "transactions financières",
+        "fitness levels": "niveaux de forme physique",
+        "flights taken": "vols pris",
+        "genders": "genres",
+        "geographic locations": "emplacements géographiques",
+        "government issued ids": "pièces d'identité émises par le gouvernement",
+        "health insurance information": "informations d'assurance santé",
+        "historical passwords": "mots de passe historiques",
+        "hiv statuses": "statuts VIH",
+        "home ownership statuses": "statuts de propriété immobilière",
+        "homepage urls": "URLs de pages d'accueil",
+        "imei numbers": "numéros IMEI",
+        "imsi numbers": "numéros IMSI",
+        "income levels": "niveaux de revenus",
+        "instant messenger identities": "identités de messagerie instantanée",
+        "ip addresses": "adresses IP",
+        "job applications": "candidatures d'emploi",
+        "job titles": "titres de poste",
+        "licence plates": "plaques d'immatriculation",
+        "living costs": "coûts de la vie",
+        "loan information": "informations sur les prêts",
+        "login histories": "historiques de connexion",
+        "loyalty program details": "détails du programme de fidélité",
+        "mac addresses": "adresses MAC",
+        "marital statuses": "statuts matrimoniaux",
+        "military service": "service militaire",
+        "mnemonic phrases": "phrases mnémotechniques",
+        "mothers maiden names": "noms de jeune fille des mères",
+        "names": "noms",
+        "nationalities": "nationalités",
+        "net worths": "valeurs nettes",
+        "nicknames": "surnoms",
+        "occupations": "professions",
+        "parenting plans": "plans parentaux",
+        "partial credit card data": "données partielles de carte de crédit",
+        "partial dates of birth": "dates de naissance partielles",
+        "partial phone numbers": "numéros de téléphone partiels",
+        "passport numbers": "numéros de passeport",
+        "password hints": "indices de mot de passe",
+        "password strengths": "forces des mots de passe",
+        "passwords": "mots de passe",
+        "payment histories": "historiques de paiements",
+        "payment methods": "méthodes de paiement",
+        "personal descriptions": "descriptions personnelles",
+        "personal health data": "données de santé personnelles",
+        "personal interests": "intérêts personnels",
+        "phone numbers": "numéros de téléphone",
+        "photos": "photos",
+        "physical addresses": "adresses physiques",
+        "physical attributes": "attributs physiques",
+        "pins": "codes PIN",
+        "places of birth": "lieux de naissance",
+        "political donations": "dons politiques",
+        "political views": "opinions politiques",
+        "private messages": "messages privés",
+        "professional skills": "compétences professionnelles",
+        "profile photos": "photos de profil",
+        "purchases": "achats",
+        "purchasing habits": "habitudes d'achat",
+        "races": "races",
+        "recovery email addresses": "adresses email de récupération",
+        "relationship statuses": "statuts de relation",
+        "religions": "religions",
+        "reward program balances": "soldes des programmes de récompenses",
+        "salutations": "salutations",
+        "school grades (class levels)": "notes scolaires (niveaux de classe)",
+        "security questions and answers": "questions et réponses de sécurité",
+        "sexual fetishes": "fétiches sexuels",
+        "sexual orientations": "orientations sexuelles",
+        "shipment tracking numbers": "numéros de suivi d'expédition",
+        "smoking habits": "habitudes de tabagisme",
+        "sms messages": "messages SMS",
+        "social connections": "connexions sociales",
+        "social media profiles": "profils de médias sociaux",
+        "social security numbers": "numéros de sécurité sociale",
+        "spoken languages": "langues parlées",
+        "spouses names": "noms des conjoints",
+        "support tickets": "tickets de support",
+        "survey results": "résultats d'enquêtes",
+        "tattoo status": "statut de tatouage",
+        "taxation records": "dossiers fiscaux",
+        "telecommunications carrier": "opérateur de télécommunications",
+        "time zones": "fuseaux horaires",
+        "travel habits": "habitudes de voyage",
+        "travel plans": "plans de voyage",
+        "user statuses": "statuts des utilisateurs",
+        "user website urls": "URLs de sites web des utilisateurs",
+        "usernames": "noms d'utilisateur",
+        "utility bills": "factures de services publics",
+        "vehicle details": "détails du véhicule",
+        "vehicle identification numbers (vins)": "numéros d'identification des véhicules (NIV)",
+        "warranty claims": "réclamations de garantie",
+        "website activity": "activité du site web",
+        "work habits": "habitudes de travail",
+        "years of professional experience": "années d'expérience professionnelle"
+        };
+        return map[dataClass.toLowerCase()] || dataClass;
       }
-      
-      const normalizedClass = dataClass.toLowerCase().trim();
-      return langTranslations[normalizedClass] || dataClass;
+      return dataClass;
     }
 
     function setExample(email) {
@@ -1848,229 +1819,184 @@
       }, speed);
     }
 
-    // Mock breach data for demonstration
-    const mockBreachData = {
-      'test@gmail.com': {
-        breaches: 2,
-        details: [
-          {
-            name: 'Adobe',
-            breachDate: '2013-10-04',
-            dataClasses: ['email addresses', 'passwords', 'usernames']
-          },
-          {
-            name: 'LinkedIn',
-            breachDate: '2012-05-05',
-            dataClasses: ['email addresses', 'passwords']
-          }
-        ]
-      },
-      'example@yahoo.com': {
-        breaches: 1,
-        details: [
-          {
-            name: 'Yahoo',
-            breachDate: '2014-09-22',
-            dataClasses: ['dates of birth', 'email addresses', 'names', 'passwords', 'phone numbers', 'security questions and answers']
-          }
-        ]
-      },
-      'user@hotmail.com': {
-        breaches: 0,
-        details: []
+    async function fetchScan() {
+      const errorDiv = document.getElementById('error-msg');
+      const resultDiv = document.getElementById('result');
+      const submitBtn = document.getElementById('scan-btn');
+      const scanProgress = document.getElementById('scan-progress');
+      const emailInput = document.getElementById('email-input');
+      const t = translations[currentLang];
+
+      errorDiv.textContent = '';
+      resultDiv.textContent = '';
+      resultDiv.className = '';
+      submitBtn.disabled = true;
+      submitBtn.classList.add('scanning-button');
+      
+      const value = emailInput.value.trim();
+
+      if (!value) {
+        errorDiv.textContent = t.errors.empty;
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('scanning-button');
+        return;
       }
-    };
 
-    // Replace the mock fetchScan function with real API integration
-// Replace your performScan function with this Flask-compatible version
-async function performScan() {
-  if (isScanning) return;
-  
-  const errorDiv = document.getElementById('error-message');
-  const resultDiv = document.getElementById('result-container');
-  const submitBtn = document.getElementById('scan-btn');
-  const loadingContainer = document.getElementById('loading-container');
-  const loadingText = document.getElementById('loading-text');
-  const emailInput = document.getElementById('email-input');
-  const t = translations[currentLang] || translations.en;
+      if (!value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+        errorDiv.textContent = t.errors.invalid;
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('scanning-button');
+        return;
+      }
 
-  errorDiv.style.display = 'none';
-  resultDiv.style.display = 'none';
-  resultDiv.className = 'result-container';
-  isScanning = true;
-  submitBtn.disabled = true;
-  submitBtn.classList.add('scanning');
-  submitBtn.textContent = '🔄 Scanning...';
-  
-  const value = emailInput.value.trim();
+      scanProgress.style.display = 'flex';
 
-  if (!value) {
-    showError(t.errors?.empty || 'Please enter an email address.');
-    return;
-  }
+      for (let i = 0; i < t.scanSteps.length; i++) {
+        await new Promise(resolve => setTimeout(resolve, 400));
+        resultDiv.innerHTML = `
+          <div style="text-align: center;">
+            <div class="loading-dots">
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+            <p>${t.scanSteps[i]}</p>
+          </div>
+        `;
+      }
 
-  if (!value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-    showError(t.errors?.invalid || 'Please enter a valid email address');
-    return;
-  }
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 30000);
 
-  loadingContainer.style.display = 'block';
+        const response = await fetch('/api/scan', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            type: 'email',
+            value: value,
+            mode: scanMode
+          }),
+          signal: controller.signal
+        });
 
-  // Show scanning steps with realistic timing
-  const scanSteps = t.scanSteps || [
-    'Initializing email scanner...',
-    'Connecting to HaveIBeenPwned database...',
-    'Searching breach records...',
-    'Analyzing security threats...',
-    'Assessing risk level...',
-    'Preparing final report...'
-  ];
+        clearTimeout(timeoutId);
+        const data = await response.json();
 
-  for (let i = 0; i < scanSteps.length; i++) {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    loadingText.textContent = scanSteps[i];
-  }
+        if (!response.ok) {
+          throw new Error(data.error || `HTTP ${response.status}: ${response.statusText}`);
+        }
 
-  try {
-    // Call your Flask API endpoint
-    const response = await fetch('/api/scan', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        type: 'email',
-        value: value,
-        mode: 'basic'
-      })
+        scanProgress.style.display = 'none';
+
+        const breachCount = data.breaches;
+        const breachDetails = data.details;
+
+        let result, resultClass;
+
+        if (breachCount === 0) {
+          if (currentLang === 'ar') {
+            result = `✅ بريد إلكتروني آمن!\n\n📊 نتائج الفحص:\n• لم يتم العثور على تسريبات\n• البريد غير مكشوف في قواعد البيانات\n• مستوى المخاطر: منخفض\n\n🎉 التوصية: البريد آمن للاستخدام\n🛡️ الحالة: محمي`;
+          } else if (currentLang === 'zh') {
+            result = `✅ 电子邮件安全！\n\n📊 扫描结果:\n• 未发现泄露\n• 电子邮件未在数据库中暴露\n• 风险级别: 低\n\n🎉 建议: 电子邮件可安全使用\n🛡️ 状态: 受保护`;
+          } else if (currentLang === 'es') {
+            result = `✅ ¡Email Seguro!\n\n📊 Resultados del Escaneo:\n• No se encontraron filtraciones\n• Email no expuesto en bases de datos\n• Nivel de Riesgo: Bajo\n\n🎉 Recomendación: Email seguro para usar\n🛡️ Estado: Protegido`;
+          } else if (currentLang === 'de') {
+            result = `✅ E-Mail ist Sicher!\n\n📊 Scan-Ergebnisse:\n• Keine Verletzungen gefunden\n• E-Mail nicht in Datenbanken preisgegeben\n• Risiko-Level: Niedrig\n\n🎉 Empfehlung: E-Mail ist sicher zu verwenden\n🛡️ Status: Geschützt`;
+          } else if (currentLang === 'fr') {
+            result = `✅ Email Sécurisé!\n\n📊 Résultats du Scan:\n• Aucune fuite trouvée\n• Email non exposé dans les bases de données\n• Niveau de Risque: Faible\n\n🎉 Recommandation: Email sûr à utiliser\n🛡️ Statut: Protégé`;
+          } else {
+            result = `✅ Email is Safe!\n\n📊 Scan Results:\n• No breaches found\n• Email not exposed in databases\n• Risk Level: Low\n\n🎉 Recommendation: Email is safe to use\n🛡️ Status: Protected`;
+          }
+          resultClass = 'result-success';
+        } else {
+          let breachList = '';
+          const displayBreaches = breachDetails.slice(0, 8);
+          
+          displayBreaches.forEach((breach, index) => {
+            const dataClasses = breach.DataClasses.slice(0, 3).map(dc => translateDataClass(dc)).join(', ');
+            
+            const exposedDataLabel = currentLang === 'ar' ? 'البيانات المكشوفة:' : 
+                                   currentLang === 'zh' ? '暴露数据:' : 
+                                   currentLang === 'es' ? 'Datos Expuestos:' :
+                                   currentLang === 'de' ? 'Freigegebene Daten:' :
+                                   currentLang === 'fr' ? 'Données Exposées:' :
+                                   'Exposed Data:';
+            breachList += `\n${index + 1}. ${breach.Name} (${breach.BreachDate})\n   ${exposedDataLabel} ${dataClasses}`;
+          });
+
+          if (breachCount > 15) {
+            if (currentLang === 'ar') {
+              result = `🚨 خطر عالي - تسريبات متعددة!\n\n📊 نتائج الفحص:\n• تم العثور على ${breachCount} تسريب\n• بيانات حساسة مكشوفة\n• مستوى المخاطر: عالي جداً\n\n🔥 التسريبات الرئيسية:${breachList}\n\n⚠️ العمل المطلوب:\n• غير كلمات المرور فوراً\n• فعل المصادقة الثنائية\n• راقب الحسابات المالية\n• احذر من رسائل التصيد`;
+            } else if (currentLang === 'zh') {
+              result = `🚨 高风险 - 多次泄露！\n\n📊 扫描结果:\n• 发现 ${breachCount} 次泄露\n• 敏感数据暴露\n• 风险级别: 非常高\n\n🔥 主要泄露:${breachList}\n\n⚠️ 必需行动:\n• 立即更改密码\n• 启用双因素认证\n• 监控金融账户\n• 小心钓鱼攻击`;
+            } else if (currentLang === 'es') {
+              result = `🚨 ¡Alto Riesgo - Múltiples Filtraciones!\n\n📊 Resultados del Escaneo:\n• Encontrado en ${breachCount} filtraciones\n• Datos sensibles expuestos\n• Nivel de Riesgo: Muy Alto\n\n🔥 Filtraciones Principales:${breachList}\n\n⚠️ Acciones Requeridas:\n• Cambiar contraseñas inmediatamente\n• Habilitar autenticación de dos factores\n• Monitorear cuentas financieras\n• Cuidado con intentos de phishing`;
+            } else if (currentLang === 'de') {
+              result = `🚨 Hohes Risiko - Mehrere Verletzungen!\n\n📊 Scan-Ergebnisse:\n• In ${breachCount} Verletzungen gefunden\n• Sensible Daten preisgegeben\n• Risiko-Level: Sehr Hoch\n\n🔥 Hauptverletzungen:${breachList}\n\n⚠️ Erforderliche Maßnahmen:\n• Passwörter sofort ändern\n• Zwei-Faktor-Authentifizierung aktivieren\n• Finanzkonten überwachen\n• Vor Phishing-Versuchen hüten`;
+            } else if (currentLang === 'fr') {
+              result = `🚨 Risque Élevé - Fuites Multiples!\n\n📊 Résultats du Scan:\n• Trouvé dans ${breachCount} fuites\n• Données sensibles exposées\n• Niveau de Risque: Très Élevé\n\n🔥 Fuites Principales:${breachList}\n\n⚠️ Actions Requises:\n• Changer les mots de passe immédiatement\n• Activer l'authentification à deux facteurs\n• Surveiller les comptes financiers\n• Attention aux tentatives de phishing`;
+            } else {
+              result = `🚨 High Risk - Multiple Breaches!\n\n📊 Scan Results:\n• Found in ${breachCount} breaches\n• Sensitive data exposed\n• Risk Level: Very High\n\n🔥 Major Breaches:${breachList}\n\n⚠️ Required Actions:\n• Change passwords immediately\n• Enable two-factor authentication\n• Monitor financial accounts\n• Watch for phishing attempts`;
+            }
+            resultClass = 'result-danger';
+          } else if (breachCount > 5) {
+            // Medium risk logic for other languages...
+            result = `⚠️ Medium Risk - Breaches Detected\n\n📊 Scan Results:\n• Found in ${breachCount} breaches\n• Some data exposed\n• Risk Level: Medium\n\n📋 Detected Breaches:${breachList}\n\n💡 Recommendations:\n• Review and update passwords\n• Enable security alerts\n• Monitor suspicious activity`;
+            resultClass = 'result-warning';
+          } else {
+            // Low risk logic for other languages...
+            result = `⚠️ Low Risk - Few Breaches\n\n📊 Scan Results:\n• Found in ${breachCount} breaches\n• Limited exposure\n• Risk Level: Low\n\n📋 Breaches:${breachList}\n\n✅ Recommendations:\n• Update passwords as precaution\n• Stay updated on security practices`;
+            resultClass = 'result-warning';
+          }
+        }
+
+        resultDiv.className = resultClass;
+        typeWriter(resultDiv, result, 15);
+
+      } catch (error) {
+        scanProgress.style.display = 'none';
+        
+        let errorMessage;
+        if (error.name === 'AbortError') {
+          errorMessage = t.errors.timeout;
+        } else if (error.message.includes('Failed to fetch')) {
+          errorMessage = t.errors.connection;
+        } else {
+          errorMessage = `${currentLang === 'ar' ? 'خطأ في الفحص:' : currentLang === 'zh' ? '扫描错误:' : currentLang === 'es' ? 'Error de escaneo:' : currentLang === 'de' ? 'Scan-Fehler:' : currentLang === 'fr' ? 'Erreur de scan:' : 'Scan error:'} ${error.message}`;
+        }
+        
+        console.error('Scan error:', error);
+        errorDiv.textContent = errorMessage;
+        resultDiv.textContent = '';
+      }
+
+      submitBtn.disabled = false;
+      submitBtn.classList.remove('scanning-button');
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+      const languageSelector = document.querySelector('.language-selector');
+      if (!languageSelector.contains(event.target) && isDropdownOpen) {
+        toggleLanguageDropdown();
+      }
     });
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error || `HTTP ${response.status}: ${response.statusText}`);
-    }
-
-    loadingContainer.style.display = 'none';
-    await new Promise(resolve => setTimeout(resolve, 500));
-
-    const breachCount = data.breaches || 0;
-    const breachDetails = data.details || [];
-
-    let result, resultClass;
-
-    if (breachCount === 0) {
-      result = generateSafeResult(value, t);
-      resultClass = 'result-container result-success';
-    } else {
-      result = generateBreachResult(value, breachCount, breachDetails, t);
-      resultClass = breachCount > 5 ? 'result-container result-danger' : 'result-container result-warning';
-    }
-
-    resultDiv.className = resultClass;
-    resultDiv.style.display = 'block';
-    
-    // Typewriter effect
-    await typeWriterAsync(resultDiv, result, 25);
-
-  } catch (error) {
-    loadingContainer.style.display = 'none';
-    console.error('Scan error:', error);
-    
-    let errorMessage;
-    if (error.message.includes('rate limit')) {
-      errorMessage = 'Rate limit exceeded. Please try again in a few minutes.';
-    } else if (error.message.includes('Invalid') || error.message.includes('401')) {
-      errorMessage = 'API authentication error. Please contact support.';
-    } else if (error.message.includes('Failed to fetch')) {
-      errorMessage = t.errors?.connection || 'Connection error - please try again';
-    } else {
-      errorMessage = error.message || 'Scan failed - please try again';
-    }
-    
-    showError(errorMessage);
-  } finally {
-    resetScanButton();
-  }
-}
-
-// Generate dynamic safe result using real email
-function generateSafeResult(email, translations) {
-  const domain = email.split('@')[1];
-  const t = translations.results;
-  
-  if (currentLang === 'ar') {
-    return `✅ بريد إلكتروني آمن!\n\n📊 تحليل الأمان مكتمل:\n• البريد "${email}" غير موجود في قواعد بيانات التسريبات\n• النطاق "${domain}" لا يظهر في السجلات الأمنية\n• مستوى المخاطر: منخفض جداً\n\n🛡️ الحالة: محمي بالكامل\n⭐ التقييم: A+ (ممتاز)\n\n📋 التوصيات الأمنية:\n• حافظ على كلمات مرور قوية وفريدة\n• فعّل المصادقة الثنائية على جميع الحسابات\n• راقب حساباتك بانتظام للأنشطة المشبوهة\n• كن حذراً من رسائل التصيد الاحتيالي\n• استخدم مدير كلمات مرور موثوق\n\n🔍 تم الفحص بواسطة: HaveIBeenPwned API\n📅 وقت الفحص: ${new Date().toLocaleString('ar')}`;
-  } else if (currentLang === 'zh') {
-    return `✅ 电子邮件安全！\n\n📊 安全分析完成:\n• 电子邮件 "${email}" 未在泄露数据库中找到\n• 域名 "${domain}" 未出现在安全记录中\n• 风险级别: 极低\n\n🛡️ 状态: 完全受保护\n⭐ 评级: A+ (优秀)\n\n📋 安全建议:\n• 保持强密码和唯一密码\n• 在所有账户上启用双因素认证\n• 定期监控账户是否有可疑活动\n• 小心钓鱼邮件\n• 使用可信的密码管理器\n\n🔍 扫描提供商: HaveIBeenPwned API\n📅 扫描时间: ${new Date().toLocaleString('zh-CN')}`;
-  } else if (currentLang === 'es') {
-    return `✅ ¡Email Seguro!\n\n📊 Análisis de Seguridad Completo:\n• Email "${email}" no encontrado en bases de datos de filtraciones\n• Dominio "${domain}" no aparece en registros de seguridad\n• Nivel de Riesgo: Muy Bajo\n\n🛡️ Estado: Completamente Protegido\n⭐ Calificación: A+ (Excelente)\n\n📋 Recomendaciones de Seguridad:\n• Mantener contraseñas fuertes y únicas\n• Habilitar autenticación de dos factores en todas las cuentas\n• Monitorear cuentas regularmente por actividad sospechosa\n• Cuidarse de emails de phishing\n• Usar un gestor de contraseñas confiable\n\n🔍 Escaneado por: HaveIBeenPwned API\n📅 Hora del escaneo: ${new Date().toLocaleString('es')}`;
-  } else if (currentLang === 'de') {
-    return `✅ E-Mail ist Sicher!\n\n📊 Sicherheitsanalyse Abgeschlossen:\n• E-Mail "${email}" nicht in Verletzungsdatenbanken gefunden\n• Domain "${domain}" erscheint nicht in Sicherheitsaufzeichnungen\n• Risiko-Level: Sehr Niedrig\n\n🛡️ Status: Vollständig Geschützt\n⭐ Bewertung: A+ (Ausgezeichnet)\n\n📋 Sicherheitsempfehlungen:\n• Starke und einzigartige Passwörter beibehalten\n• Zwei-Faktor-Authentifizierung für alle Konten aktivieren\n• Konten regelmäßig auf verdächtige Aktivitäten überwachen\n• Vor Phishing-E-Mails hüten\n• Vertrauenswürdigen Passwort-Manager verwenden\n\n🔍 Gescannt von: HaveIBeenPwned API\n📅 Scan-Zeit: ${new Date().toLocaleString('de')}`;
-  } else if (currentLang === 'fr') {
-    return `✅ Email Sécurisé!\n\n📊 Analyse de Sécurité Terminée:\n• Email "${email}" non trouvé dans les bases de données de fuites\n• Domaine "${domain}" n'apparaît pas dans les dossiers de sécurité\n• Niveau de Risque: Très Faible\n\n🛡️ Statut: Complètement Protégé\n⭐ Note: A+ (Excellent)\n\n📋 Recommandations de Sécurité:\n• Maintenir des mots de passe forts et uniques\n• Activer l'authentification à deux facteurs sur tous les comptes\n• Surveiller les comptes régulièrement pour activité suspecte\n• Attention aux emails de phishing\n• Utiliser un gestionnaire de mots de passe fiable\n\n🔍 Scanné par: HaveIBeenPwned API\n📅 Heure du scan: ${new Date().toLocaleString('fr')}`;
-  } else {
-    return `✅ Email is Safe!\n\n📊 Security Analysis Complete:\n• Email "${email}" not found in breach databases\n• Domain "${domain}" does not appear in security records\n• Risk Level: Very Low\n\n🛡️ Status: Fully Protected\n⭐ Rating: A+ (Excellent)\n\n📋 Security Recommendations:\n• Maintain strong and unique passwords\n• Enable two-factor authentication on all accounts\n• Monitor accounts regularly for suspicious activity\n• Be cautious of phishing emails\n• Use a trusted password manager\n\n🔍 Scanned by: HaveIBeenPwned API\n📅 Scan time: ${new Date().toLocaleString()}`;
-  }
-}
-
-// Generate dynamic breach result using real breach data
-function generateBreachResult(email, breachCount, breachDetails, translations) {
-  const t = translations.results;
-  const riskLevel = breachCount > 10 ? 'CRITICAL' : breachCount > 5 ? 'HIGH' : breachCount > 2 ? 'MEDIUM' : 'LOW';
-  
-  let breachList = '';
-  let totalAffected = 0;
-  
-  breachDetails.forEach((breach, index) => {
-    const dataClasses = breach.DataClasses ? breach.DataClasses.slice(0, 4).map(dc => translateDataClass(dc)).join(', ') : 'Unknown data types';
-    const affectedUsers = breach.PwnCount ? breach.PwnCount.toLocaleString() : 'Unknown';
-    const breachDate = breach.BreachDate || 'Unknown date';
-    const breachName = breach.Name || breach.Title || 'Unknown service';
-    
-    totalAffected += breach.PwnCount || 0;
-    
-    breachList += `\n${index + 1}. ${breachName} (${breachDate})`;
-    breachList += `\n   ${t.exposedDataLabel || 'Exposed Data:'} ${dataClasses}`;
-    breachList += `\n   📊 Affected Users: ${affectedUsers}`;
-    if (breach.Domain) {
-      breachList += `\n   🌐 Domain: ${breach.Domain}`;
-    }
-    breachList += '\n';
-  });
-
-  const riskEmoji = riskLevel === 'CRITICAL' ? '🚨' : riskLevel === 'HIGH' ? '⚠️' : riskLevel === 'MEDIUM' ? '⚡' : '📋';
-  const totalAffectedText = totalAffected > 0 ? totalAffected.toLocaleString() : 'Unknown';
-
-  if (currentLang === 'ar') {
-    const riskText = riskLevel === 'CRITICAL' ? 'حرج جداً' : riskLevel === 'HIGH' ? 'عالي' : riskLevel === 'MEDIUM' ? 'متوسط' : 'منخفض';
-    return `${riskEmoji} تم العثور على تسريبات!\n\n📊 نتائج الفحص لـ "${email}":\n• عدد التسريبات: ${breachCount}\n• مستوى المخاطر: ${riskText}\n• إجمالي المستخدمين المتأثرين: ${totalAffectedText}\n• آخر تسريب: ${breachDetails[0]?.BreachDate || 'غير معروف'}\n\n🔥 التسريبات المكتشفة:${breachList}\n\n⚠️ إجراءات فورية مطلوبة:\n• غيّر كلمات المرور لجميع الحسابات المتأثرة\n• فعّل المصادقة الثنائية على جميع الحسابات\n• راقب الحسابات المصرفية والبطاقات الائتمانية\n• احذر من رسائل التصيد التي تستهدف بياناتك المسربة\n• استخدم مدير كلمات مرور لإنشاء كلمات مرور فريدة\n• فكر في تجميد تقرير الائتمان الخاص بك\n\n🔍 مصدر البيانات: HaveIBeenPwned API\n📅 فحص بتاريخ: ${new Date().toLocaleString('ar')}`;
-  } else if (currentLang === 'zh') {
-    const riskText = riskLevel === 'CRITICAL' ? '极危险' : riskLevel === 'HIGH' ? '高危' : riskLevel === 'MEDIUM' ? '中危' : '低危';
-    return `${riskEmoji} 发现数据泄露！\n\n📊 "${email}" 扫描结果:\n• 泄露次数: ${breachCount}\n• 风险级别: ${riskText}\n• 受影响用户总数: ${totalAffectedText}\n• 最新泄露: ${breachDetails[0]?.BreachDate || '未知'}\n\n🔥 检测到的泄露:${breachList}\n\n⚠️ 需要立即行动:\n• 更改所有受影响账户的密码\n• 在所有账户上启用双因素认证\n• 监控银行账户和信用卡\n• 小心针对您泄露数据的钓鱼攻击\n• 使用密码管理器创建唯一密码\n• 考虑冻结您的信用报告\n\n🔍 数据来源: HaveIBeenPwned API\n📅 扫描时间: ${new Date().toLocaleString('zh-CN')}`;
-  } else if (currentLang === 'es') {
-    const riskText = riskLevel === 'CRITICAL' ? 'CRÍTICO' : riskLevel === 'HIGH' ? 'ALTO' : riskLevel === 'MEDIUM' ? 'MEDIO' : 'BAJO';
-    return `${riskEmoji} ¡Filtraciones Detectadas!\n\n📊 Resultados para "${email}":\n• Número de Filtraciones: ${breachCount}\n• Nivel de Riesgo: ${riskText}\n• Total de Usuarios Afectados: ${totalAffectedText}\n• Última Filtración: ${breachDetails[0]?.BreachDate || 'Desconocido'}\n\n🔥 Filtraciones Encontradas:${breachList}\n\n⚠️ Acciones Inmediatas Requeridas:\n• Cambiar contraseñas de todas las cuentas afectadas\n• Habilitar autenticación de dos factores en todas las cuentas\n• Monitorear cuentas bancarias y tarjetas de crédito\n• Cuidado con intentos de phishing dirigidos a sus datos filtrados\n• Usar gestor de contraseñas para crear contraseñas únicas\n• Considerar congelar su reporte de crédito\n\n🔍 Fuente de datos: HaveIBeenPwned API\n📅 Escaneo realizado: ${new Date().toLocaleString('es')}`;
-  } else if (currentLang === 'de') {
-    const riskText = riskLevel === 'CRITICAL' ? 'KRITISCH' : riskLevel === 'HIGH' ? 'HOCH' : riskLevel === 'MEDIUM' ? 'MITTEL' : 'NIEDRIG';
-    return `${riskEmoji} Datenschutzverletzungen Gefunden!\n\n📊 Ergebnisse für "${email}":\n• Anzahl Verletzungen: ${breachCount}\n• Risiko-Level: ${riskText}\n• Gesamtzahl betroffener Benutzer: ${totalAffectedText}\n• Letzte Verletzung: ${breachDetails[0]?.BreachDate || 'Unbekannt'}\n\n🔥 Gefundene Verletzungen:${breachList}\n\n⚠️ Sofortige Maßnahmen Erforderlich:\n• Passwörter aller betroffenen Konten ändern\n• Zwei-Faktor-Authentifizierung für alle Konten aktivieren\n• Bankkonten und Kreditkarten überwachen\n• Vor Phishing-Versuchen hüten, die Ihre geleakten Daten anvisieren\n• Passwort-Manager für einzigartige Passwörter verwenden\n• Kreditauskunft einfrieren erwägen\n\n🔍 Datenquelle: HaveIBeenPwned API\n📅 Scan durchgeführt: ${new Date().toLocaleString('de')}`;
-  } else if (currentLang === 'fr') {
-    const riskText = riskLevel === 'CRITICAL' ? 'CRITIQUE' : riskLevel === 'HIGH' ? 'ÉLEVÉ' : riskLevel === 'MEDIUM' ? 'MOYEN' : 'FAIBLE';
-    return `${riskEmoji} Fuites de Données Détectées!\n\n📊 Résultats pour "${email}":\n• Nombre de Fuites: ${breachCount}\n• Niveau de Risque: ${riskText}\n• Total d'Utilisateurs Affectés: ${totalAffectedText}\n• Dernière Fuite: ${breachDetails[0]?.BreachDate || 'Inconnu'}\n\n🔥 Fuites Trouvées:${breachList}\n\n⚠️ Actions Immédiates Requises:\n• Changer mots de passe de tous les comptes affectés\n• Activer authentification à deux facteurs sur tous les comptes\n• Surveiller comptes bancaires et cartes de crédit\n• Attention aux tentatives de phishing ciblant vos données fuitées\n• Utiliser gestionnaire de mots de passe pour créer mots de passe uniques\n• Considérer geler votre rapport de crédit\n\n🔍 Source des données: HaveIBeenPwned API\n📅 Scan effectué: ${new Date().toLocaleString('fr')}`;
-  } else {
-    return `${riskEmoji} Data Breaches Detected!\n\n📊 Scan Results for "${email}":\n• Number of Breaches: ${breachCount}\n• Risk Level: ${riskLevel}\n• Total Users Affected: ${totalAffectedText}\n• Latest Breach: ${breachDetails[0]?.BreachDate || 'Unknown'}\n\n🔥 Found Breaches:${breachList}\n\n⚠️ Immediate Actions Required:\n• Change passwords for all affected accounts\n• Enable two-factor authentication on all accounts\n• Monitor financial accounts and credit cards\n• Watch for phishing attempts targeting your leaked data\n• Use a password manager to create unique passwords\n• Consider freezing your credit report\n\n🔍 Data source: HaveIBeenPwned API\n📅 Scan performed: ${new Date().toLocaleString()}`;
-  }
-}
-
-// Improved typewriter with async support
-async function typeWriterAsync(element, text, speed = 25) {
-  element.textContent = '';
-  for (let i = 0; i < text.length; i++) {
-    element.textContent += text.charAt(i);
-    await new Promise(resolve => setTimeout(resolve, speed));
-  }
-});
+    // Keyboard navigation
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape' && isDropdownOpen) {
+        toggleLanguageDropdown();
+      }
     });
+
+    document.getElementById('scan-form').addEventListener('submit', fetchScan);
+    document.getElementById('scan-btn').addEventListener('click', fetchScan);
+
+    // Initialize page
+    updatePageContent();
   </script>
 </body>
 </html>
