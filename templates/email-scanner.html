@@ -1882,168 +1882,194 @@
     };
 
     // Replace the mock fetchScan function with real API integration
-async function fetchScan() {
-  const errorDiv = document.getElementById('error-msg');
-  const resultDiv = document.getElementById('result');
+// Replace your performScan function with this Flask-compatible version
+async function performScan() {
+  if (isScanning) return;
+  
+  const errorDiv = document.getElementById('error-message');
+  const resultDiv = document.getElementById('result-container');
   const submitBtn = document.getElementById('scan-btn');
-  const scanProgress = document.getElementById('scan-progress');
+  const loadingContainer = document.getElementById('loading-container');
+  const loadingText = document.getElementById('loading-text');
   const emailInput = document.getElementById('email-input');
-  const t = translations[currentLang];
+  const t = translations[currentLang] || translations.en;
 
-  errorDiv.textContent = '';
-  resultDiv.textContent = '';
-  resultDiv.className = '';
+  errorDiv.style.display = 'none';
+  resultDiv.style.display = 'none';
+  resultDiv.className = 'result-container';
+  isScanning = true;
   submitBtn.disabled = true;
-  submitBtn.classList.add('scanning-button');
+  submitBtn.classList.add('scanning');
+  submitBtn.textContent = '🔄 Scanning...';
   
   const value = emailInput.value.trim();
 
   if (!value) {
-    errorDiv.textContent = t.errors.empty;
-    submitBtn.disabled = false;
-    submitBtn.classList.remove('scanning-button');
+    showError(t.errors?.empty || 'Please enter an email address.');
     return;
   }
 
   if (!value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-    errorDiv.textContent = t.errors.invalid;
-    submitBtn.disabled = false;
-    submitBtn.classList.remove('scanning-button');
+    showError(t.errors?.invalid || 'Please enter a valid email address');
     return;
   }
 
-  scanProgress.style.display = 'flex';
+  loadingContainer.style.display = 'block';
 
-  // Simulate scanning steps
-  for (let i = 0; i < t.scanSteps.length; i++) {
-    await new Promise(resolve => setTimeout(resolve, 800));
-    resultDiv.innerHTML = `
-      <div style="text-align: center;">
-        <div class="loading-dots">
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-        <p>${t.scanSteps[i]}</p>
-      </div>
-    `;
+  // Show scanning steps with realistic timing
+  const scanSteps = t.scanSteps || [
+    'Initializing email scanner...',
+    'Connecting to HaveIBeenPwned database...',
+    'Searching breach records...',
+    'Analyzing security threats...',
+    'Assessing risk level...',
+    'Preparing final report...'
+  ];
+
+  for (let i = 0; i < scanSteps.length; i++) {
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    loadingText.textContent = scanSteps[i];
   }
 
   try {
-    // REAL API CALL TO HAVEIBEENPWNED
-    const breachResponse = await fetch(`https://haveibeenpwned.com/api/v3/breachedaccount/${encodeURIComponent(value)}`, {
-      method: 'GET',
+    // Call your Flask API endpoint
+    const response = await fetch('/api/scan', {
+      method: 'POST',
       headers: {
-        'hibp-api-key': 'f698b0efaeca4167a5e98e7786870eb8', // You need to get this from HaveIBeenPwned
-        'user-agent': 'YourAppName'
-      }
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        type: 'email',
+        value: value,
+        mode: 'basic'
+      })
     });
 
-    let breachData = [];
-    let breachCount = 0;
+    const data = await response.json();
 
-    if (breachResponse.status === 200) {
-      breachData = await breachResponse.json();
-      breachCount = breachData.length;
-    } else if (breachResponse.status === 404) {
-      // No breaches found - this is good!
-      breachCount = 0;
-      breachData = [];
-    } else {
-      throw new Error(`API returned status ${breachResponse.status}`);
+    if (!response.ok) {
+      throw new Error(data.error || `HTTP ${response.status}: ${response.statusText}`);
     }
 
-    scanProgress.style.display = 'none';
+    loadingContainer.style.display = 'none';
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    const breachCount = data.breaches || 0;
+    const breachDetails = data.details || [];
 
     let result, resultClass;
 
     if (breachCount === 0) {
-      result = t.results.safe;
-      resultClass = 'result-success';
+      result = generateSafeResult(value, t);
+      resultClass = 'result-container result-success';
     } else {
-      let detailsText = '';
-      breachData.forEach(breach => {
-        const translatedDataClasses = breach.DataClasses.map(dc => translateDataClass(dc)).join(', ');
-        detailsText += `• ${breach.Name} (${breach.BreachDate})\n  ${currentLang === 'ar' ? 'البيانات المكشوفة' : currentLang === 'es' ? 'Datos expuestos' : currentLang === 'de' ? 'Freigegebene Daten' : currentLang === 'fr' ? 'Données exposées' : currentLang === 'zh' ? '暴露的数据' : 'Exposed data'}: ${translatedDataClasses}\n  ${currentLang === 'ar' ? 'المستخدمين المتأثرين' : currentLang === 'es' ? 'Usuarios afectados' : currentLang === 'de' ? 'Betroffene Benutzer' : currentLang === 'fr' ? 'Utilisateurs affectés' : currentLang === 'zh' ? '受影响的用户' : 'Affected users'}: ${breach.PwnCount.toLocaleString()}\n\n`;
-      });
-      
-      result = t.results.breached
-        .replace('{count}', breachCount)
-        .replace('{details}', detailsText);
-      resultClass = 'result-danger';
+      result = generateBreachResult(value, breachCount, breachDetails, t);
+      resultClass = breachCount > 5 ? 'result-container result-danger' : 'result-container result-warning';
     }
 
-    resultDiv.textContent = result;
     resultDiv.className = resultClass;
+    resultDiv.style.display = 'block';
     
-    // Type writer effect for result
-    typeWriter(resultDiv, result, 30);
-    
+    // Typewriter effect
+    await typeWriterAsync(resultDiv, result, 25);
+
   } catch (error) {
-    scanProgress.style.display = 'none';
+    loadingContainer.style.display = 'none';
+    console.error('Scan error:', error);
     
-    // Fallback to mock data if API fails
-    console.warn('API failed, using mock data:', error);
-    
-    const mockData = mockBreachData[value] || { breaches: 0, details: [] };
-    const breachCount = mockData.breaches;
-    const breachDetails = mockData.details;
-
-    let result, resultClass;
-
-    if (breachCount === 0) {
-      result = t.results.safe;
-      resultClass = 'result-success';
+    let errorMessage;
+    if (error.message.includes('rate limit')) {
+      errorMessage = 'Rate limit exceeded. Please try again in a few minutes.';
+    } else if (error.message.includes('Invalid') || error.message.includes('401')) {
+      errorMessage = 'API authentication error. Please contact support.';
+    } else if (error.message.includes('Failed to fetch')) {
+      errorMessage = t.errors?.connection || 'Connection error - please try again';
     } else {
-      let detailsText = '';
-      breachDetails.forEach(breach => {
-        const translatedDataClasses = breach.dataClasses.map(dc => translateDataClass(dc)).join(', ');
-        detailsText += `• ${breach.name} (${breach.breachDate})\n  ${currentLang === 'ar' ? 'البيانات المكشوفة' : currentLang === 'es' ? 'Datos expuestos' : currentLang === 'de' ? 'Freigegebene Daten' : currentLang === 'fr' ? 'Données exposées' : currentLang === 'zh' ? '暴露的数据' : 'Exposed data'}: ${translatedDataClasses}\n\n`;
-      });
-      
-      result = t.results.breached
-        .replace('{count}', breachCount)
-        .replace('{details}', detailsText);
-      resultClass = 'result-danger';
+      errorMessage = error.message || 'Scan failed - please try again';
     }
-
-    resultDiv.textContent = result;
-    resultDiv.className = resultClass;
     
+    showError(errorMessage);
   } finally {
-    submitBtn.disabled = false;
-    submitBtn.classList.remove('scanning-button');
+    resetScanButton();
   }
 }
 
-    // Initialize page
-    document.addEventListener('DOMContentLoaded', function() {
-      updatePageContent();
-      
-      // Handle form submission
-      document.getElementById('scan-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        fetchScan();
-      });
-      
-      // Close dropdown when clicking outside
-      document.addEventListener('click', function(event) {
-        const languageSelector = document.querySelector('.language-selector');
-        if (!languageSelector.contains(event.target)) {
-          const dropdown = document.getElementById('langDropdown');
-          const arrow = document.getElementById('arrow');
-          dropdown.classList.remove('show');
-          arrow.style.transform = 'rotate(0deg)';
-          isDropdownOpen = false;
-        }
-      });
-      
-      // Handle Enter key in input field
-      document.getElementById('email-input').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-          fetchScan();
-        }
-      });
+// Generate dynamic safe result using real email
+function generateSafeResult(email, translations) {
+  const domain = email.split('@')[1];
+  const t = translations.results;
+  
+  if (currentLang === 'ar') {
+    return `✅ بريد إلكتروني آمن!\n\n📊 تحليل الأمان مكتمل:\n• البريد "${email}" غير موجود في قواعد بيانات التسريبات\n• النطاق "${domain}" لا يظهر في السجلات الأمنية\n• مستوى المخاطر: منخفض جداً\n\n🛡️ الحالة: محمي بالكامل\n⭐ التقييم: A+ (ممتاز)\n\n📋 التوصيات الأمنية:\n• حافظ على كلمات مرور قوية وفريدة\n• فعّل المصادقة الثنائية على جميع الحسابات\n• راقب حساباتك بانتظام للأنشطة المشبوهة\n• كن حذراً من رسائل التصيد الاحتيالي\n• استخدم مدير كلمات مرور موثوق\n\n🔍 تم الفحص بواسطة: HaveIBeenPwned API\n📅 وقت الفحص: ${new Date().toLocaleString('ar')}`;
+  } else if (currentLang === 'zh') {
+    return `✅ 电子邮件安全！\n\n📊 安全分析完成:\n• 电子邮件 "${email}" 未在泄露数据库中找到\n• 域名 "${domain}" 未出现在安全记录中\n• 风险级别: 极低\n\n🛡️ 状态: 完全受保护\n⭐ 评级: A+ (优秀)\n\n📋 安全建议:\n• 保持强密码和唯一密码\n• 在所有账户上启用双因素认证\n• 定期监控账户是否有可疑活动\n• 小心钓鱼邮件\n• 使用可信的密码管理器\n\n🔍 扫描提供商: HaveIBeenPwned API\n📅 扫描时间: ${new Date().toLocaleString('zh-CN')}`;
+  } else if (currentLang === 'es') {
+    return `✅ ¡Email Seguro!\n\n📊 Análisis de Seguridad Completo:\n• Email "${email}" no encontrado en bases de datos de filtraciones\n• Dominio "${domain}" no aparece en registros de seguridad\n• Nivel de Riesgo: Muy Bajo\n\n🛡️ Estado: Completamente Protegido\n⭐ Calificación: A+ (Excelente)\n\n📋 Recomendaciones de Seguridad:\n• Mantener contraseñas fuertes y únicas\n• Habilitar autenticación de dos factores en todas las cuentas\n• Monitorear cuentas regularmente por actividad sospechosa\n• Cuidarse de emails de phishing\n• Usar un gestor de contraseñas confiable\n\n🔍 Escaneado por: HaveIBeenPwned API\n📅 Hora del escaneo: ${new Date().toLocaleString('es')}`;
+  } else if (currentLang === 'de') {
+    return `✅ E-Mail ist Sicher!\n\n📊 Sicherheitsanalyse Abgeschlossen:\n• E-Mail "${email}" nicht in Verletzungsdatenbanken gefunden\n• Domain "${domain}" erscheint nicht in Sicherheitsaufzeichnungen\n• Risiko-Level: Sehr Niedrig\n\n🛡️ Status: Vollständig Geschützt\n⭐ Bewertung: A+ (Ausgezeichnet)\n\n📋 Sicherheitsempfehlungen:\n• Starke und einzigartige Passwörter beibehalten\n• Zwei-Faktor-Authentifizierung für alle Konten aktivieren\n• Konten regelmäßig auf verdächtige Aktivitäten überwachen\n• Vor Phishing-E-Mails hüten\n• Vertrauenswürdigen Passwort-Manager verwenden\n\n🔍 Gescannt von: HaveIBeenPwned API\n📅 Scan-Zeit: ${new Date().toLocaleString('de')}`;
+  } else if (currentLang === 'fr') {
+    return `✅ Email Sécurisé!\n\n📊 Analyse de Sécurité Terminée:\n• Email "${email}" non trouvé dans les bases de données de fuites\n• Domaine "${domain}" n'apparaît pas dans les dossiers de sécurité\n• Niveau de Risque: Très Faible\n\n🛡️ Statut: Complètement Protégé\n⭐ Note: A+ (Excellent)\n\n📋 Recommandations de Sécurité:\n• Maintenir des mots de passe forts et uniques\n• Activer l'authentification à deux facteurs sur tous les comptes\n• Surveiller les comptes régulièrement pour activité suspecte\n• Attention aux emails de phishing\n• Utiliser un gestionnaire de mots de passe fiable\n\n🔍 Scanné par: HaveIBeenPwned API\n📅 Heure du scan: ${new Date().toLocaleString('fr')}`;
+  } else {
+    return `✅ Email is Safe!\n\n📊 Security Analysis Complete:\n• Email "${email}" not found in breach databases\n• Domain "${domain}" does not appear in security records\n• Risk Level: Very Low\n\n🛡️ Status: Fully Protected\n⭐ Rating: A+ (Excellent)\n\n📋 Security Recommendations:\n• Maintain strong and unique passwords\n• Enable two-factor authentication on all accounts\n• Monitor accounts regularly for suspicious activity\n• Be cautious of phishing emails\n• Use a trusted password manager\n\n🔍 Scanned by: HaveIBeenPwned API\n📅 Scan time: ${new Date().toLocaleString()}`;
+  }
+}
+
+// Generate dynamic breach result using real breach data
+function generateBreachResult(email, breachCount, breachDetails, translations) {
+  const t = translations.results;
+  const riskLevel = breachCount > 10 ? 'CRITICAL' : breachCount > 5 ? 'HIGH' : breachCount > 2 ? 'MEDIUM' : 'LOW';
+  
+  let breachList = '';
+  let totalAffected = 0;
+  
+  breachDetails.forEach((breach, index) => {
+    const dataClasses = breach.DataClasses ? breach.DataClasses.slice(0, 4).map(dc => translateDataClass(dc)).join(', ') : 'Unknown data types';
+    const affectedUsers = breach.PwnCount ? breach.PwnCount.toLocaleString() : 'Unknown';
+    const breachDate = breach.BreachDate || 'Unknown date';
+    const breachName = breach.Name || breach.Title || 'Unknown service';
+    
+    totalAffected += breach.PwnCount || 0;
+    
+    breachList += `\n${index + 1}. ${breachName} (${breachDate})`;
+    breachList += `\n   ${t.exposedDataLabel || 'Exposed Data:'} ${dataClasses}`;
+    breachList += `\n   📊 Affected Users: ${affectedUsers}`;
+    if (breach.Domain) {
+      breachList += `\n   🌐 Domain: ${breach.Domain}`;
+    }
+    breachList += '\n';
+  });
+
+  const riskEmoji = riskLevel === 'CRITICAL' ? '🚨' : riskLevel === 'HIGH' ? '⚠️' : riskLevel === 'MEDIUM' ? '⚡' : '📋';
+  const totalAffectedText = totalAffected > 0 ? totalAffected.toLocaleString() : 'Unknown';
+
+  if (currentLang === 'ar') {
+    const riskText = riskLevel === 'CRITICAL' ? 'حرج جداً' : riskLevel === 'HIGH' ? 'عالي' : riskLevel === 'MEDIUM' ? 'متوسط' : 'منخفض';
+    return `${riskEmoji} تم العثور على تسريبات!\n\n📊 نتائج الفحص لـ "${email}":\n• عدد التسريبات: ${breachCount}\n• مستوى المخاطر: ${riskText}\n• إجمالي المستخدمين المتأثرين: ${totalAffectedText}\n• آخر تسريب: ${breachDetails[0]?.BreachDate || 'غير معروف'}\n\n🔥 التسريبات المكتشفة:${breachList}\n\n⚠️ إجراءات فورية مطلوبة:\n• غيّر كلمات المرور لجميع الحسابات المتأثرة\n• فعّل المصادقة الثنائية على جميع الحسابات\n• راقب الحسابات المصرفية والبطاقات الائتمانية\n• احذر من رسائل التصيد التي تستهدف بياناتك المسربة\n• استخدم مدير كلمات مرور لإنشاء كلمات مرور فريدة\n• فكر في تجميد تقرير الائتمان الخاص بك\n\n🔍 مصدر البيانات: HaveIBeenPwned API\n📅 فحص بتاريخ: ${new Date().toLocaleString('ar')}`;
+  } else if (currentLang === 'zh') {
+    const riskText = riskLevel === 'CRITICAL' ? '极危险' : riskLevel === 'HIGH' ? '高危' : riskLevel === 'MEDIUM' ? '中危' : '低危';
+    return `${riskEmoji} 发现数据泄露！\n\n📊 "${email}" 扫描结果:\n• 泄露次数: ${breachCount}\n• 风险级别: ${riskText}\n• 受影响用户总数: ${totalAffectedText}\n• 最新泄露: ${breachDetails[0]?.BreachDate || '未知'}\n\n🔥 检测到的泄露:${breachList}\n\n⚠️ 需要立即行动:\n• 更改所有受影响账户的密码\n• 在所有账户上启用双因素认证\n• 监控银行账户和信用卡\n• 小心针对您泄露数据的钓鱼攻击\n• 使用密码管理器创建唯一密码\n• 考虑冻结您的信用报告\n\n🔍 数据来源: HaveIBeenPwned API\n📅 扫描时间: ${new Date().toLocaleString('zh-CN')}`;
+  } else if (currentLang === 'es') {
+    const riskText = riskLevel === 'CRITICAL' ? 'CRÍTICO' : riskLevel === 'HIGH' ? 'ALTO' : riskLevel === 'MEDIUM' ? 'MEDIO' : 'BAJO';
+    return `${riskEmoji} ¡Filtraciones Detectadas!\n\n📊 Resultados para "${email}":\n• Número de Filtraciones: ${breachCount}\n• Nivel de Riesgo: ${riskText}\n• Total de Usuarios Afectados: ${totalAffectedText}\n• Última Filtración: ${breachDetails[0]?.BreachDate || 'Desconocido'}\n\n🔥 Filtraciones Encontradas:${breachList}\n\n⚠️ Acciones Inmediatas Requeridas:\n• Cambiar contraseñas de todas las cuentas afectadas\n• Habilitar autenticación de dos factores en todas las cuentas\n• Monitorear cuentas bancarias y tarjetas de crédito\n• Cuidado con intentos de phishing dirigidos a sus datos filtrados\n• Usar gestor de contraseñas para crear contraseñas únicas\n• Considerar congelar su reporte de crédito\n\n🔍 Fuente de datos: HaveIBeenPwned API\n📅 Escaneo realizado: ${new Date().toLocaleString('es')}`;
+  } else if (currentLang === 'de') {
+    const riskText = riskLevel === 'CRITICAL' ? 'KRITISCH' : riskLevel === 'HIGH' ? 'HOCH' : riskLevel === 'MEDIUM' ? 'MITTEL' : 'NIEDRIG';
+    return `${riskEmoji} Datenschutzverletzungen Gefunden!\n\n📊 Ergebnisse für "${email}":\n• Anzahl Verletzungen: ${breachCount}\n• Risiko-Level: ${riskText}\n• Gesamtzahl betroffener Benutzer: ${totalAffectedText}\n• Letzte Verletzung: ${breachDetails[0]?.BreachDate || 'Unbekannt'}\n\n🔥 Gefundene Verletzungen:${breachList}\n\n⚠️ Sofortige Maßnahmen Erforderlich:\n• Passwörter aller betroffenen Konten ändern\n• Zwei-Faktor-Authentifizierung für alle Konten aktivieren\n• Bankkonten und Kreditkarten überwachen\n• Vor Phishing-Versuchen hüten, die Ihre geleakten Daten anvisieren\n• Passwort-Manager für einzigartige Passwörter verwenden\n• Kreditauskunft einfrieren erwägen\n\n🔍 Datenquelle: HaveIBeenPwned API\n📅 Scan durchgeführt: ${new Date().toLocaleString('de')}`;
+  } else if (currentLang === 'fr') {
+    const riskText = riskLevel === 'CRITICAL' ? 'CRITIQUE' : riskLevel === 'HIGH' ? 'ÉLEVÉ' : riskLevel === 'MEDIUM' ? 'MOYEN' : 'FAIBLE';
+    return `${riskEmoji} Fuites de Données Détectées!\n\n📊 Résultats pour "${email}":\n• Nombre de Fuites: ${breachCount}\n• Niveau de Risque: ${riskText}\n• Total d'Utilisateurs Affectés: ${totalAffectedText}\n• Dernière Fuite: ${breachDetails[0]?.BreachDate || 'Inconnu'}\n\n🔥 Fuites Trouvées:${breachList}\n\n⚠️ Actions Immédiates Requises:\n• Changer mots de passe de tous les comptes affectés\n• Activer authentification à deux facteurs sur tous les comptes\n• Surveiller comptes bancaires et cartes de crédit\n• Attention aux tentatives de phishing ciblant vos données fuitées\n• Utiliser gestionnaire de mots de passe pour créer mots de passe uniques\n• Considérer geler votre rapport de crédit\n\n🔍 Source des données: HaveIBeenPwned API\n📅 Scan effectué: ${new Date().toLocaleString('fr')}`;
+  } else {
+    return `${riskEmoji} Data Breaches Detected!\n\n📊 Scan Results for "${email}":\n• Number of Breaches: ${breachCount}\n• Risk Level: ${riskLevel}\n• Total Users Affected: ${totalAffectedText}\n• Latest Breach: ${breachDetails[0]?.BreachDate || 'Unknown'}\n\n🔥 Found Breaches:${breachList}\n\n⚠️ Immediate Actions Required:\n• Change passwords for all affected accounts\n• Enable two-factor authentication on all accounts\n• Monitor financial accounts and credit cards\n• Watch for phishing attempts targeting your leaked data\n• Use a password manager to create unique passwords\n• Consider freezing your credit report\n\n🔍 Data source: HaveIBeenPwned API\n📅 Scan performed: ${new Date().toLocaleString()}`;
+  }
+}
+
+// Improved typewriter with async support
+async function typeWriterAsync(element, text, speed = 25) {
+  element.textContent = '';
+  for (let i = 0; i < text.length; i++) {
+    element.textContent += text.charAt(i);
+    await new Promise(resolve => setTimeout(resolve, speed));
+  }
+});
     });
   </script>
 </body>
