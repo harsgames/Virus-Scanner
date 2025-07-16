@@ -9,8 +9,16 @@ app = Flask(__name__)
 VT_API_KEY = "ef9e902fff78178e965b1a558da319a26f845967c7f24a252ce8cb5e27c1091b"
 VT_BASE_URL = "https://www.virustotal.com/api/v3"
 
-HIBP_API_KEY = "f698b0efaeca4167a5e98e7786870eb8"  # Replace with your paid key!
+HIBP_API_KEY = "f698b0efaeca4167a5e98e7786870eb8"
 HIBP_BASE_URL = "https://haveibeenpwned.com/api/v3"
+
+def is_mobile_device(user_agent):
+    """Check if the request is from a mobile device"""
+    mobile_keywords = [
+        'Mobile', 'Android', 'iPhone', 'iPad', 'iPod', 'BlackBerry', 
+        'IEMobile', 'Opera Mini', 'webOS', 'Windows Phone'
+    ]
+    return any(keyword.lower() in user_agent.lower() for keyword in mobile_keywords)
 
 def vt_submit_url(url):
     headers = {"x-apikey": VT_API_KEY}
@@ -72,48 +80,62 @@ def hibp_check_email(email):
         })
     return results
 
-# EXISTING DESKTOP ROUTES
+# ENHANCED ROUTES WITH MOBILE DETECTION
 @app.route("/")
 def index():
-    """Default to URL scanner page"""
+    """Automatically serve mobile or desktop version based on device"""
+    user_agent = request.headers.get('User-Agent', '')
+    if is_mobile_device(user_agent):
+        return render_template("mobile-url-scanner.html")
     return render_template("url-scanner.html")
 
 @app.route("/url-scanner")
 def url_scanner():
-    """Dedicated URL scanner page"""
+    """URL scanner with mobile detection"""
+    user_agent = request.headers.get('User-Agent', '')
+    if is_mobile_device(user_agent):
+        return render_template("mobile-url-scanner.html")
     return render_template("url-scanner.html")
 
 @app.route("/email-scanner")
 def email_scanner():
-    """Dedicated email scanner page"""
+    """Email scanner with mobile detection"""
+    user_agent = request.headers.get('User-Agent', '')
+    if is_mobile_device(user_agent):
+        return render_template("mobile-email-scanner.html")
     return render_template("email-scanner.html")
 
-# NEW MOBILE ROUTES
+# FORCE MOBILE ROUTES (for testing)
 @app.route("/mobile")
 def mobile_index():
-    """Mobile URL scanner page (default)"""
+    """Force mobile URL scanner"""
     return render_template("mobile-url-scanner.html")
 
 @app.route("/mobile/url-scanner")
 def mobile_url_scanner():
-    """Mobile URL scanner page"""
+    """Force mobile URL scanner"""
     return render_template("mobile-url-scanner.html")
 
 @app.route("/mobile/email-scanner")
 def mobile_email_scanner():
-    """Mobile email scanner page"""
+    """Force mobile email scanner"""
     return render_template("mobile-email-scanner.html")
 
-# REDIRECT ROUTES FOR MOBILE NAVIGATION
-@app.route("/url-scanner-mobile")
-def url_scanner_mobile_redirect():
-    """Redirect for mobile navigation compatibility"""
-    return render_template("mobile-url-scanner.html")
+# FORCE DESKTOP ROUTES (for testing)
+@app.route("/desktop")
+def desktop_index():
+    """Force desktop URL scanner"""
+    return render_template("url-scanner.html")
 
-@app.route("/email-scanner-mobile")
-def email_scanner_mobile_redirect():
-    """Redirect for mobile navigation compatibility"""
-    return render_template("mobile-email-scanner.html")
+@app.route("/desktop/url-scanner")
+def desktop_url_scanner():
+    """Force desktop URL scanner"""
+    return render_template("url-scanner.html")
+
+@app.route("/desktop/email-scanner")
+def desktop_email_scanner():
+    """Force desktop email scanner"""
+    return render_template("email-scanner.html")
 
 # API endpoint for all scan types (UNCHANGED)
 @app.route("/api/scan", methods=["POST"])
@@ -125,7 +147,7 @@ def api_scan():
             
         scan_type = data.get("type")
         value = data.get("value")
-        scan_mode = data.get("mode", "quick")  # Support for scan modes
+        scan_mode = data.get("mode", "quick")
         
         if not scan_type or not value:
             return jsonify({"error": "Missing type or value parameter"}), 400
@@ -143,16 +165,13 @@ def api_scan():
 def handle_url_scan(url, mode="quick"):
     """Handle URL scanning with VirusTotal"""
     try:
-        # Validate URL format
         if not url.startswith(('http://', 'https://')):
             url = 'https://' + url
         
-        # Submit URL for scanning
         print(f"Submitting URL for analysis: {url}")
         analysis_id = vt_submit_url(url)
         print(f"Analysis ID: {analysis_id}")
         
-        # Wait for analysis completion
         max_retries = 15 if mode == "deep" else 12
         for attempt in range(max_retries):
             print(f"Checking analysis status (attempt {attempt + 1}/{max_retries})")
@@ -172,12 +191,10 @@ def handle_url_scan(url, mode="quick"):
                 "suggestion": "Try again in a few minutes or use quick scan mode."
             }), 504
 
-        # Extract results
         stats = report["data"]["attributes"]["stats"]
         engines = report["data"]["attributes"].get("results", {})
         print(f"Scan completed. Stats: {stats}")
         
-        # Add additional analysis for deep mode
         additional_info = {}
         if mode == "deep":
             attributes = report["data"]["attributes"]
@@ -213,18 +230,14 @@ def handle_url_scan(url, mode="quick"):
 def handle_email_scan(email, mode="basic"):
     """Handle email breach checking with HIBP"""
     try:
-        # Validate email format
         if not re.match(r'^[^\s@]+@[^\s@]+\.[^\s@]+$', email):
             return jsonify({"error": "Invalid email format"}), 400
         
-        # Check for breaches
         print(f"Checking email: {email}")
         breaches = hibp_check_email(email)
         print(f"Found {len(breaches)} breaches")
         
-        # Process results based on scan mode
         if mode == "comprehensive":
-            # For comprehensive mode, add more detailed analysis
             breach_analysis = analyze_breaches(breaches)
             return jsonify({
                 "breaches": len(breaches),
@@ -234,7 +247,6 @@ def handle_email_scan(email, mode="basic"):
                 "email_checked": email
             })
         else:
-            # Basic mode - standard response
             return jsonify({
                 "breaches": len(breaches),
                 "details": breaches,
@@ -249,7 +261,6 @@ def handle_email_scan(email, mode="basic"):
         elif e.response.status_code == 429:
             return jsonify({"error": "HIBP API rate limit exceeded. Please try again later."}), 429
         elif e.response.status_code == 404:
-            # No breaches found
             return jsonify({
                 "breaches": 0,
                 "details": [],
@@ -266,13 +277,12 @@ def calculate_reputation_score(stats):
     """Calculate a reputation score based on scan statistics"""
     total_engines = sum(stats.values())
     if total_engines == 0:
-        return 50  # Neutral score
+        return 50
     
     malicious = stats.get("malicious", 0)
     suspicious = stats.get("suspicious", 0)
     harmless = stats.get("harmless", 0)
     
-    # Calculate score (0-100, where 100 is best)
     score = ((harmless * 100) + (suspicious * 30) + (malicious * 0)) / total_engines
     return round(score, 1)
 
@@ -286,11 +296,9 @@ def analyze_breaches(breaches):
             "total_accounts_affected": 0
         }
     
-    # Sort by date to find most recent
     sorted_breaches = sorted(breaches, key=lambda x: x.get("BreachDate", ""), reverse=True)
     most_recent = sorted_breaches[0] if sorted_breaches else None
     
-    # Collect all exposed data types
     all_data_types = set()
     total_affected = 0
     
@@ -299,7 +307,6 @@ def analyze_breaches(breaches):
         all_data_types.update(data_classes)
         total_affected += breach.get("PwnCount", 0)
     
-    # Determine risk level
     breach_count = len(breaches)
     if breach_count >= 10:
         risk_level = "high"
@@ -322,15 +329,20 @@ def analyze_breaches(breaches):
 @app.route("/api/health")
 def health_check():
     """API health check endpoint"""
+    user_agent = request.headers.get('User-Agent', '')
+    is_mobile = is_mobile_device(user_agent)
+    
     return jsonify({
         "status": "healthy",
-        "version": "2.0",
+        "version": "2.1",
+        "device_type": "mobile" if is_mobile else "desktop",
+        "user_agent": user_agent,
         "endpoints": {
-            "url_scanner": "/",
-            "url_scanner_alt": "/url-scanner", 
+            "auto_detect": "/",
+            "url_scanner": "/url-scanner", 
             "email_scanner": "/email-scanner",
-            "mobile_url_scanner": "/mobile/url-scanner",
-            "mobile_email_scanner": "/mobile/email-scanner",
+            "force_mobile": "/mobile",
+            "force_desktop": "/desktop",
             "api_scan": "/api/scan"
         }
     })
@@ -352,13 +364,14 @@ if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     debug_mode = os.environ.get("FLASK_DEBUG", "False").lower() == "true"
     
-    print("🚀 Starting Enhanced Virus Scanner Backend...")
+    print("🚀 Starting Enhanced Virus Scanner with Mobile Detection...")
     print(f"📡 Server will run on port {port}")
     print("🌐 Available endpoints:")
-    print(f"   • URL Scanner (Desktop): http://localhost:{port}/")
-    print(f"   • Email Scanner (Desktop): http://localhost:{port}/email-scanner")
-    print(f"   • URL Scanner (Mobile): http://localhost:{port}/mobile/url-scanner")
-    print(f"   • Email Scanner (Mobile): http://localhost:{port}/mobile/email-scanner")
+    print(f"   • Auto-detect (Mobile/Desktop): http://localhost:{port}/")
+    print(f"   • URL Scanner (Auto): http://localhost:{port}/url-scanner")
+    print(f"   • Email Scanner (Auto): http://localhost:{port}/email-scanner")
+    print(f"   • Force Mobile: http://localhost:{port}/mobile")
+    print(f"   • Force Desktop: http://localhost:{port}/desktop")
     print(f"   • API Health: http://localhost:{port}/api/health")
     
     app.run(host="0.0.0.0", port=port, debug=debug_mode)
