@@ -2,20 +2,35 @@
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-  <title>URL Security Scanner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#38ef7d" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Mobile URL Security Scanner</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
     * { 
       box-sizing: border-box; 
       -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    input, textarea {
+      -webkit-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+      user-select: text;
     }
 
     body {
-      background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
-      color: #ffffff;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #2d1b69, #11998e, #38ef7d);
+      color: #e0e6e9;
+      font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 0;
       min-height: 100vh;
@@ -24,160 +39,141 @@
       touch-action: manipulation;
     }
 
-    /* Animated background */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.1) 0%, transparent 50%);
-      animation: gradientShift 8s ease-in-out infinite;
-      pointer-events: none;
-      z-index: 0;
+    .mobile-container {
+      max-width: 100vw;
+      min-height: 100vh;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
     }
 
-    @keyframes gradientShift {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.8; transform: scale(1.05); }
-    }
-
-    /* Mobile-first navigation */
+    /* Mobile Navigation */
     .mobile-nav {
-      position: fixed;
+      position: sticky;
       top: 0;
-      left: 0;
-      right: 0;
-      background: rgba(26, 26, 46, 0.95);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(30, 41, 59, 0.95);
+      backdrop-filter: blur(15px);
+      border-radius: 0 0 20px 20px;
+      padding: 15px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(56, 239, 125, 0.2);
       z-index: 1000;
-      padding: 8px 16px;
+    }
+
+    .nav-header {
       display: flex;
       justify-content: space-between;
-
-align-items: center;
-      height: 60px;
-    }
-
-    .nav-brand {
-      font-size: 18px;
-      font-weight: 700;
-      color: #00ffc8;
-      display: flex;
       align-items: center;
-      gap: 8px;
+      margin-bottom: 15px;
     }
 
-    .nav-toggle {
-      background: none;
-      border: none;
-      color: #ffffff;
-      font-size: 24px;
-      cursor: pointer;
-      padding: 8px;
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #38ef7d;
+      text-shadow: 0 0 10px #38ef7d;
+    }
+
+    .menu-toggle {
+      background: rgba(56, 239, 125, 0.2);
+      border: 1px solid rgba(56, 239, 125, 0.3);
       border-radius: 8px;
+      padding: 8px 12px;
+      color: #38ef7d;
+      font-size: 1.2rem;
+      cursor: pointer;
       transition: all 0.3s ease;
     }
 
-    .nav-toggle:active {
-      background: rgba(255, 255, 255, 0.1);
+    .menu-toggle:active {
       transform: scale(0.95);
+      background: rgba(56, 239, 125, 0.3);
     }
 
     .nav-menu {
-      position: fixed;
-      top: 60px;
-      left: 0;
-      right: 0;
-      background: rgba(15, 20, 25, 0.98);
-      backdrop-filter: blur(20px);
-      transform: translateY(-100%);
-      transition: transform 0.3s ease;
-      z-index: 999;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid rgba(56, 239, 125, 0.2);
     }
 
     .nav-menu.active {
-      transform: translateY(0);
+      display: flex;
     }
 
-    .nav-menu a {
-      display: block;
-      padding: 16px 20px;
-      color: #ffffff;
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 15px;
+      background: rgba(56, 239, 125, 0.1);
+      border-radius: 10px;
+      color: #a0d8ef;
       text-decoration: none;
       font-weight: 500;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       transition: all 0.3s ease;
+      border: 1px solid rgba(56, 239, 125, 0.2);
     }
 
-    .nav-menu a:active {
-      background: rgba(0, 255, 200, 0.2);
-      color: #00ffc8;
+    .nav-link.active, .nav-link:active {
+      background: rgba(56, 239, 125, 0.2);
+      color: #38ef7d;
+      transform: scale(0.98);
     }
 
-    .nav-menu a.active {
-      background: rgba(0, 255, 200, 0.2);
-      color: #00ffc8;
+    .nav-link:hover {
+      background: rgba(56, 239, 125, 0.15);
     }
 
-    /* Language selector */
+    /* Language Selector */
     .lang-selector {
-      padding: 12px 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 10px;
     }
 
     .lang-btn {
       width: 100%;
-      background: rgba(0, 255, 200, 0.2);
-      color: #00ffc8;
-      border: 1px solid rgba(0, 255, 200, 0.3);
-      border-radius: 12px;
-      padding: 12px 16px;
+      background: rgba(56, 239, 125, 0.2);
+      color: #38ef7d;
+      border: 1px solid rgba(56, 239, 125, 0.3);
+      border-radius: 10px;
+      padding: 12px 15px;
       font-weight: 500;
-      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      cursor: pointer;
-      transition: all 0.3s ease;
     }
 
     .lang-btn:active {
-      background: rgba(0, 255, 200, 0.3);
       transform: scale(0.98);
+      background: rgba(56, 239, 125, 0.3);
     }
 
-    .lang-options {
-      margin-top: 8px;
-      background: rgba(30, 47, 56, 0.95);
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+    .lang-dropdown {
+      margin-top: 10px;
+      background: rgba(30, 41, 59, 0.95);
+      border-radius: 10px;
+      border: 1px solid rgba(56, 239, 125, 0.2);
       overflow: hidden;
-      max-height: 0;
-      opacity: 0;
-      transition: all 0.3s ease;
+      display: none;
     }
 
-    .lang-options.show {
-      max-height: 300px;
-      opacity: 1;
+    .lang-dropdown.show {
+      display: block;
     }
 
     .lang-option {
-      padding: 12px 16px;
+      padding: 12px 15px;
       display: flex;
       align-items: center;
       gap: 12px;
-      color: #ffffff;
+      color: #a0d8ef;
       cursor: pointer;
       transition: all 0.3s ease;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba(56, 239, 125, 0.1);
     }
 
     .lang-option:last-child {
@@ -185,12 +181,14 @@ align-items: center;
     }
 
     .lang-option:active {
-      background: rgba(0, 255, 200, 0.2);
+      background: rgba(56, 239, 125, 0.1);
+      color: #38ef7d;
     }
 
     .lang-option.active {
-      background: rgba(0, 255, 200, 0.2);
-      color: #00ffc8;
+      background: rgba(56, 239, 125, 0.2);
+      color: #38ef7d;
+      font-weight: 600;
     }
 
     .flag {
@@ -203,244 +201,229 @@ align-items: center;
 
     /* Flag backgrounds */
     .flag-en { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="%23012169"/><path d="M0 0v30h60V0z" fill="%23012169"/><path d="M0 0l60 30M60 0L0 30" stroke="%23fff" stroke-width="6"/><path d="M0 0l60 30M60 0L0 30" stroke="%23C8102E" stroke-width="4"/><path d="M30 0v30M0 15h60" stroke="%23fff" stroke-width="10"/><path d="M30 0v30M0 15h60" stroke="%23C8102E" stroke-width="6"/></svg>'); }
-    .flag-ar { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="%23006C35"/><rect x="5" y="20" width="50" height="3" fill="white"/></svg>'); }
+    .flag-ar { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="%23006C35"/><text x="30" y="18" text-anchor="middle" fill="white" font-family="Arial" font-size="8" font-weight="bold">لا إله إلا الله</text><rect x="5" y="20" width="50" height="3" fill="white"/></svg>'); }
     .flag-es { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="%23C60B1E"/><rect y="7.5" width="60" height="15" fill="%23FFC400"/></svg>'); }
     .flag-de { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="10" fill="%23000"/><rect y="10" width="60" height="10" fill="%23D00"/><rect y="20" width="60" height="10" fill="%23FFCE00"/></svg>'); }
     .flag-fr { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="20" height="30" fill="%23002395"/><rect x="20" width="20" height="30" fill="%23fff"/><rect x="40" width="20" height="30" fill="%23ED2939"/></svg>'); }
     .flag-zh { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><rect width="60" height="30" fill="%23DE2910"/><polygon points="12,6 9.51,13.76 1.24,13.76 7.87,18.48 5.38,26.24 12,21.52 18.62,26.24 16.13,18.48 22.76,13.76 14.49,13.76" fill="%23FFDE00"/></svg>'); }
 
-    /* Main container */
-    .container {
-      margin-top: 60px;
-      padding: 20px 16px;
-      max-width: 100%;
-      position: relative;
-      z-index: 1;
+    /* Main Content */
+    .content {
+      flex: 1;
+      padding: 0 10px;
     }
 
-    /* Header section */
-    .header {
-      text-align: center;
-      margin-bottom: 24px;
+    .card {
+      background: rgba(30, 41, 59, 0.9);
+      border-radius: 20px;
+      padding: 25px 20px;
+      margin-bottom: 20px;
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
     }
 
     .title {
-      font-size: 28px;
+      text-align: center;
       font-weight: 700;
-      margin-bottom: 8px;
-      background: linear-gradient(135deg, #00ffc8, #00a8ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: #38ef7d;
+      text-shadow: 0 0 15px #38ef7d;
     }
 
     .subtitle {
-      font-size: 16px;
-      color: rgba(255, 255, 255, 0.7);
-      line-height: 1.4;
+      text-align: center;
+      color: #a0d8ef;
+      margin-bottom: 25px;
+      font-size: 1rem;
+      opacity: 0.9;
     }
 
-    /* Info cards */
     .info-section {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 16px;
+      background: rgba(15, 25, 35, 0.7);
+      border-radius: 15px;
       padding: 20px;
-      margin-bottom: 24px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
+      margin-bottom: 20px;
+      border-left: 4px solid #38ef7d;
     }
 
-    .info-title {
-      font-size: 18px;
-      font-weight: 600;
-      color: #00ffc8;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .info-section h3 {
+      color: #38ef7d;
+      margin: 0 0 15px 0;
+      font-size: 1.1rem;
     }
 
     .privacy-note {
-      background: rgba(0, 255, 200, 0.2);
-      color: #00ffc8;
-      padding: 12px 16px;
-      border-radius: 12px;
-      margin-bottom: 16px;
-      font-size: 14px;
+      background: rgba(56, 239, 125, 0.1);
+      color: #38ef7d;
+      padding: 12px 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      font-size: 0.9rem;
       font-weight: 500;
       text-align: center;
-      border: 1px solid rgba(0, 255, 200, 0.3);
+      border: 1px solid rgba(56, 239, 125, 0.2);
     }
 
     .feature-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
+      margin-bottom: 15px;
     }
 
-    .feature-card {
-      background: rgba(255, 255, 255, 0.05);
-      padding: 16px;
+    .feature-item {
+      background: rgba(56, 239, 125, 0.1);
+      padding: 15px 12px;
       border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(56, 239, 125, 0.2);
       text-align: center;
     }
 
-    .feature-icon {
-      font-size: 24px;
+    .feature-item .icon {
+      font-size: 1.8rem;
       margin-bottom: 8px;
       display: block;
     }
 
-    .feature-title {
-      font-size: 14px;
+    .feature-item .title {
+      color: #38ef7d;
       font-weight: 600;
-      color: #00ffc8;
-      margin-bottom: 4px;
+      margin-bottom: 5px;
+      font-size: 0.85rem;
     }
 
-    .feature-desc {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.7);
+    .feature-item .desc {
+      color: #a0d8ef;
+      font-size: 0.75rem;
       line-height: 1.3;
     }
 
-    /* Examples section */
-    .examples {
-      margin-bottom: 24px;
+    .examples-section {
+      background: rgba(15, 25, 35, 0.7);
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-left: 4px solid #38ef7d;
     }
 
-    .examples-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: #00ffc8;
-      margin-bottom: 12px;
-    }
-
-    .example-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
+    .examples-section h3 {
+      color: #38ef7d;
+      margin: 0 0 10px 0;
+      font-size: 1rem;
     }
 
     .example-tag {
-      background: rgba(0, 255, 200, 0.2);
-      color: #00ffc8;
+      display: inline-block;
+      background: rgba(56, 239, 125, 0.1);
+      color: #38ef7d;
       padding: 8px 12px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 500;
+      border-radius: 10px;
+      margin: 3px;
+      font-size: 0.85rem;
       cursor: pointer;
       transition: all 0.3s ease;
-      border: 1px solid rgba(0, 255, 200, 0.3);
+      border: 1px solid rgba(56, 239, 125, 0.2);
     }
 
     .example-tag:active {
-      background: rgba(0, 255, 200, 0.4);
+      background: rgba(56, 239, 125, 0.2);
       transform: scale(0.95);
     }
 
-    /* Form section */
+    /* Form Styles */
     .scan-form {
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .form-label {
       display: block;
-      font-size: 16px;
+      margin-bottom: 10px;
       font-weight: 600;
-      color: #ffffff;
-      margin-bottom: 12px;
+      font-size: 1rem;
+      color: #a0d8ef;
     }
 
-    .input-container {
+    .input-group {
       position: relative;
       margin-bottom: 20px;
     }
 
-    .form-input {
+    .url-input {
       width: 100%;
       padding: 16px 20px;
-      font-size: 16px;
-      border-radius: 12px;
-      border: 2px solid rgba(255, 255, 255, 0.1);
-      background: rgba(255, 255, 255, 0.05);
-      color: #ffffff;
+      font-size: 1rem;
+      border-radius: 15px;
+      border: 2px solid rgba(56, 239, 125, 0.3);
+      background: rgba(31, 41, 59, 0.8);
+      color: #e0e6e9;
       transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
     }
 
-    .form-input:focus {
+    .url-input:focus {
       outline: none;
-      border-color: #00ffc8;
-      background: rgba(255, 255, 255, 0.08);
-      box-shadow: 0 0 0 4px rgba(0, 255, 200, 0.2);
+      border-color: #38ef7d;
+      box-shadow: 0 0 0 3px rgba(56, 239, 125, 0.2);
+      transform: translateY(-2px);
     }
 
-    .form-input::placeholder {
-      color: rgba(255, 255, 255, 0.5);
-    }
-
-    .scan-btn {
+    .scan-button {
       width: 100%;
-      padding: 16px 24px;
-      font-size: 16px;
-      font-weight: 600;
-      border-radius: 12px;
+      padding: 18px 20px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 15px;
       border: none;
-      background: linear-gradient(135deg, #00ffc8, #00a8ff);
-      color: #0f1419;
+      background: linear-gradient(135deg, #38ef7d, #11998e);
+      color: #0f2027;
       cursor: pointer;
       transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
       position: relative;
       overflow: hidden;
     }
 
-    .scan-btn:active {
+    .scan-button:active {
       transform: scale(0.98);
     }
 
-    .scan-btn:disabled {
+    .scan-button:disabled {
       opacity: 0.6;
       cursor: not-allowed;
       transform: none;
     }
 
-    .scan-btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.5s ease;
+    .scan-button.scanning {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+      animation: pulse 1s ease-in-out infinite;
     }
 
-    .scan-btn:active::before {
-      left: 100%;
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
     }
 
-    /* Loading animation */
+    /* Loading States */
     .loading-container {
       display: none;
       text-align: center;
-      padding: 24px;
-      margin: 24px 0;
+      padding: 20px;
+      margin: 20px 0;
     }
 
-    .loading-container.show {
-      display: block;
-    }
-
-    .loading-spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid rgba(0, 255, 200, 0.3);
-      border-top: 3px solid #00ffc8;
+    .loading-circle {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(56, 239, 125, 0.2);
+      border-top: 4px solid #38ef7d;
       border-radius: 50%;
       animation: spin 1s linear infinite;
-      margin: 0 auto 16px;
+      margin: 0 auto 15px;
     }
 
     @keyframes spin {
@@ -449,268 +432,281 @@ align-items: center;
     }
 
     .loading-text {
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.7);
+      color: #a0d8ef;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
     }
 
-    /* Results section */
-    .results {
-      background: rgba(30, 47, 56, 0.8);
-      border-radius: 12px;
+    .loading-dots {
+      display: inline-block;
+      position: relative;
+      width: 60px;
+      height: 20px;
+    }
+
+    .loading-dots div {
+      position: absolute;
+      top: 8px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #38ef7d;
+      animation: loading 1.2s linear infinite;
+    }
+
+    .loading-dots div:nth-child(1) { left: 8px; animation-delay: 0s; }
+    .loading-dots div:nth-child(2) { left: 26px; animation-delay: -0.4s; }
+    .loading-dots div:nth-child(3) { left: 44px; animation-delay: -0.8s; }
+
+    @keyframes loading {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+
+    /* Results */
+    .result-container {
+      margin-top: 20px;
+      border-radius: 15px;
       padding: 20px;
-      margin-top: 24px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      font-family: 'Courier New', monospace;
-      font-size: 14px;
-      line-height: 1.5;
+      font-family: 'Consolas', monospace;
+      font-size: 0.9rem;
       white-space: pre-wrap;
+      line-height: 1.5;
+      overflow-y: auto;
+      max-height: 400px;
+      border: 2px solid rgba(56, 239, 125, 0.2);
+      background: rgba(17, 34, 51, 0.9);
       display: none;
-      backdrop-filter: blur(10px);
-    }
-
-    .results.show {
-      display: block;
-      animation: slideUp 0.5s ease;
-    }
-
-    @keyframes slideUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
     }
 
     .result-success {
-      border-left: 4px solid #4ade80;
-      color: #4ade80;
+      color: #00ff88;
+      border-color: #00ff88;
+      background: rgba(0, 255, 136, 0.05);
     }
 
     .result-warning {
-      border-left: 4px solid #fbbf24;
-      color: #fbbf24;
+      color: #ffaa00;
+      border-color: #ffaa00;
+      background: rgba(255, 170, 0, 0.05);
     }
 
     .result-danger {
-      border-left: 4px solid #ef4444;
-      color: #ef4444;
+      color: #ff4444;
+      border-color: #ff4444;
+      background: rgba(255, 68, 68, 0.05);
     }
 
-    /* Error message */
     .error-message {
-      background: rgba(239, 68, 68, 0.2);
-      color: #ef4444;
-      padding: 12px 16px;
-      border-radius: 8px;
-      margin-top: 16px;
-      font-size: 14px;
+      color: #ff6b6b;
+      background: rgba(255, 107, 107, 0.1);
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 15px;
+      font-weight: 600;
       text-align: center;
-      border: 1px solid rgba(239, 68, 68, 0.3);
+      border: 1px solid rgba(255, 107, 107, 0.3);
       display: none;
     }
 
-    .error-message.show {
-      display: block;
+    /* Animations */
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
 
-    /* Bounce animation for scanning button */
-    .scanning {
-      animation: bounce 1s infinite;
+    .card {
+      animation: fadeInUp 0.6s ease-out;
     }
 
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-      40% { transform: translateY(-3px); }
-      60% { transform: translateY(-2px); }
-    }
+    /* Responsive Design */
+    @media (max-width: 480px) {
+      .mobile-container {
+        padding: 8px;
+      }
 
-    /* Safe area adjustments for iPhone */
-    @supports (padding: max(0px)) {
-      .mobile-nav {
-        padding-top: max(8px, env(safe-area-inset-top));
-        height: max(60px, calc(60px + env(safe-area-inset-top)));
+      .card {
+        padding: 20px 15px;
       }
-      
-      .container {
-        margin-top: max(60px, calc(60px + env(safe-area-inset-top)));
-        padding-bottom: max(20px, env(safe-area-inset-bottom));
-      }
-    }
 
-    /* Landscape orientation adjustments */
-    @media screen and (orientation: landscape) and (max-height: 500px) {
-      .container {
-        padding: 16px 20px;
-      }
-      
-      .header {
-        margin-bottom: 16px;
-      }
-      
       .title {
-        font-size: 24px;
+        font-size: 1.8rem;
       }
-      
-      .info-section {
-        padding: 16px;
-        margin-bottom: 16px;
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .url-input {
+        padding: 14px 16px;
+        font-size: 16px; /* Prevents zoom on iOS */
+      }
+
+      .scan-button {
+        padding: 16px 18px;
+        font-size: 1rem;
       }
     }
 
-    /* Large phone adjustments */
-    @media (min-width: 400px) {
-      .container {
-        padding: 24px 20px;
-      }
-      
-      .title {
-        font-size: 32px;
-      }
-      
-      .subtitle {
-        font-size: 18px;
+    /* iOS Specific Fixes */
+    @supports (-webkit-touch-callout: none) {
+      .url-input {
+        font-size: 16px; /* Prevents zoom */
       }
     }
   </style>
 </head>
 <body>
-  <!-- Mobile Navigation -->
-  <nav class="mobile-nav">
-    <div class="nav-brand">
-      🌐 URL Scanner
-    </div>
-    <button class="nav-toggle" id="navToggle">☰</button>
-  </nav>
-
-  <!-- Navigation Menu -->
-  <div class="nav-menu" id="navMenu">
-    <a href="/url-scanner" class="active">🌐 URL Scanner</a>
-    <a href="/email-scanner">📧 Email Scanner</a>
-    
-    <div class="lang-selector">
-      <button class="lang-btn" id="langBtn">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="flag flag-en" id="currentFlag"></span>
-          <span id="currentLang">English</span>
-        </div>
-        <span id="langArrow">▼</span>
-      </button>
-      
-      <div class="lang-options" id="langOptions">
-        <div class="lang-option active" data-lang="en" data-name="English">
-          <span class="flag flag-en"></span>
-          <span>English</span>
-        </div>
-        <div class="lang-option" data-lang="ar" data-name="العربية">
-          <span class="flag flag-ar"></span>
-          <span>العربية</span>
-        </div>
-        <div class="lang-option" data-lang="es" data-name="Español">
-          <span class="flag flag-es"></span>
-          <span>Español</span>
-        </div>
-        <div class="lang-option" data-lang="de" data-name="Deutsch">
-          <span class="flag flag-de"></span>
-          <span>Deutsch</span>
-        </div>
-        <div class="lang-option" data-lang="fr" data-name="Français">
-          <span class="flag flag-fr"></span>
-          <span>Français</span>
-        </div>
-        <div class="lang-option" data-lang="zh" data-name="中文">
-          <span class="flag flag-zh"></span>
-          <span>中文</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="container">
-    <!-- Header -->
-    <div class="header">
-      <h1 class="title" id="title">🌐 URL Security Scanner</h1>
-      <p class="subtitle" id="subtitle">Advanced malware detection powered by VirusTotal</p>
-    </div>
-
-    <!-- Info Section -->
-    <div class="info-section">
-      <h3 class="info-title" id="infoTitle">🛡️ What We Check</h3>
-      <div class="privacy-note" id="privacyNote">
-        🔒 We won't take your Info.
+  <div class="mobile-container">
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav">
+      <div class="nav-header">
+        <div class="logo">🌐 Virus Scanner</div>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
       </div>
       
-      <div class="feature-grid">
-        <div class="feature-card">
-          <span class="feature-icon">🦠</span>
-          <div class="feature-title" id="feature1Title">Malware Detection</div>
-          <div class="feature-desc" id="feature1Desc">Scan for viruses, trojans, and malicious code</div>
-        </div>
-        <div class="feature-card">
-          <span class="feature-icon">🔒</span>
-          <div class="feature-title" id="feature2Title">Security Threats</div>
-          <div class="feature-desc" id="feature2Desc">Identify phishing sites and suspicious content</div>
-        </div>
-        <div class="feature-card">
-          <span class="feature-icon">📊</span>
-          <div class="feature-title" id="feature3Title">Engine Analysis</div>
-          <div class="feature-desc" id="feature3Desc">Results from 70+ security engines worldwide</div>
-        </div>
-        <div class="feature-card">
-          <span class="feature-icon">🎯</span>
-          <div class="feature-title" id="feature4Title">Risk Assessment</div>
-          <div class="feature-desc" id="feature4Desc">Comprehensive security evaluation and recommendations</div>
+      <div class="nav-menu" id="navMenu">
+        <a href="/url-scanner" class="nav-link active">
+          <span>🌐</span>
+          <span id="nav-url-scanner">URL Scanner</span>
+        </a>
+        <a href="/email-scanner" class="nav-link">
+          <span>📧</span>
+          <span id="nav-email-scanner">Email Scanner</span>
+        </a>
+        
+        <!-- Language Selector -->
+        <div class="lang-selector">
+          <button class="lang-btn" onclick="toggleLanguageDropdown()">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span class="flag flag-en" id="current-flag"></span>
+              <span id="current-lang">English</span>
+            </div>
+            <span id="arrow" style="transform: rotate(0deg); transition: transform 0.3s ease;">▼</span>
+          </button>
+          
+          <div class="lang-dropdown" id="langDropdown">
+            <div class="lang-option active" onclick="changeLanguage('en', 'English')">
+              <span class="flag flag-en"></span>
+              <span>English</span>
+            </div>
+            <div class="lang-option" onclick="changeLanguage('ar', 'العربية')">
+              <span class="flag flag-ar"></span>
+              <span>العربية</span>
+            </div>
+            <div class="lang-option" onclick="changeLanguage('es', 'Español')">
+              <span class="flag flag-es"></span>
+              <span>Español</span>
+            </div>
+            <div class="lang-option" onclick="changeLanguage('de', 'Deutsch')">
+              <span class="flag flag-de"></span>
+              <span>Deutsch</span>
+            </div>
+            <div class="lang-option" onclick="changeLanguage('fr', 'Français')">
+              <span class="flag flag-fr"></span>
+              <span>Français</span>
+            </div>
+            <div class="lang-option" onclick="changeLanguage('zh', '中文')">
+              <span class="flag flag-zh"></span>
+              <span>中文</span>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </nav>
 
-    <!-- Examples -->
-    <div class="examples">
-      <h3 class="examples-title" id="examplesTitle">Quick Examples:</h3>
-      <div class="example-tags">
-        <span class="example-tag" onclick="setExample('google.com')">google.com</span>
-        <span class="example-tag" onclick="setExample('github.com')">github.com</span>
-        <span class="example-tag" onclick="setExample('stackoverflow.com')">stackoverflow.com</span>
+    <!-- Main Content -->
+    <div class="content">
+      <div class="card">
+        <h1 class="title" id="title">🌐 URL Security Scanner</h1>
+        <p class="subtitle" id="subtitle">Advanced malware detection powered by VirusTotal</p>
+        
+        <div class="info-section">
+          <h3 id="what-we-check">🛡️ What We Check</h3>
+          <div class="privacy-note" id="privacy-note">
+            🔒 We won't store your Info.
+          </div>
+          <div class="feature-grid">
+            <div class="feature-item">
+              <span class="icon">🦠</span>
+              <div class="title" id="feature1-title">Malware Detection</div>
+              <div class="desc" id="feature1-desc">Scan for viruses, trojans, and malicious code</div>
+            </div>
+            <div class="feature-item">
+              <span class="icon">🔒</span>
+              <div class="title" id="feature2-title">Security Threats</div>
+              <div class="desc" id="feature2-desc">Identify phishing sites and suspicious content</div>
+            </div>
+            <div class="feature-item">
+              <span class="icon">📊</span>
+              <div class="title" id="feature3-title">Engine Analysis</div>
+              <div class="desc" id="feature3-desc">Results from 70+ security engines worldwide</div>
+            </div>
+            <div class="feature-item">
+              <span class="icon">🎯</span>
+              <div class="title" id="feature4-title">Risk Assessment</div>
+              <div class="desc" id="feature4-desc">Comprehensive security evaluation and recommendations</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="examples-section">
+          <h3 id="quick-examples">Quick Examples:</h3>
+          <span class="example-tag" onclick="setExample('google.com')">google.com</span>
+          <span class="example-tag" onclick="setExample('github.com')">github.com</span>
+          <span class="example-tag" onclick="setExample('stackoverflow.com')">stackoverflow.com</span>
+          <span class="example-tag" onclick="setExample('facebook.com')">facebook.com</span>
+        </div>
+        
+        <form class="scan-form" id="scan-form" onsubmit="return false;">
+          <label class="form-label" id="input-label" for="url-input">🎯 Enter URL to analyze:</label>
+          <div class="input-group">
+            <input type="text" 
+                   id="url-input" 
+                   name="url-input" 
+                   class="url-input"
+                   placeholder="example.com" 
+                   required 
+                   autocomplete="off"
+                   autocorrect="off"
+                   autocapitalize="off"
+                   spellcheck="false" />
+          </div>
+          
+          <button type="submit" id="scan-btn" class="scan-button">
+            🚀 Launch Security Scan
+          </button>
+        </form>
+        
+        <div class="loading-container" id="loading-container">
+          <div class="loading-circle"></div>
+          <div class="loading-text" id="loading-text">Initializing scanner...</div>
+          <div class="loading-dots">
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+        
+        <div class="result-container" id="result-container"></div>
+        <div class="error-message" id="error-message"></div>
       </div>
     </div>
-
-    <!-- Scan Form -->
-    <form class="scan-form" id="scanForm">
-      <label class="form-label" id="formLabel" for="urlInput">🎯 Enter URL to analyze:</label>
-      <div class="input-container">
-        <input 
-          type="text" 
-          id="urlInput" 
-          class="form-input" 
-          placeholder="example.com" 
-          required 
-        />
-      </div>
-      <button type="submit" class="scan-btn" id="scanBtn">
-        🚀 Launch Security Scan
-      </button>
-    </form>
-
-    <!-- Loading Animation -->
-    <div class="loading-container" id="loadingContainer">
-      <div class="loading-spinner"></div>
-      <div class="loading-text" id="loadingText">Initializing scanner...</div>
-    </div>
-
-    <!-- Results -->
-    <div class="results" id="results"></div>
-
-    <!-- Error Message -->
-    <div class="error-message" id="errorMessage"></div>
   </div>
 
   <script>
     let currentLang = 'en';
     let isMenuOpen = false;
-    let isLangOpen = false;
+    let isLangDropdownOpen = false;
+    let isScanning = false;
 
     const translations = {
       en: {
         title: '🌐 URL Security Scanner',
         subtitle: 'Advanced malware detection powered by VirusTotal',
-        infoTitle: '🛡️ What We Check',
-        privacyNote: '🔒 We won\'t take your Info.',
+        whatWeCheck: '🛡️ What We Check',
+        privacyNote: '🔒 We won\'t store your Info.',
         feature1Title: 'Malware Detection',
         feature1Desc: 'Scan for viruses, trojans, and malicious code',
         feature2Title: 'Security Threats',
@@ -719,9 +715,11 @@ align-items: center;
         feature3Desc: 'Results from 70+ security engines worldwide',
         feature4Title: 'Risk Assessment',
         feature4Desc: 'Comprehensive security evaluation and recommendations',
-        examplesTitle: 'Quick Examples:',
-        formLabel: '🎯 Enter URL to analyze:',
+        quickExamples: 'Quick Examples:',
+        inputLabel: '🎯 Enter URL to analyze:',
         scanBtn: '🚀 Launch Security Scan',
+        navUrlScanner: 'URL Scanner',
+        navEmailScanner: 'Email Scanner',
         scanSteps: [
           'Initializing scanner...',
           'Connecting to VirusTotal...',
@@ -760,13 +758,14 @@ align-items: center;
           accessBlocked: 'Access blocked',
           verifySource: 'Verify the source',
           protected: 'Protected',
-          status: 'Status:'
+          status: 'Status:',
+          advice: 'Advice:'
         }
       },
       ar: {
         title: '🌐 ماسح أمان المواقع',
         subtitle: 'كشف البرامج الضارة المتقدم بواسطة VirusTotal',
-        infoTitle: '🛡️ ما نفحصه',
+        whatWeCheck: '🛡️ ما نفحصه',
         privacyNote: '🔒 لن نحفظ معلوماتك.',
         feature1Title: 'كشف البرامج الضارة',
         feature1Desc: 'فحص الفيروسات وأحصنة طروادة والكود الخبيث',
@@ -776,9 +775,11 @@ align-items: center;
         feature3Desc: 'نتائج من أكثر من 70 محرك أمان عالمياً',
         feature4Title: 'تقييم المخاطر',
         feature4Desc: 'تقييم أمني شامل وتوصيات',
-        examplesTitle: 'أمثلة سريعة:',
-        formLabel: '🎯 أدخل الرابط للتحليل:',
+        quickExamples: 'أمثلة سريعة:',
+        inputLabel: '🎯 أدخل الرابط للتحليل:',
         scanBtn: '🚀 بدء فحص الأمان',
+        navUrlScanner: 'ماسح المواقع',
+        navEmailScanner: 'ماسح البريد',
         scanSteps: [
           'تهيئة الماسح الضوئي...',
           'الاتصال بـ VirusTotal...',
@@ -817,14 +818,15 @@ align-items: center;
           accessBlocked: 'تم حظر الوصول',
           verifySource: 'تحقق من المصدر',
           protected: 'محمي',
-          status: 'الحالة:'
+          status: 'الحالة:',
+          advice: 'نصيحة:'
         }
       },
       es: {
         title: '🌐 Escáner de Seguridad de URL',
         subtitle: 'Detección avanzada de malware powered by VirusTotal',
-        infoTitle: '🛡️ Qué Verificamos',
-        privacyNote: '🔒 No guardaremos tu información.',
+        whatWeCheck: '🛡️ Qué Verificamos',
+        privacyNote: '🔒 No almacenaremos tu información.',
         feature1Title: 'Detección de Malware',
         feature1Desc: 'Escanea virus, trojanos y código malicioso',
         feature2Title: 'Amenazas de Seguridad',
@@ -833,9 +835,11 @@ align-items: center;
         feature3Desc: 'Resultados de más de 70 motores de seguridad mundiales',
         feature4Title: 'Evaluación de Riesgos',
         feature4Desc: 'Evaluación de seguridad integral y recomendaciones',
-        examplesTitle: 'Ejemplos Rápidos:',
-        formLabel: '🎯 Ingresa URL para analizar:',
+        quickExamples: 'Ejemplos Rápidos:',
+        inputLabel: '🎯 Ingresa URL para analizar:',
         scanBtn: '🚀 Lanzar Escaneo de Seguridad',
+        navUrlScanner: 'Escáner de URL',
+        navEmailScanner: 'Escáner de Email',
         scanSteps: [
           'Inicializando escáner...',
           'Conectando a VirusTotal...',
@@ -874,13 +878,14 @@ align-items: center;
           accessBlocked: 'Acceso bloqueado',
           verifySource: 'Verifica la fuente',
           protected: 'Protegido',
-          status: 'Estado:'
+          status: 'Estado:',
+          advice: 'Consejo:'
         }
       },
       de: {
         title: '🌐 URL-Sicherheitsscanner',
         subtitle: 'Erweiterte Malware-Erkennung powered by VirusTotal',
-        infoTitle: '🛡️ Was Wir Prüfen',
+        whatWeCheck: '🛡️ Was Wir Prüfen',
         privacyNote: '🔒 Wir speichern Ihre Daten nicht.',
         feature1Title: 'Malware-Erkennung',
         feature1Desc: 'Scannt nach Viren, Trojanern und bösartigem Code',
@@ -890,9 +895,11 @@ align-items: center;
         feature3Desc: 'Ergebnisse von über 70 Sicherheits-Engines weltweit',
         feature4Title: 'Risikobewertung',
         feature4Desc: 'Umfassende Sicherheitsbewertung und Empfehlungen',
-        examplesTitle: 'Schnelle Beispiele:',
-        formLabel: '🎯 URL zur Analyse eingeben:',
+        quickExamples: 'Schnelle Beispiele:',
+        inputLabel: '🎯 URL zur Analyse eingeben:',
         scanBtn: '🚀 Sicherheitsscan Starten',
+        navUrlScanner: 'URL-Scanner',
+        navEmailScanner: 'E-Mail-Scanner',
         scanSteps: [
           'Scanner wird initialisiert...',
           'Verbindung zu VirusTotal...',
@@ -931,13 +938,14 @@ align-items: center;
           accessBlocked: 'Zugriff blockiert',
           verifySource: 'Quelle überprüfen',
           protected: 'Geschützt',
-          status: 'Status:'
+          status: 'Status:',
+          advice: 'Rat:'
         }
       },
       fr: {
         title: '🌐 Scanner de Sécurité URL',
         subtitle: 'Détection avancée de malware powered by VirusTotal',
-        infoTitle: '🛡️ Ce Que Nous Vérifions',
+        whatWeCheck: '🛡️ Ce Que Nous Vérifions',
         privacyNote: '🔒 Nous ne sauvegarderons pas vos informations.',
         feature1Title: 'Détection de Malware',
         feature1Desc: 'Scanne les virus, trojans et code malveillant',
@@ -947,9 +955,11 @@ align-items: center;
         feature3Desc: 'Résultats de plus de 70 moteurs de sécurité mondiaux',
         feature4Title: 'Évaluation des Risques',
         feature4Desc: 'Évaluation de sécurité complète et recommandations',
-        examplesTitle: 'Exemples Rapides:',
-        formLabel: '🎯 Entrez l\'URL à analyser:',
+        quickExamples: 'Exemples Rapides:',
+        inputLabel: '🎯 Entrez l\'URL à analyser:',
         scanBtn: '🚀 Lancer le Scan de Sécurité',
+        navUrlScanner: 'Scanner URL',
+        navEmailScanner: 'Scanner Email',
         scanSteps: [
           'Initialisation du scanner...',
           'Connexion à VirusTotal...',
@@ -988,14 +998,15 @@ align-items: center;
           accessBlocked: 'Accès bloqué',
           verifySource: 'Vérifiez la source',
           protected: 'Protégé',
-          status: 'Statut:'
+          status: 'Statut:',
+          advice: 'Conseil:'
         }
       },
       zh: {
         title: '🌐 URL安全扫描器',
         subtitle: '由VirusTotal提供支持的高级恶意软件检测',
-        infoTitle: '🛡️ 我们检查什么',
-        privacyNote: '🔒 我们不会保存您的信息。',
+        whatWeCheck: '🛡️ 我们检查什么',
+        privacyNote: '🔒 我们不会存储您的信息。',
         feature1Title: '恶意软件检测',
         feature1Desc: '扫描病毒、木马和恶意代码',
         feature2Title: '安全威胁',
@@ -1004,9 +1015,11 @@ align-items: center;
         feature3Desc: '来自全球70+安全引擎的结果',
         feature4Title: '风险评估',
         feature4Desc: '全面的安全评估和建议',
-        examplesTitle: '快速示例：',
-        formLabel: '🎯 输入要分析的URL：',
+        quickExamples: '快速示例：',
+        inputLabel: '🎯 输入要分析的URL：',
         scanBtn: '🚀 启动安全扫描',
+        navUrlScanner: 'URL扫描器',
+        navEmailScanner: '电子邮件扫描器',
         scanSteps: [
           '初始化扫描器...',
           '连接到VirusTotal...',
@@ -1045,73 +1058,63 @@ align-items: center;
           accessBlocked: '访问已阻止',
           verifySource: '验证来源',
           protected: '受保护',
-          status: '状态：'
+          status: '状态：',
+          advice: '建议：'
         }
       }
     };
 
-    // Mobile navigation functions
     function toggleMenu() {
       const navMenu = document.getElementById('navMenu');
-      const navToggle = document.getElementById('navToggle');
+      const menuToggle = document.querySelector('.menu-toggle');
       
       isMenuOpen = !isMenuOpen;
       
       if (isMenuOpen) {
         navMenu.classList.add('active');
-        navToggle.textContent = '✕';
+        menuToggle.textContent = '✕';
       } else {
         navMenu.classList.remove('active');
-        navToggle.textContent = '☰';
-        closeLangDropdown();
+        menuToggle.textContent = '☰';
       }
     }
 
-    function toggleLangDropdown() {
-      const langOptions = document.getElementById('langOptions');
-      const langArrow = document.getElementById('langArrow');
+    function toggleLanguageDropdown() {
+      const dropdown = document.getElementById('langDropdown');
+      const arrow = document.getElementById('arrow');
       
-      isLangOpen = !isLangOpen;
+      isLangDropdownOpen = !isLangDropdownOpen;
       
-      if (isLangOpen) {
-        langOptions.classList.add('show');
-        langArrow.textContent = '▲';
+      if (isLangDropdownOpen) {
+        dropdown.classList.add('show');
+        arrow.style.transform = 'rotate(180deg)';
       } else {
-        langOptions.classList.remove('show');
-        langArrow.textContent = '▼';
+        dropdown.classList.remove('show');
+        arrow.style.transform = 'rotate(0deg)';
       }
-    }
-
-    function closeLangDropdown() {
-      const langOptions = document.getElementById('langOptions');
-      const langArrow = document.getElementById('langArrow');
-      
-      isLangOpen = false;
-      langOptions.classList.remove('show');
-      langArrow.textContent = '▼';
     }
 
     function changeLanguage(langCode, langName) {
       currentLang = langCode;
       
-      // Update current language display
-      const currentFlag = document.getElementById('currentFlag');
-      const currentLangText = document.getElementById('currentLang');
-      
+      // Update flag
+      const currentFlag = document.getElementById('current-flag');
       currentFlag.className = `flag flag-${langCode}`;
-      currentLangText.textContent = langName;
       
-      // Update active state
+      // Update current language text
+      document.getElementById('current-lang').textContent = langName;
+      
+      // Update active state in dropdown
       document.querySelectorAll('.lang-option').forEach(option => {
         option.classList.remove('active');
-        if (option.dataset.lang === langCode) {
-          option.classList.add('active');
-        }
       });
+      event.target.closest('.lang-option').classList.add('active');
       
       // Update page content
       updatePageContent();
-      closeLangDropdown();
+      
+      // Close dropdown
+      toggleLanguageDropdown();
       
       // Update document direction for RTL languages
       if (langCode === 'ar') {
@@ -1125,35 +1128,38 @@ align-items: center;
 
     function updatePageContent() {
       const t = translations[currentLang];
+      if (!t) return;
       
       document.getElementById('title').textContent = t.title;
       document.getElementById('subtitle').textContent = t.subtitle;
-      document.getElementById('infoTitle').textContent = t.infoTitle;
-      document.getElementById('privacyNote').textContent = t.privacyNote;
-      document.getElementById('feature1Title').textContent = t.feature1Title;
-      document.getElementById('feature1Desc').textContent = t.feature1Desc;
-      document.getElementById('feature2Title').textContent = t.feature2Title;
-      document.getElementById('feature2Desc').textContent = t.feature2Desc;
-      document.getElementById('feature3Title').textContent = t.feature3Title;
-      document.getElementById('feature3Desc').textContent = t.feature3Desc;
-      document.getElementById('feature4Title').textContent = t.feature4Title;
-      document.getElementById('feature4Desc').textContent = t.feature4Desc;
-      document.getElementById('examplesTitle').textContent = t.examplesTitle;
-      document.getElementById('formLabel').textContent = t.formLabel;
-      document.getElementById('scanBtn').textContent = t.scanBtn;
+      document.getElementById('what-we-check').textContent = t.whatWeCheck;
+      document.getElementById('privacy-note').textContent = t.privacyNote;
+      document.getElementById('feature1-title').textContent = t.feature1Title;
+      document.getElementById('feature1-desc').textContent = t.feature1Desc;
+      document.getElementById('feature2-title').textContent = t.feature2Title;
+      document.getElementById('feature2-desc').textContent = t.feature2Desc;
+      document.getElementById('feature3-title').textContent = t.feature3Title;
+      document.getElementById('feature3-desc').textContent = t.feature3Desc;
+      document.getElementById('feature4-title').textContent = t.feature4Title;
+      document.getElementById('feature4-desc').textContent = t.feature4Desc;
+      document.getElementById('quick-examples').textContent = t.quickExamples;
+      document.getElementById('input-label').textContent = t.inputLabel;
+      document.getElementById('scan-btn').textContent = t.scanBtn;
+      document.getElementById('nav-url-scanner').textContent = t.navUrlScanner;
+      document.getElementById('nav-email-scanner').textContent = t.navEmailScanner;
     }
 
     function setExample(url) {
-      document.getElementById('urlInput').value = url;
-      document.getElementById('urlInput').focus();
+      document.getElementById('url-input').value = url;
+      document.getElementById('url-input').focus();
     }
 
     function typeWriter(element, text, speed = 30) {
-      element.innerHTML = '';
+      element.textContent = '';
       let i = 0;
       const timer = setInterval(() => {
         if (i < text.length) {
-          element.innerHTML += text.charAt(i);
+          element.textContent += text.charAt(i);
           i++;
         } else {
           clearInterval(timer);
@@ -1162,45 +1168,56 @@ align-items: center;
     }
 
     async function performScan() {
-      const urlInput = document.getElementById('urlInput');
-      const loadingContainer = document.getElementById('loadingContainer');
-      const loadingText = document.getElementById('loadingText');
-      const results = document.getElementById('results');
-      const errorMessage = document.getElementById('errorMessage');
-      const scanBtn = document.getElementById('scanBtn');
-      const t = translations[currentLang];
-
-      // Reset UI
-      errorMessage.classList.remove('show');
-      results.classList.remove('show');
-      results.className = 'results';
+      if (isScanning) return;
       
-      let url = urlInput.value.trim();
+      const errorDiv = document.getElementById('error-message');
+      const resultDiv = document.getElementById('result-container');
+      const submitBtn = document.getElementById('scan-btn');
+      const loadingContainer = document.getElementById('loading-container');
+      const loadingText = document.getElementById('loading-text');
+      const urlInput = document.getElementById('url-input');
+      const t = translations[currentLang] || translations.en;
 
-      if (!url) {
-        showError(t.errors.empty);
+      errorDiv.style.display = 'none';
+      resultDiv.style.display = 'none';
+      resultDiv.className = 'result-container';
+      isScanning = true;
+      submitBtn.disabled = true;
+      submitBtn.classList.add('scanning');
+      submitBtn.textContent = '🔄 Scanning...';
+      
+      let value = urlInput.value.trim();
+
+      if (!value) {
+        showError(t.errors?.empty || 'Please enter a URL.');
         return;
       }
 
-      if (!url.match(/^https?:\/\//)) {
-        url = 'https://' + url;
-        urlInput.value = url;
+      if (!value.match(/^https?:\/\//)) {
+        value = 'https://' + value;
+        urlInput.value = value;
       }
       
-      if (!url.match(/^https?:\/\/.+\..+/)) {
-        showError(t.errors.invalid);
+      if (!value.match(/^https?:\/\/.+\..+/)) {
+        showError(t.errors?.invalid || 'Please enter a valid URL');
         return;
       }
 
-      // Start scanning animation
-      scanBtn.disabled = true;
-      scanBtn.classList.add('scanning');
-      loadingContainer.classList.add('show');
+      loadingContainer.style.display = 'block';
 
-      // Animate through scan steps
-      for (let i = 0; i < t.scanSteps.length; i++) {
+      // Show scanning steps
+      const scanSteps = t.scanSteps || [
+        'Initializing scanner...',
+        'Connecting to VirusTotal...',
+        'Analyzing for malware...',
+        'Scanning for threats...',
+        'Compiling results...',
+        'Finalizing analysis...'
+      ];
+
+      for (let i = 0; i < scanSteps.length; i++) {
         await new Promise(resolve => setTimeout(resolve, 800));
-        loadingText.textContent = t.scanSteps[i];
+        loadingText.textContent = scanSteps[i];
       }
 
       try {
@@ -1214,7 +1231,7 @@ align-items: center;
           },
           body: JSON.stringify({
             type: 'url',
-            value: url,
+            value: value,
             mode: 'quick'
           }),
           signal: controller.signal
@@ -1227,8 +1244,7 @@ align-items: center;
           throw new Error(data.error || `HTTP ${response.status}: ${response.statusText}`);
         }
 
-        // Hide loading and show results
-        loadingContainer.classList.remove('show');
+        loadingContainer.style.display = 'none';
 
         const verdict = data.verdict;
         const stats = data.stats;
@@ -1239,152 +1255,100 @@ align-items: center;
         const harmlessCount = stats.harmless || 0;
 
         let result, resultClass;
+        const results = t.results || translations.en.results;
 
         if (verdict === 'malicious') {
-          result = `${t.results.maliciousSite}\n\n${t.results.analysisResults}\n• ${t.results.threatsDetected} ${maliciousCount}/${totalEngines} engines\n• ${t.results.confirmedMalware}\n• ${t.results.riskLevel} ${t.results.veryHigh}\n\n⚠️ ${t.results.recommendation} ${t.results.avoidCompletely}\n🛡️ ${t.results.protection} ${t.results.accessBlocked}`;
-          resultClass = 'result-danger';
+          result = `${results.maliciousSite}\n\n${results.analysisResults}\n• ${results.threatsDetected} ${maliciousCount}/${totalEngines} engines\n• ${results.confirmedMalware}\n• ${results.riskLevel} ${results.veryHigh}\n\n⚠️ ${results.recommendation} ${results.avoidCompletely}\n🛡️ ${results.protection} ${results.accessBlocked}`;
+          resultClass = 'result-container result-danger';
         } else if (verdict === 'suspicious') {
-          result = `${t.results.suspiciousSite}\n\n${t.results.analysisResults}\n• ${t.results.suspiciousActivity} ${suspiciousCount}/${totalEngines} engines\n• ${t.results.requiresReview}\n• ${t.results.riskLevel} ${t.results.medium}\n\n💡 ${t.results.recommendation} ${t.results.useCaution}\n🔍 ${t.results.verifySource}`;
-          resultClass = 'result-warning';
+          result = `${results.suspiciousSite}\n\n${results.analysisResults}\n• ${results.suspiciousActivity} ${suspiciousCount}/${totalEngines} engines\n• ${results.requiresReview}\n• ${results.riskLevel} ${results.medium}\n\n💡 ${results.recommendation} ${results.useCaution}\n🔍 ${results.advice} ${results.verifySource}`;
+          resultClass = 'result-container result-warning';
         } else {
-          result = `${t.results.safeSite}\n\n${t.results.analysisResults}\n• ${t.results.scannedBy} ${totalEngines} security engines\n• ${harmlessCount} ${t.results.markedClean}\n• ${t.results.noThreats}\n• ${t.results.riskLevel} ${t.results.low}\n\n🎉 ${t.results.recommendation} ${t.results.safeToUse}\n🛡️ ${t.results.status} ${t.results.protected}`;
-          resultClass = 'result-success';
+          result = `${results.safeSite}\n\n${results.analysisResults}\n• ${results.scannedBy} ${totalEngines} security engines\n• ${harmlessCount} ${results.markedClean}\n• ${results.noThreats}\n• ${results.riskLevel} ${results.low}\n\n🎉 ${results.recommendation} ${results.safeToUse}\n🛡️ ${results.status} ${results.protected}`;
+          resultClass = 'result-container result-success';
         }
 
-        results.className = `results ${resultClass} show`;
-        typeWriter(results, result, 25);
+        resultDiv.className = resultClass;
+        resultDiv.style.display = 'block';
+        typeWriter(resultDiv, result, 20);
 
       } catch (error) {
-        loadingContainer.classList.remove('show');
+        loadingContainer.style.display = 'none';
         
-        let errorMsg;
+        let errorMessage;
         if (error.name === 'AbortError') {
-          errorMsg = t.errors.timeout;
+          errorMessage = t.errors?.timeout || 'Scan timeout - please try again';
         } else if (error.message.includes('Failed to fetch')) {
-          errorMsg = t.errors.connection;
-        } else if (error.message.includes('timeout')) {
-          errorMsg = currentLang === 'ar' ? 'انتهت مهلة الفحص - قد يكون الموقع بطيء في الاستجابة' : 
-                   currentLang === 'zh' ? '扫描超时 - 网站可能响应缓慢。请重试。' :
-                   currentLang === 'es' ? 'Tiempo de escaneo agotado - el sitio puede ser lento para responder. Intenta de nuevo.' :
-                   currentLang === 'de' ? 'Scan-Timeout - die Seite reagiert möglicherweise langsam. Bitte versuchen Sie es erneut.' :
-                   currentLang === 'fr' ? 'Délai de scan dépassé - le site peut être lent à répondre. Veuillez réessayer.' :
-                   'Scan timeout - the site may be slow to respond. Please try again.';
+          errorMessage = t.errors?.connection || 'Connection error - please check your internet connection';
         } else {
-          errorMsg = `${currentLang === 'ar' ? 'خطأ في الفحص:' : currentLang === 'zh' ? '扫描错误:' : currentLang === 'es' ? 'Error de escaneo:' : currentLang === 'de' ? 'Scan-Fehler:' : currentLang === 'fr' ? 'Erreur de scan:' : 'Scan error:'} ${error.message}`;
+          errorMessage = `Scan error: ${error.message}`;
         }
         
-        showError(errorMsg);
+        console.error('Scan error:', error);
+        showError(errorMessage);
+      } finally {
+        resetScanButton();
       }
-
-      // Reset button
-      scanBtn.disabled = false;
-      scanBtn.classList.remove('scanning');
     }
 
     function showError(message) {
-      const errorMessage = document.getElementById('errorMessage');
-      errorMessage.textContent = message;
-      errorMessage.classList.add('show');
-      
-      setTimeout(() => {
-        errorMessage.classList.remove('show');
-      }, 5000);
+      const errorDiv = document.getElementById('error-message');
+      errorDiv.textContent = message;
+      errorDiv.style.display = 'block';
+      resetScanButton();
     }
 
-    // Event listeners
-    document.getElementById('navToggle').addEventListener('click', toggleMenu);
-    document.getElementById('langBtn').addEventListener('click', toggleLangDropdown);
-
-    // Language option clicks
-    document.querySelectorAll('.lang-option').forEach(option => {
-      option.addEventListener('click', () => {
-        const langCode = option.dataset.lang;
-        const langName = option.dataset.name;
-        changeLanguage(langCode, langName);
-      });
-    });
-
-    // Form submission
-    document.getElementById('scanForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      performScan();
-    });
-
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-      const navMenu = document.getElementById('navMenu');
-      const navToggle = document.getElementById('navToggle');
+    function resetScanButton() {
+      const submitBtn = document.getElementById('scan-btn');
+      const t = translations[currentLang] || translations.en;
       
-      if (isMenuOpen && !navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+      isScanning = false;
+      submitBtn.disabled = false;
+      submitBtn.classList.remove('scanning');
+      submitBtn.textContent = t.scanBtn || '🚀 Launch Security Scan';
+    }
+
+    // Event Listeners
+    document.getElementById('scan-form').addEventListener('submit', performScan);
+    document.getElementById('scan-btn').addEventListener('click', performScan);
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(event) {
+      const nav = document.querySelector('.mobile-nav');
+      const langSelector = document.querySelector('.lang-selector');
+      
+      if (!nav.contains(event.target) && isMenuOpen) {
         toggleMenu();
+      }
+      
+      if (!langSelector.contains(event.target) && isLangDropdownOpen) {
+        toggleLanguageDropdown();
       }
     });
 
     // Initialize page
     updatePageContent();
+
+    // Prevent zoom on double tap (iOS)
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function (event) {
+      const now = (new Date()).getTime();
+      if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+      }
+      lastTouchEnd = now;
+    }, false);
+
+    // Handle viewport changes
+    function handleViewportChange() {
+      // Recalculate heights if needed
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+
+    window.addEventListener('resize', handleViewportChange);
+    window.addEventListener('orientationchange', handleViewportChange);
+    handleViewportChange();
   </script>
 </body>
-</html><!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-  <title>URL Security Scanner</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-    * { 
-      box-sizing: border-box; 
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-      background: linear-gradient(135deg, #0f1419, #1e2a38, #2a3f54);
-      color: #ffffff;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      overflow-x: hidden;
-      position: relative;
-      touch-action: manipulation;
-    }
-
-    /* Animated background */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(circle at 30% 20%, rgba(0, 255, 200, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 70% 80%, rgba(0, 168, 255, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 40% 60%, rgba(120, 255, 200, 0.1) 0%, transparent 50%);
-      animation: gradientShift 10s ease-in-out infinite;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    @keyframes gradientShift {
-      0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
-      50% { opacity: 0.8; transform: scale(1.1) rotate(5deg); }
-    }
-
-    /* Mobile-first navigation */
-    .mobile-nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: rgba(15, 20, 25, 0.95);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      z-index: 1000;
-      padding: 8px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items;
-    }
-  
+</html>
