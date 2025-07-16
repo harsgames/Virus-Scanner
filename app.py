@@ -6,7 +6,7 @@ import os
 
 app = Flask(__name__)
 
-VT_API_KEY = "0405a8529fb7eccee13e0c1cd959b61cd45941bfa20c2ac334f9aa2335ee343c"
+VT_API_KEY = "ef9e902fff78178e965b1a558da319a26f845967c7f24a252ce8cb5e27c1091b"
 VT_BASE_URL = "https://www.virustotal.com/api/v3"
 
 HIBP_API_KEY = "f698b0efaeca4167a5e98e7786870eb8"
