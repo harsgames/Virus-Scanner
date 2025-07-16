@@ -606,6 +606,11 @@
         align-items: center;
       }
       
+      .logo-image {
+        width: 32px;
+        height: 32px;
+      }
+      
       .nav-links {
         gap: 5px;
       }
@@ -635,6 +640,7 @@
   <!-- Navigation -->
   <nav class="nav-bar">
     <div class="nav-left">
+      <img src="/static/Virus.png" alt="Virus Scanner Logo" class="logo-image" />
       <div class="nav-links">
         <a href="/url-scanner">🌐 URL Scanner</a>
         <a href="/email-scanner" class="active">📧 Email Scanner</a>
@@ -691,9 +697,7 @@
     <div class="email-info">
       <h3 id="what-we-check">🛡️ What We Check</h3>
       <div class="privacy-note" id="privacy-note">
-        🔒 We won't 
-        
-        your Info.
+        🔒 We won't save your Info.
       </div>
       <div class="info-grid">
         <div class="info-item">
@@ -755,7 +759,7 @@
         title: '📧 Email Security Scanner',
         subtitle: 'Check if your email has been compromised in data breaches',
         whatWeCheck: '🛡️ What We Check',
-        privacyNote: '🔒 We won\'t take your Info.',
+        privacyNote: '🔒 We won\'t save your Info.',
         feature1Title: 'Data Breaches',
         feature1Desc: 'Known security incidents where your data was exposed',
         feature2Title: 'Password Leaks',
