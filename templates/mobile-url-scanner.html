@@ -759,7 +759,8 @@
           verifySource: 'Verify the source',
           protected: 'Protected',
           status: 'Status:',
-          advice: 'Advice:'
+          advice: 'Advice:',
+          securityEngines: 'security engines'
         }
       },
       ar: {
@@ -819,7 +820,8 @@
           verifySource: 'تحقق من المصدر',
           protected: 'محمي',
           status: 'الحالة:',
-          advice: 'نصيحة:'
+          advice: 'نصيحة:',
+          securityEngines: 'محركات الأمان'
         }
       },
       es: {
@@ -879,7 +881,8 @@
           verifySource: 'Verifica la fuente',
           protected: 'Protegido',
           status: 'Estado:',
-          advice: 'Consejo:'
+          advice: 'Consejo:',
+          securityEngines: 'motores de seguridad'
         }
       },
       de: {
@@ -939,7 +942,8 @@
           verifySource: 'Quelle überprüfen',
           protected: 'Geschützt',
           status: 'Status:',
-          advice: 'Rat:'
+          advice: 'Rat:',
+          securityEngines: 'Sicherheits-Engines'
         }
       },
       fr: {
@@ -999,7 +1003,8 @@
           verifySource: 'Vérifiez la source',
           protected: 'Protégé',
           status: 'Statut:',
-          advice: 'Conseil:'
+          advice: 'Conseil:',
+          securityEngines: 'moteurs de sécurité'
         }
       },
       zh: {
@@ -1059,7 +1064,8 @@
           verifySource: '验证来源',
           protected: '受保护',
           status: '状态：',
-          advice: '建议：'
+          advice: '建议：',
+          securityEngines: '安全引擎'
         }
       }
     };
@@ -1127,8 +1133,7 @@
     }
 
     function updatePageContent() {
-      const t = translations[currentLang];
-      if (!t) return;
+      const t = translations[currentLang] || translations.en;
       
       document.getElementById('title').textContent = t.title;
       document.getElementById('subtitle').textContent = t.subtitle;
@@ -1258,13 +1263,13 @@
         const results = t.results || translations.en.results;
 
         if (verdict === 'malicious') {
-          result = `${results.maliciousSite}\n\n${results.analysisResults}\n• ${results.threatsDetected} ${maliciousCount}/${totalEngines} engines\n• ${results.confirmedMalware}\n• ${results.riskLevel} ${results.veryHigh}\n\n⚠️ ${results.recommendation} ${results.avoidCompletely}\n🛡️ ${results.protection} ${results.accessBlocked}`;
+          result = `${results.maliciousSite}\n\n${results.analysisResults}\n• ${results.threatsDetected} ${maliciousCount}/${totalEngines} ${results.securityEngines}\n• ${results.confirmedMalware}\n• ${results.riskLevel} ${results.veryHigh}\n\n⚠️ ${results.recommendation} ${results.avoidCompletely}\n🛡️ ${results.protection} ${results.accessBlocked}`;
           resultClass = 'result-container result-danger';
         } else if (verdict === 'suspicious') {
-          result = `${results.suspiciousSite}\n\n${results.analysisResults}\n• ${results.suspiciousActivity} ${suspiciousCount}/${totalEngines} engines\n• ${results.requiresReview}\n• ${results.riskLevel} ${results.medium}\n\n💡 ${results.recommendation} ${results.useCaution}\n🔍 ${results.advice} ${results.verifySource}`;
+          result = `${results.suspiciousSite}\n\n${results.analysisResults}\n• ${results.suspiciousActivity} ${suspiciousCount}/${totalEngines} ${results.securityEngines}\n• ${results.requiresReview}\n• ${results.riskLevel} ${results.medium}\n\n💡 ${results.recommendation} ${results.useCaution}\n🔍 ${results.advice} ${results.verifySource}`;
           resultClass = 'result-container result-warning';
         } else {
-          result = `${results.safeSite}\n\n${results.analysisResults}\n• ${results.scannedBy} ${totalEngines} security engines\n• ${harmlessCount} ${results.markedClean}\n• ${results.noThreats}\n• ${results.riskLevel} ${results.low}\n\n🎉 ${results.recommendation} ${results.safeToUse}\n🛡️ ${results.status} ${results.protected}`;
+          result = `${results.safeSite}\n\n${results.analysisResults}\n• ${results.scannedBy} ${totalEngines} ${results.securityEngines}\n• ${harmlessCount} ${results.markedClean}\n• ${results.noThreats}\n• ${results.riskLevel} ${results.low}\n\n🎉 ${results.recommendation} ${results.safeToUse}\n🛡️ ${results.status} ${results.protected}`;
           resultClass = 'result-container result-success';
         }
 
